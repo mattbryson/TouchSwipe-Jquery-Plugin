@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
+		<script type="text/javascript" src="js/cssFadeTo.js"></script>
+		
+		<title>touchSwipe</title>
+		
+		<style>
+		
+			#test
+			{
+				width:500px;
+				height:400px;
+				background:#FF00FF;
+			}
+			
+			#info
+			{
+				width:500px;
+				
+			}
+			
+		
+		</style>
+		
+		<script>
+			
+			
+			//Assign handlers to the simple direction handlers.
+			var swipeOptions=
+			{
+				swipeStatus:swipeStatus,
+				threshold:200
+			}
+			
+			$(function()
+			{			
+				//Enable swiping...
+				$("#test").swipe( swipeOptions );
+			});
+		
+			//Swipe handlers.
+			//The only arg passed is the original touch event object			
+				
+				
+			function swipeStatus(event, phase, direction, distance)
+			{
+				var str = "Swipe Phase : " + phase + "<br/>";
+				str += "Direction from inital touch: " + direction + "<br/>";
+				str += "Distance from inital touch:: " + distance + "<br/>";
+				
+				if (distance<200)
+					str +="<br/>Not yet reached threshold. <br/>Swipe will be canceled if you release at this point."
+				else
+					str +="<br/>Threshold reached<br/>Swipe handler will be triggered if you release at this point."
+				
+				if (phase=="cancel")
+					str +="<br/>Handler not triggered."
+				if (phase=="end")
+					str +="<br/>Handler was triggered."	
+				
+				$("#test").html(str);
+			}
+			
+			
+			
+		
+		</script>
+		
+		
+	</head>
+	
+	<body>
+		
+		<div id="info" >
+			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
+			<b>Basics 5</b>
+			<br>You can also get the current status of the swipe, which can be used in place of all other methods.</br>
+		</div>
+		<br/>
+		<div id="test">Swipe me</div>
+		
+		<a href="demo_basics_4.html"/>Previous</a> | <a href="demo_basics_6.html"/>Next</a> 
+	</body>
+</html>
