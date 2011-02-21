@@ -1,31 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
-		
-		
-		<title>touchSwipe</title>
-		
-		<style>
-		
-			#test
-			{
-				width:500px;
-				height:300px;
-				background:#FF00FF;
-			}
-			
-			#info
-			{
-				width:500px;
-				
-			}
-			
-		
-		</style>
+<?php include "header.php" ?>
 		
 		<script>
 			
@@ -69,21 +42,22 @@
 			
 		
 		</script>
+
 		
-		
-	</head>
-	
-	<body>
 		
 		<div id="info" >
 			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-			<b>Basics 6</b>
+			<br/>
+			<b>Advanced 1 - When to trigger end handler</b>
 			<br>You can trigger the swipe end handler either when the user releases (default) or when the user has swiped the distance of the threshold (but is still swiping).</br>
 			Swipe below, and the swipeEnd handler will trigger when you have swiped 200 px.
 		</div>
 		<br/>
+		
+		<a href="basics_5.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
+		
 		<div id="test">Swipe me</div>
 		
-		<a href="demo_basics_5.html"/>Previous</a> | <a href="demo_image_scroll.html"/>Next</a> 
-	</body>
-</html>
+		<a href="basics_5.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
+
+<?php include "footer.php" ?>

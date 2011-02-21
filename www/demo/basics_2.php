@@ -1,31 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
-		
-		
-		<title>touchSwipe</title>
-		
-		<style>
-		
-			#test
-			{
-				width:500px;
-				height:300px;
-				background:#FF00FF;
-			}
-			
-			#info
-			{
-				width:500px;
-				
-			}
-			
-		
-		</style>
+<?php include "header.php" ?>
 		
 		<script>
 			
@@ -60,18 +33,18 @@
 		</script>
 		
 		
-	</head>
-	
-	<body>
-		
 		<div id="info" >
 			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-			<b>Basics 2</b>
+			<br/>
+			<b>Basics 2 - single direction swipe</b>
 			<br>By using just one handler <i>swipeLeft</i> you can detect ONLY left swipes. There are handlers for each direction, as well as the generic <i>swipe</i> handler.</br>
 		</div>
 		<br/>
+		
+		<a href="index.php"/>Previous</a> | <a href="basics_3.php"/>Next</a> 
+		
 		<div id="test">Swipe left</div>
 		
-		<a href="index.html"/>Previous</a> | <a href="demo_basics_3.html"/>Next</a> 
-	</body>
-</html>
+		<a href="index.php"/>Previous</a> | <a href="basics_3.php"/>Next</a> 
+	
+<?php include "footer.php" ?>

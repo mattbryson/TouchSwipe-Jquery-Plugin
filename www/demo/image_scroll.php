@@ -1,13 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
-		
-		
-		<title>touchSwipe</title>
+<?php include "header.php" ?>
 		
 		<style>
 		
@@ -74,6 +65,7 @@
 			{
 				triggerOnTouchEnd : true,	
 				swipeStatus : swipeStatus,
+				allowPageScroll:"vertical",
 				threshold:200
 			}
 			
@@ -96,6 +88,7 @@
 				if( phase=="move" && (direction=="left" || direction=="right") )
 				{
 					var duration=0;
+					
 					if (direction == "left")
 						scrollImages((IMG_WIDTH * currentImg) + distance, duration);
 					
@@ -103,7 +96,7 @@
 						scrollImages((IMG_WIDTH * currentImg) - distance, duration);
 					
 				}
-					
+				
 				else if ( phase == "cancel")
 				{
 					scrollImages(IMG_WIDTH * currentImg, speed);
@@ -143,20 +136,20 @@
 				var value = (distance<0 ? "" : "-") + Math.abs(distance).toString();
 				
 				imgs.css("-webkit-transform", "translate3d("+value +"px,0px,0px)");
-				
-				console.log(value);
 			}
 			
 		
 		</script>
 		
 		
-	</head>
 	
-	<body>
 		<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-		<b>Demo 7</b>
-		<br/>Swipe the images below left and right. They use HTML5 CSS to animate.
+		<br/>
+		<b>Image scroller</b>
+		<br/>Swipe the images below left and right. Swipe up and down will scroll the page. Uses HTML5 CSS to animate.
+		
+		<br/>
+		<a href="advanced_2.php"/>Previous</a> | <a href="index.php"/>Start again</a> 
 		
 		<div id="content">
 			<div id="imgs">
@@ -166,7 +159,6 @@
 			</div>
 		</div>
 		
-		<a href="demo_basics_6.html"/>Previous</a> | <a href="index.html"/>Start again</a> 
+		<a href="advanced_2.php"/>Previous</a> | <a href="index.php"/>Start again</a> 
 			
-	</body>
-</html>
+<?php include "footer.php" ?>

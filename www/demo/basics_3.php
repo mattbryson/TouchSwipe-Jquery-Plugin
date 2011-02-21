@@ -1,31 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
-		
-		
-		<title>touchSwipe</title>
-		
-		<style>
-		
-			#test
-			{
-				width:500px;
-				height:300px;
-				background:#FF00FF;
-			}
-			
-			#info
-			{
-				width:500px;
-				
-			}
-			
-		
-		</style>
+<?php include "header.php" ?>
 		
 		<script>
 			
@@ -59,19 +32,21 @@
 		
 		</script>
 		
-		
-	</head>
 	
-	<body>
 		
 		<div id="info" >
 			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-			<b>Basics 3</b>
+			<br/>
+			<b>Basics 3 - 1 or 2 finger swipe</b>
 			<br>By setting the number of fingers, you can detect 2 finger swipe.</br>
 		</div>
 		<br/>
+		
+		<a href="basics_2.php"/>Previous</a> | <a href="basics_4.php"/>Next</a> 
+		
 		<div id="test">Swipe me with 2 fngers</div>
 		
-		<a href="demo_basics_2.html"/>Previous</a> | <a href="demo_basics_4.html"/>Next</a> 
-	</body>
-</html>
+		<a href="basics_2.php"/>Previous</a> | <a href="basics_4.php"/>Next</a> 
+
+		
+<?php include "footer.php" ?>

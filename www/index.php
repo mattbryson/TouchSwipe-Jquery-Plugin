@@ -69,8 +69,8 @@
 					
 					<!-- Experiments nav -->
 					<div id="experimentsBox" class="ui-widget-content ui-corner-all">
-						<p class="experimentsTitle">TouchSwipe 1.0.1</p>
-						<a target="new" class="button" href="http://plugins.jquery.com/content/touchswipe-101">download</a>
+						<p class="experimentsTitle">TouchSwipe 1.1.0</p>
+						<a target="new" class="button" href="http://plugins.jquery.com/content/touchswipe-110">download</a>
 					</div>
 					
 					<!-- main copy -->
@@ -85,18 +85,20 @@
 							<li>Supports single finger or double finger touch events</li>
 							<li>Definable threshold to determin when a gesture is actually a swipe</li>
 							<li>Events triggered for swipe "start","move","end" and "cancel"</li>
-							<li>End event can be triggered either on tocuh release, or as soon as threshold is met</li>
+							<li>End event can be triggered either on touch release, or as soon as threshold is met</li>
+							<li>Allows swiping and page scrolling</li>
 						</ul>
 							
 						<h1>Demos</h1>	
 						<ul>
-							<li><a href="demo/index.html" target="new"><u>Basic swipes</u></a></li>
-							<li><a href="demo/demo_basics_2.html" target="new"><u>Single swipe</u></a></li>
-							<li><a href="demo/demo_basics_3.html" target="new"><u>2 finger swipe</u></a></li>
-							<li><a href="demo/demo_basics_4.html" target="new"><u>Swipe threshold</u></a></li>
-							<li><a href="demo/demo_basics_5.html" target="new"><u>Swipe status</u></a></li>
-							<li><a href="demo/demo_basics_6.html" target="new"><u>Trigger on end or at threshold</u></a></li>
-							<li><a href="demo/demo_image_scroll.html" target="new"><u>Image gallery</u></a></li>
+							<li><a href="demo/index.php" target="new"><u>Basic swipes</u></a></li>
+							<li><a href="demo/basics_2.php" target="new"><u>Single swipe</u></a></li>
+							<li><a href="demo/basics_3.php" target="new"><u>2 finger swipe</u></a></li>
+							<li><a href="demo/basics_4.php" target="new"><u>Swipe threshold</u></a></li>
+							<li><a href="demo/basics_5.php" target="new"><u>Swipe status</u></a></li>
+							<li><a href="demo/advanced_1.php" target="new"><u>Trigger on end or at threshold</u></a></li>
+							<li><a href="demo/advanced_2.php" target="new"><u>Swiping and Page scrolling</u></a></li>
+							<li><a href="demo/image_scroll.php" target="new"><u>Image gallery Example</u></a></li>
 						</ul>
 						
 						<h1>Options</h1>
@@ -111,19 +113,19 @@
 						<dd>int:75 The number of pixels that the user must move their finger before it is considered a swipe.</dd>
 
 						<dt><b>swipe</b></dt>
-						<dd>Funciton:null A catch all handler that is triggered for all swipe directions. <dl><dt>Handler is passed 2 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".</dd></dl></dd>
+						<dd>Funciton:null A catch all handler that is triggered for all swipe directions. <dl><dt>Handler is passed 3 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".<br/>distance: the distance of the swipe</dd></dl></dd>
 
 						<dt><b>swipeLeft</b></dt>	
-						<dd>Funciton:null A handler that is triggered for "left" swipes. Handler is passed 1 argument, the original event object.</dd>
+						<dd>Funciton:null A handler that is triggered for "left" swipes. <dl><dt>Handler is passed 3 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".<br/>distance: the distance of the swipe</dd></dl></dd>
 
 						<dt><b>swipeRight</b></dt>	
-						<dd>Funciton:null A handler that is triggered for "right" swipes. Handler is passed 1 argument, the original event object.</dd>
+						<dd>Funciton:null A handler that is triggered for "right" swipes. <dl><dt>Handler is passed 3 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".<br/>distance: the distance of the swipe</dd></dl></dd>
 
 						<dt><b>swipeUp</b></dt>	
-						<dd>Funciton:null A handler that is triggered for "up" swipes. Handler is passed 1 argument, the original event object.</dd>
+						<dd>Funciton:null A handler that is triggered for "up" swipes. <dl><dt>Handler is passed 3 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".<br/>distance: the distance of the swipe</dd></dl></dd>
 
 						<dt><b>swipeDown</b></dt>	
-						<dd>Funciton:null A handler that is triggered for "down" swipes. Handler is passed 1 argument, the original event object.</dd>
+						<dd>Funciton:null A handler that is triggered for "down" swipes. <dl><dt>Handler is passed 3 arguments</dt><dd>event : the original event object<br/>direction: the direction of the swipe : "left", "right", "up", "down".<br/>distance: the distance of the swipe</dd></dl></dd>
 
 
 
@@ -136,7 +138,15 @@
 
 						<dt><b>triggerOnTouchEnd</b></dt> 	
 						<dd>Boolean:true If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold.</dd>
-
+						<br/>
+						<dt><b>allowPageScroll</b></dt> 
+						<dd>String:"auto". How the browser handles page scrolls when the user is swiping on a touchSwipe object.<dl><dt>Possible values are:</dt>
+ 										<dd>"auto" : all undfined swipes will cause the page to scroll in that direction.
+ 										<br>"none" : the page will not scroll when user swipes.
+ 										<br>"horizontal" : will force page to scroll on horizontal swipes.
+ 										<br>"vertical" : will force page to scroll on vertical swipes.</dd>
+									</dd>
+						
 						</dl>
 						
 					

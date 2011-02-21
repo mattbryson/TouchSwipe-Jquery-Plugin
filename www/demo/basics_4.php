@@ -1,31 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe-1.0.1.js"></script>
-		
-		
-		<title>touchSwipe</title>
-		
-		<style>
-		
-			#test
-			{
-				width:500px;
-				height:300px;
-				background:#FF00FF;
-			}
-			
-			#info
-			{
-				width:500px;
-				
-			}
-			
-		
-		</style>
+<?php include "header.php" ?>
 		
 		<script>
 			
@@ -72,19 +45,21 @@
 		
 		</script>
 		
-		
-	</head>
-	
-	<body>
+
 		
 		<div id="info" >
 			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-			<b>Basics 4</b>
+			<br/>
+			<b>Basics 4 - threshold</b>
 			<br>By setting the threshold you can set how far the user must swipe before it is considered a swipe. <br/>Swipe at least 200px</br>
 		</div>
 		<br/>
+		
+		<a href="basics_3.php"/>Previous</a> | <a href="basics_5.php"/>Next</a> 
+		
 		<div id="test">Swipe me with for at least 200 px</div>
 		
-		<a href="demo_basics_3.html"/>Previous</a> | <a href="demo_basics_5.html"/>Next</a> 
-	</body>
-</html>
+		<a href="basics_3.php"/>Previous</a> | <a href="basics_5.php"/>Next</a> 
+
+		
+<?php include "footer.php" ?>
