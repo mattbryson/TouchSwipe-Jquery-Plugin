@@ -54,10 +54,10 @@
 		</div>
 		<br/>
 		
-		<a href="basics_5.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
+		<a href="basics_6.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
 		
 		<div id="test">Swipe me</div>
 		
-		<a href="basics_5.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
+		<a href="basics_6.php"/>Previous</a> | <a href="advanced_2.php"/>Next</a> 
 
 <?php include "footer.php" ?>
