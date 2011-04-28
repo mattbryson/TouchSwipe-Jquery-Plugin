@@ -4,9 +4,9 @@
  * http://labs.skinkers.com/touchSwipe/
  *
  * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
- * Licensed under the GNU GPL license
+ * Dual licensed under the MIT or GPL Version 2 licenses.
  *
- * $version: 1.2.2
+ * $version: 1.2.3
  *
  * Changelog
  * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -22,6 +22,9 @@
  * $version: 1.2.1 	- removed console log!
  *
  * $version: 1.2.2 	- Fixed bug where scope was not preserved in callback methods. 
+ *
+ * $Date: 2011-28-04 (Thurs, 28 April 2011) $
+ * $version: 1.2.4 	- Changed licence terms to be MIT or GPL inline with jQuery. Added check for support of touch events to stop non compatible browsers erroring.
  *
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
  * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
@@ -47,6 +50,9 @@
  */
 (function($) 
 {
+	
+	
+	
 	$.fn.swipe = function(options) 
 	{
 		if (!this) return false;
@@ -405,15 +411,18 @@
 			
 			
 
-			
-			
-			
-			
-			// Add gestures to all swipable areas
-			this.addEventListener("touchstart", touchStart, false);
-			this.addEventListener("touchmove", touchMove, false);
-			this.addEventListener("touchend", touchEnd, false);
-			this.addEventListener("touchcancel", touchCancel, false);
+			// Add gestures to all swipable areas if supported
+			try
+			{
+				this.addEventListener("touchstart", touchStart, false);
+				this.addEventListener("touchmove", touchMove, false);
+				this.addEventListener("touchend", touchEnd, false);
+				this.addEventListener("touchcancel", touchCancel, false);
+			}
+			catch(e)
+			{
+				//touch not supported
+			}
 				
 		});
 	};
