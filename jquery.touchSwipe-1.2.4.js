@@ -34,7 +34,7 @@
  * 		swipeRight	Function 	A handler that is triggered for "right" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
  * 		swipeUp		Function 	A handler that is triggered for "up" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
  * 		swipeDown	Function 	A handler that is triggered for "down" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
- *		swipeStatus Function 	A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start”, "move”, "end” or "cancel”. direction : The swipe direction, either "up”, "down”, "left " or "right”.distance : The distance of the swipe.
+ *		swipeStatus Function 	A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.
  *		click		Function	A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
  *
  * 		fingers 	int 		Default 1. 	The number of fingers to trigger the swipe, 1 or 2.
@@ -68,7 +68,7 @@
 			swipeRight		: null,		// Function - A handler that is triggered for "right" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
 			swipeUp			: null,		// Function - A handler that is triggered for "up" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
 			swipeDown		: null,		// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
-			swipeStatus		: null,		// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start”, "move”, "end” or "cancel”. direction : The swipe direction, either "up”, "down”, "left " or "right”.distance : The distance of the swipe.
+			swipeStatus		: null,		// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.
 			click			: null,		// Function	- A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
 			
 			triggerOnTouchEnd : true,	// Boolean, if true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
@@ -96,7 +96,11 @@
 		var PHASE_END="end";
 		var PHASE_CANCEL="cancel";
 		
-		
+	    var hasTouch = 'ontouchstart' in window,
+        START_EV = hasTouch ? 'touchstart' : 'mousedown',
+        MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',
+        END_EV = hasTouch ? 'touchend' : 'mouseup',
+        CANCEL_EV = 'touchcancel';
 		
 		var phase="start";
 		
@@ -112,6 +116,7 @@
 		 */
 		return this.each(function() 
 		{
+            var that = this;
 			var $this = $(this);
 			
 			var triggerElementID = null; 	// this variable is used to identity the triggering element
@@ -129,21 +134,24 @@
 			*/
 			function touchStart(event) 
 			{
+                var evt = hasTouch ? event.touches[0] : event; 
 				phase = PHASE_START;
 		
-				// get the total number of fingers touching the screen
-				fingerCount = event.touches.length;
+                if (hasTouch) {
+                    // get the total number of fingers touching the screen
+                    fingerCount = event.touches.length;
+                }
 				
 				//clear vars..
 				distance=0;
 				direction=null;
 				
 				// check the number of fingers is what we are looking for
-				if ( fingerCount == defaults.fingers ) 
+				if (fingerCount == defaults.fingers || !hasTouch) 
 				{
 					// get the coordinates of the touch
-					start.x = end.x = event.touches[0].pageX;
-					start.y = end.y = event.touches[0].pageY;
+					start.x = end.x = evt.pageX;
+					start.y = end.y = evt.pageY;
 					
 					if (defaults.swipeStatus)
 						triggerHandler(event, phase);
@@ -153,6 +161,9 @@
 					//touch with more/less than the fingers we are looking for
 					touchCancel(event);
 				}
+
+				that.addEventListener(MOVE_EV, touchMove, false);
+				that.addEventListener(END_EV, touchEnd, false);
 			}
 
 			/**
@@ -163,19 +174,23 @@
 			{
 				if (phase == PHASE_END || phase == PHASE_CANCEL)
 					return;
+                
+                var evt = hasTouch ? event.touches[0] : event; 
 				
-				end.x = event.touches[0].pageX;
-				end.y = event.touches[0].pageY;
+				end.x = evt.pageX;
+				end.y = evt.pageY;
 					
 				direction = caluculateDirection();
-				fingerCount = event.touches.length;
+                if (hasTouch) {
+                    fingerCount = event.touches.length;
+                }
 				
 				phase = PHASE_MOVE
 				
 				//Check if we need to prevent default evnet (page scroll) or not
 				validateDefaultEvent(event, direction);
 		
-				if ( fingerCount == defaults.fingers ) 
+				if ( fingerCount == defaults.fingers || !hasTouch) 
 				{
 					distance = caluculateDistance();
 					
@@ -217,7 +232,7 @@
 				{
 					phase = PHASE_END;
 					// check to see if more than one finger was used and that there is an ending coordinate
-					if ( fingerCount == defaults.fingers && end.x != 0 ) 
+					if ( (fingerCount == defaults.fingers  || !hasTouch) && end.x != 0 ) 
 					{
 						// if the user swiped more than the minimum length, perform the appropriate action
 						if ( distance >= defaults.threshold ) 
@@ -245,6 +260,8 @@
 					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
+				that.removeEventListener(MOVE_EV, touchMove, false);
+				that.removeEventListener(END_EV, touchEnd, false);
 			}
 			
 			/**
@@ -278,7 +295,7 @@
 				
 				if (phase == PHASE_CANCEL)
 				{
-					if (defaults.click && fingerCount==1 && (isNaN(distance) || distance==0))
+					if (defaults.click && (fingerCount==1 || !hasTouch) && (isNaN(distance) || distance==0))
 						defaults.click.call($this,event, event.target);
 				}
 				
@@ -414,10 +431,9 @@
 			// Add gestures to all swipable areas if supported
 			try
 			{
-				this.addEventListener("touchstart", touchStart, false);
-				this.addEventListener("touchmove", touchMove, false);
-				this.addEventListener("touchend", touchEnd, false);
-				this.addEventListener("touchcancel", touchCancel, false);
+
+				this.addEventListener(START_EV, touchStart, false);
+				this.addEventListener(CANCEL_EV, touchCancel);
 			}
 			catch(e)
 			{
