@@ -6,7 +6,7 @@
  * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
- * $version: 1.2.4
+ * $version: 1.2.5
  *
  * Changelog
  * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -26,6 +26,9 @@
  * $Date: 2011-28-04 (Thurs, 28 April 2011) $
  * $version: 1.2.4 	- Changed licence terms to be MIT or GPL inline with jQuery. Added check for support of touch events to stop non compatible browsers erroring.
  *
+ * $Date: 2011-27-09 (Tues, 27 September 2011) $
+ * $version: 1.2.5 	- Added support for testing swipes with mouse on desktop browser (thanks to https://github.com/joelhy)
+
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
  * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
  * Options:
