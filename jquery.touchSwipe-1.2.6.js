@@ -266,7 +266,6 @@
 						// if the user swiped more than the minimum length, perform the appropriate action
 						if ( distance >= defaults.threshold && totalTouchTime <= defaults.timeThreshold)
 						{
-							alert("endTouchTime: "+endTouchTime);
 							triggerHandler(event, phase);
 							touchCancel(event); // reset the variables
 						} 
