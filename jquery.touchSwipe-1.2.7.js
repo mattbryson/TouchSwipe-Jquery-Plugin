@@ -119,7 +119,7 @@
 		var phase="start";
 		var startTouchTime;
 		
-		if (options.allowPageScroll==undefined && (options.swipe!=undefined || options.swipeStatus!=undefined))
+		if (options.allowPageScroll===undefined && (options.swipe!==undefined || options.swipeStatus!==undefined))
 			options.allowPageScroll=NONE;
 		
 		if (options)
@@ -171,7 +171,7 @@
 					
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
-					if(ret!=undefined)
+					if(ret !== undefined)
 						return ret;
 						
 					// REV mdc
