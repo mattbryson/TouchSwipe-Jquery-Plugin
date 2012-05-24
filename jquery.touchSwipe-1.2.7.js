@@ -119,7 +119,7 @@
 		var phase="start";
 		var startTouchTime;
 		
-		if (options.allowPageScroll===undefined && (options.swipe!==undefined || options.swipeStatus!==undefined))
+		if (options.allowPageScroll==undefined && (options.swipe!=undefined || options.swipeStatus!=undefined))
 			options.allowPageScroll=NONE;
 		
 		if (options)
@@ -171,10 +171,10 @@
 					
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
-						
+
 					if (ret !== undefined)
 						return ret;
-						
+
 					// REV mdc
 					
 					var thisDate = new Date();
@@ -185,10 +185,9 @@
 					//touch with more/less than the fingers we are looking for
 					touchCancel(event);
 				}
-					
+
 				that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
-				
 			}
 
 			/**
@@ -246,9 +245,6 @@
 					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
-				
-				if (ret !== undefined)
-					return ret;
 			}
 			
 			/**
@@ -329,6 +325,7 @@
 			function triggerHandler(event, phase) 
 			{
 				var ret;
+				
 				//update status
 				if (defaults.swipeStatus)
 					ret = defaults.swipeStatus.call($this,event, phase, direction || null, distance || 0);
@@ -373,7 +370,8 @@
 							break;
 					}
 				}
-				return ret;
+				if(ret !== undefined)
+					return ret;
 			}
 			
 			
