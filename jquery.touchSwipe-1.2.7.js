@@ -172,6 +172,8 @@
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
 						
+						if (ret !== undefined)
+							return ret;
 					// REV mdc
 					
 					var thisDate = new Date();
@@ -182,12 +184,10 @@
 					//touch with more/less than the fingers we are looking for
 					touchCancel(event);
 				}
-
+					
 				that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
 				
-				if (ret !== undefined)
-					return ret;
 			}
 
 			/**
@@ -219,7 +219,7 @@
 					distance = caluculateDistance();
 					
 					if (defaults.swipeStatus)
-						ret = triggerHandler(event, phase, direction, distance);
+						triggerHandler(event, phase, direction, distance);
 					
 					//If we trigger whilst dragging, not on touch end, then calculate now...
 					if (!defaults.triggerOnTouchEnd)
@@ -234,7 +234,7 @@
 						if ( distance >= defaults.threshold  && totalTouchTime <= defaults.timeThreshold) 
 						{
 							phase = PHASE_END;
-							ret = triggerHandler(event, phase);
+							triggerHandler(event, phase);
 							touchCancel(event); // reset the variables
 						}
 					}
@@ -242,7 +242,7 @@
 				else 
 				{
 					phase = PHASE_CANCEL;
-					ret = triggerHandler(event, phase); 
+					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
 				
@@ -276,33 +276,31 @@
 						// if the user swiped more than the minimum length, perform the appropriate action
 						if ( distance >= defaults.threshold && totalTouchTime <= defaults.timeThreshold)
 						{
-							ret = triggerHandler(event, phase);
+							triggerHandler(event, phase);
 							touchCancel(event); // reset the variables
 						} 
 						else 
 						{
 							phase = PHASE_CANCEL;
-							ret = triggerHandler(event, phase); 
+							triggerHandler(event, phase); 
 							touchCancel(event);
 						}	
 					} 
 					else 
 					{
 						phase = PHASE_CANCEL;
-						ret = triggerHandler(event, phase); 
+						triggerHandler(event, phase); 
 						touchCancel(event);
 					}
 				}
 				else if (phase == PHASE_MOVE)
 				{
 					phase = PHASE_CANCEL;
-					ret = triggerHandler(event, phase); 
+					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
 				that.removeEventListener(MOVE_EV, touchMove, false);
 				that.removeEventListener(END_EV, touchEnd, false);
-				if (ret !== undefined)
-					return ret;
 			}
 			
 			/**
