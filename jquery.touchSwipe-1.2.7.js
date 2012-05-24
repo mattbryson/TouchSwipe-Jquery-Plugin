@@ -172,8 +172,9 @@
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
 						
-						if (ret !== undefined)
-							return ret;
+					if (ret !== undefined)
+						return ret;
+						
 					// REV mdc
 					
 					var thisDate = new Date();
