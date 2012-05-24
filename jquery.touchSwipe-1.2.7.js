@@ -6,7 +6,7 @@
  * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
- * $version: 1.2.6
+ * $version: 1.2.7
  *
  * Changelog
  * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -28,10 +28,13 @@
  *
  * $Date: 2011-27-09 (Tues, 27 September 2011) $
  * $version: 1.2.5 	- Added support for testing swipes with mouse on desktop browser (thanks to https://github.com/joelhy)
-
+ * 
  * $Date: 2012-14-05 (Mon, 14 May 2012) $
  * $version: 1.2.6 	- Added timeThreshold between start and end touch, so user can ignore slow swipes (thanks to Mark Chase). Default is null, all swipes are detected
-
+ * 
+ * $Date: 2012-24-05 (Thurs, 24 May 2012) $
+ * $version: 1.2.7 	- Added the possibility to return a value like null or false in the trigger callback. In that way we can control when the touch start should take effect or not (simply by returning in some cases return null; or return false;) This effects the ontouchstart event.
+ * 
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
  * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
  * Options:
@@ -116,7 +119,7 @@
 		var phase="start";
 		var startTouchTime;
 		
-		if (options.allowPageScroll==undefined && (options.swipe!=undefined || options.swipeStatus!=undefined))
+		if (options.allowPageScroll===undefined && (options.swipe!==undefined || options.swipeStatus!==undefined))
 			options.allowPageScroll=NONE;
 		
 		if (options)
@@ -138,6 +141,7 @@
 			var start={x:0, y:0};
 			var end={x:0, y:0};
 			var delta={x:0, y:0};
+			var ret;
 			
 			
 			/**
@@ -166,7 +170,10 @@
 					start.y = end.y = evt.pageY;
 					
 					if (defaults.swipeStatus)
-						triggerHandler(event, phase);
+						ret = triggerHandler(event, phase);
+						
+					if (ret !== undefined)
+						return ret;
 						
 					// REV mdc
 					
@@ -178,9 +185,10 @@
 					//touch with more/less than the fingers we are looking for
 					touchCancel(event);
 				}
-
+					
 				that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
+				
 			}
 
 			/**
@@ -202,7 +210,7 @@
                     fingerCount = event.touches.length;
                 }
 				
-				phase = PHASE_MOVE
+				phase = PHASE_MOVE;
 				
 				//Check if we need to prevent default evnet (page scroll) or not
 				validateDefaultEvent(event, direction);
@@ -238,6 +246,9 @@
 					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
+				
+				if (ret !== undefined)
+					return ret;
 			}
 			
 			/**
@@ -317,15 +328,16 @@
 			*/
 			function triggerHandler(event, phase) 
 			{
+				var ret;
 				//update status
 				if (defaults.swipeStatus)
-					defaults.swipeStatus.call($this,event, phase, direction || null, distance || 0);
+					ret = defaults.swipeStatus.call($this,event, phase, direction || null, distance || 0);
 				
 				
 				if (phase == PHASE_CANCEL)
 				{
 					if (defaults.click && (fingerCount==1 || !hasTouch) && (isNaN(distance) || distance==0))
-						defaults.click.call($this,event, event.target);
+						ret = defaults.click.call($this,event, event.target);
 				}
 				
 				if (phase == PHASE_END)
@@ -334,7 +346,7 @@
 					if (defaults.swipe)
 				{
 						
-						defaults.swipe.call($this,event, direction, distance);
+						ret = defaults.swipe.call($this,event, direction, distance);
 						
 				}
 					//trigger direction specific event handlers	
@@ -342,25 +354,26 @@
 					{
 						case LEFT :
 							if (defaults.swipeLeft)
-								defaults.swipeLeft.call($this,event, direction, distance);
+								ret = defaults.swipeLeft.call($this,event, direction, distance);
 							break;
 						
 						case RIGHT :
 							if (defaults.swipeRight)
-								defaults.swipeRight.call($this,event, direction, distance);
+								ret = defaults.swipeRight.call($this,event, direction, distance);
 							break;
 
 						case UP :
 							if (defaults.swipeUp)
-								defaults.swipeUp.call($this,event, direction, distance);
+								ret = defaults.swipeUp.call($this,event, direction, distance);
 							break;
 						
 						case DOWN :	
 							if (defaults.swipeDown)
-								defaults.swipeDown.call($this,event, direction, distance);
+								ret = defaults.swipeDown.call($this,event, direction, distance);
 							break;
 					}
 				}
+				return ret;
 			}
 			
 			
