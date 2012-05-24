@@ -6,7 +6,7 @@
  * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
- * $version: 1.2.6
+ * $version: 1.2.7
  *
  * Changelog
  * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -28,10 +28,13 @@
  *
  * $Date: 2011-27-09 (Tues, 27 September 2011) $
  * $version: 1.2.5 	- Added support for testing swipes with mouse on desktop browser (thanks to https://github.com/joelhy)
-
+ * 
  * $Date: 2012-14-05 (Mon, 14 May 2012) $
  * $version: 1.2.6 	- Added timeThreshold between start and end touch, so user can ignore slow swipes (thanks to Mark Chase). Default is null, all swipes are detected
-
+ * 
+ * $Date: 2012-24-05 (Thurs, 24 May 2012) $
+ * $version: 1.2.7 	- Added the possibility to return a value like null or false in the trigger callback. In that way we can control when the touch start should take effect or not (simply by returning in some cases return null; or return false;) This effects the ontouchstart event.
+ * 
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
  * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
  * Options:
@@ -205,7 +208,7 @@
                     fingerCount = event.touches.length;
                 }
 				
-				phase = PHASE_MOVE
+				phase = PHASE_MOVE;
 				
 				//Check if we need to prevent default evnet (page scroll) or not
 				validateDefaultEvent(event, direction);
