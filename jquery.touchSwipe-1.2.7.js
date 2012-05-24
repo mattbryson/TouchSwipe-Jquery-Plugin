@@ -171,8 +171,6 @@
 					
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
-					if(ret !== undefined)
-						return ret;
 						
 					// REV mdc
 					
@@ -187,6 +185,9 @@
 
 				that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
+				
+				if (ret !== undefined)
+					return ret;
 			}
 
 			/**
@@ -218,7 +219,7 @@
 					distance = caluculateDistance();
 					
 					if (defaults.swipeStatus)
-						triggerHandler(event, phase, direction, distance);
+						ret = triggerHandler(event, phase, direction, distance);
 					
 					//If we trigger whilst dragging, not on touch end, then calculate now...
 					if (!defaults.triggerOnTouchEnd)
@@ -233,7 +234,7 @@
 						if ( distance >= defaults.threshold  && totalTouchTime <= defaults.timeThreshold) 
 						{
 							phase = PHASE_END;
-							triggerHandler(event, phase);
+							ret = triggerHandler(event, phase);
 							touchCancel(event); // reset the variables
 						}
 					}
@@ -241,9 +242,12 @@
 				else 
 				{
 					phase = PHASE_CANCEL;
-					triggerHandler(event, phase); 
+					ret = triggerHandler(event, phase); 
 					touchCancel(event);
 				}
+				
+				if (ret !== undefined)
+					return ret;
 			}
 			
 			/**
@@ -292,11 +296,13 @@
 				else if (phase == PHASE_MOVE)
 				{
 					phase = PHASE_CANCEL;
-					triggerHandler(event, phase); 
+					ret = triggerHandler(event, phase); 
 					touchCancel(event);
 				}
 				that.removeEventListener(MOVE_EV, touchMove, false);
 				that.removeEventListener(END_EV, touchEnd, false);
+				if (ret !== undefined)
+					return ret;
 			}
 			
 			/**
