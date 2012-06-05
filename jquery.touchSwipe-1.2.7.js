@@ -119,7 +119,7 @@
 		var phase="start";
 		var startTouchTime;
 		
-		if (options.allowPageScroll==undefined && (options.swipe!=undefined || options.swipeStatus!=undefined))
+		if (options.allowPageScroll===undefined && (options.swipe!==undefined || options.swipeStatus!==undefined))
 			options.allowPageScroll=NONE;
 		
 		if (options)
@@ -141,7 +141,7 @@
 			var start={x:0, y:0};
 			var end={x:0, y:0};
 			var delta={x:0, y:0};
-			var ret;
+			// var ret;
 			
 			
 			/**
@@ -150,7 +150,7 @@
 			*/
 			function touchStart(event) 
 			{
-                var evt = hasTouch ? event.touches[0] : event; 
+                var ret, evt = hasTouch ? event.touches[0] : event; 
 				phase = PHASE_START;
 		
                 if (hasTouch) {
@@ -172,9 +172,6 @@
 					if (defaults.swipeStatus)
 						ret = triggerHandler(event, phase);
 
-					if (ret !== undefined)
-						return ret;
-
 					// REV mdc
 					
 					var thisDate = new Date();
@@ -185,6 +182,9 @@
 					//touch with more/less than the fingers we are looking for
 					touchCancel(event);
 				}
+
+				if (ret !== undefined)
+					return ret;
 
 				that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
@@ -199,7 +199,7 @@
 				if (phase == PHASE_END || phase == PHASE_CANCEL)
 					return;
                 
-                var evt = hasTouch ? event.touches[0] : event; 
+                var ret, evt = hasTouch ? event.touches[0] : event; 
 				
 				end.x = evt.pageX;
 				end.y = evt.pageY;
@@ -219,7 +219,7 @@
 					distance = caluculateDistance();
 					
 					if (defaults.swipeStatus)
-						triggerHandler(event, phase, direction, distance);
+						ret = triggerHandler(event, phase, direction, distance);
 					
 					//If we trigger whilst dragging, not on touch end, then calculate now...
 					if (!defaults.triggerOnTouchEnd)
@@ -234,7 +234,7 @@
 						if ( distance >= defaults.threshold  && totalTouchTime <= defaults.timeThreshold) 
 						{
 							phase = PHASE_END;
-							triggerHandler(event, phase);
+							ret = triggerHandler(event, phase);
 							touchCancel(event); // reset the variables
 						}
 					}
@@ -242,9 +242,12 @@
 				else 
 				{
 					phase = PHASE_CANCEL;
-					triggerHandler(event, phase); 
+					ret = triggerHandler(event, phase); 
 					touchCancel(event);
 				}
+
+				if (ret !== undefined)
+					return ret;
 			}
 			
 			/**
