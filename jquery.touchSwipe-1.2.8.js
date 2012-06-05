@@ -215,7 +215,7 @@
                     fingerCount = event.touches.length;
                 }
 				
-				phase = PHASE_MOVE
+				phase = PHASE_MOVE;
 				
 				//Check if we need to prevent default evnet (page scroll) or not
 				validateDefaultEvent(event, direction);
