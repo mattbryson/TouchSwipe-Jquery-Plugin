@@ -150,7 +150,10 @@
 			
 			//track times
 			var startTime = 0;
-			var endTime = 0;			
+			var endTime = 0;
+			
+			var moveEvent;
+						
 			/**
 			* Event handler for a touch start event. 
 			* Stops the default click event from triggering and stores where we touched
@@ -191,7 +194,10 @@
 				if (ret !== undefined)
 					return ret;
 
-				that.addEventListener(MOVE_EV, touchMove, false);
+				if (MOVE_EV === 'mousemove')
+					$(window).on(MOVE_EV, touchMove);
+				else
+					that.addEventListener(MOVE_EV, touchMove, false);
 				that.addEventListener(END_EV, touchEnd, false);
 			}
 
@@ -199,8 +205,11 @@
 			* Event handler for a touch move event. 
 			* If we change fingers during move, then cancel the event
 			*/
-			function touchMove(event) 
+			function touchMove(event)
 			{
+				if(MOVE_EV === 'mousemove')
+					moveEvent = event;
+				
 				if (phase == PHASE_END || phase == PHASE_CANCEL)
 					return;
                 
@@ -296,7 +305,10 @@
 					triggerHandler(event, phase); 
 					touchCancel(event);
 				}
-				that.removeEventListener(MOVE_EV, touchMove, false);
+				if (MOVE_EV === 'mousemove')
+					$(window).off(moveEvent);
+				else
+					that.removeEventListener(MOVE_EV, touchMove, false);
 				that.removeEventListener(END_EV, touchEnd, false);
 			}
 			
