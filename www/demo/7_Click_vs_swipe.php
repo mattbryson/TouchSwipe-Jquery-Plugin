@@ -1,11 +1,8 @@
-<?php include "header.php" ?>
-		
+<?php include "partials/header.php" ?>
 		<!-- use the jquery.ui.ipad.js plugin to translate touch events to mouse events -->
 		<script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
 		
 		<script>
-			
-			
 			//Assign handlers to the simple direction handlers.
 			var swipeOptions=
 			{
@@ -21,15 +18,14 @@
 				
 				//Assign a click handler to a child of the touchSwipe object
 				//This will require the jquery.ui.ipad.js to be picked up correctly.
-				$("#anotherDiv").click( countBlueClicks );
+				$("#another_div").click( countBlueClicks );
 			});
-			
 			
 			var blueCount=0;
 			function countBlueClicks()
 			{
 				blueCount++;
-				$("#anotherDiv").html("jQuery click handler fired on the blue div : you clicked the blue div "+ blueCount + " times");
+				$("#another_div").html("<h3>jQuery click handler fired on the black div : you clicked the black div "+ blueCount + " times</h3>");
 			}
 		
 			var clickCount=0;
@@ -45,33 +41,24 @@
 				swipeCount++;
 				$("#textText").html("You swiped " + swipeCount + " times");
 			}
-			
-			
-		
 		</script>
 		
-	
-		
-		<div id="info" >
-			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-			<br/>
-			<b>Basics 5 - Click vs Swipe</b>
-			<br>You can also detect if the user simply clicks and does not swipe with the <i>click</i> handler<br/><br/>
+		<?php include "partials/title.php" ?>
+		<h4>event: click, swipe</h4>
+		<p>You can also detect if the user simply clicks and does not swipe with the <i>click</i> handler<br/><br/>
 			The click handler is passed the original event object and the target that was clicked.
 			<br/><br/>
 			If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
-			standard jQuery mouse events on children of the touchSwipe object.
-		</div>
-		<br/>
+			standard jQuery mouse events on children of the touchSwipe object.</p>
 		
-		<a href="basics_5.php"/>Previous</a> | <a href="advanced_1.php"/>Next</a> 
+		<?php  echo get_pagination();?>
 		
-		<div id="test">
-			<div id="textText">Click the purple </div><br/>
-			<div id="greenSquare" style="width:100px;height:100px;background:#00FF00">Im just a child div</div>
-			<div id="anotherDiv" style="width:200px;height:150px;background:#00FFFF">Im a child div with my own jQuery click handler</div>
+		<div id="test" class="box">
+			<div id="textText">Swipe or Click me</div><br/>
+			<div id="a_div" class="box" style="width:150px;height:50px;background:#666"><h3>Im just a child div</h3></div>
+			<div id="another_div" class="box" style="width:200px;height:100px;background:#000"><h3>Im a child div with my own jQuery click handler</h3></div>
 		</div>
 		
-		<a href="basics_5.php"/>Previous</a> | <a href="advanced_1.php"/>Next</a> 
+		<?php  echo get_pagination();?>
 	
-<?php include "footer.php" ?>
+<?php include "partials/footer.php" ?>

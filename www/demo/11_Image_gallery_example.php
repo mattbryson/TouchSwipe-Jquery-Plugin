@@ -1,18 +1,13 @@
-<?php include "header.php" ?>
-		
+<?php include "partials/header.php" ?>
 		<style>
-		
 			#content
 			{
-				height:567px;
-				width:896px;
+				height:340px;
+				width:500px;
 				overflow:hidden;
 				position:relative;
 				
-				
 				border : 1px solid black;
-				
-				
 			}
 			
 			#imgs 
@@ -26,11 +21,10 @@
 				padding:0px;
 				margin:0px;
 				
-				width:2700px;
+				width:1510px;
 				
 				/*apply a transfor to kick in the hardware acceleration.  Without this, the first time we add the transform you get odd rendering of the divs (half missing) */
 				-webkit-transform: translate3d(0px,0px,0px); 
-				
 			}
 	
 	
@@ -40,21 +34,16 @@
 				margin:0px;
 				
 				
-				width:896px;
-				height:567px;
+				width:500px;
+				height:340px;
 				
 				/*apply a transfor to kick in the hardware acceleration.  Without this, the first time we add the transform you get odd rendering of the divs (half missing) */
 				-webkit-transform: translate3d(0px,0px,0px); 
-
 			}
-	
-			
-		
 		</style>
 		
 		<script>
-			
-			var IMG_WIDTH = 896;
+			var IMG_WIDTH = 500;
 			var currentImg=0;
 			var maxImages=3;
 			var speed=500;
@@ -66,8 +55,8 @@
 				triggerOnTouchEnd : true,	
 				swipeStatus : swipeStatus,
 				allowPageScroll:"vertical",
-				threshold:200
-			}
+				threshold:75			
+				}
 			
 			$(function()
 			{				
@@ -109,6 +98,8 @@
 					else if (direction == "left")			
 						nextImage()
 				}
+				
+			
 			}
 					
 			
@@ -137,28 +128,24 @@
 				
 				imgs.css("-webkit-transform", "translate3d("+value +"px,0px,0px)");
 			}
-			
-		
 		</script>
 		
 		
 	
-		<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
-		<br/>
-		<b>Image scroller</b>
-		<br/>Swipe the images below left and right. Swipe up and down will scroll the page. Uses HTML5 CSS to animate.
+		<?php include "partials/title.php" ?>
+		<p/>Swipe the images below left and right. Swipe up and down will scroll the page. Uses HTML5 CSS to animate.</p>
 		
 		<br/>
-		<a href="advanced_2.php"/>Previous</a> | <a href="index.php"/>Start again</a> 
+		<?php  echo get_pagination();?>
 		
 		<div id="content">
 			<div id="imgs">
-				<img src="https://lh4.googleusercontent.com/_D9-nzLCi9qU/TNQ2hYNqQEI/AAAAAAAADtI/TcqCdc6N26A/s800/twick_pool_stairs~.jpg" />
-				<img src="https://lh6.googleusercontent.com/_D9-nzLCi9qU/TNQ2gdP8JYI/AAAAAAAADtI/NU2WBbaXpgU/s800/twick_pool_stairsAndChanginRoom~.jpg" />
-				<img src="https://lh4.googleusercontent.com/_D9-nzLCi9qU/TNQ2UWpqLgI/AAAAAAAADtI/-OG4z6RxHwA/s800/twick_pool_hall~.jpg" />
+				<img src="https://lh4.googleusercontent.com/_D9-nzLCi9qU/TNQ2hYNqQEI/AAAAAAAADtI/TcqCdc6N26A/s500/twick_pool_stairs~.jpg" />
+				<img src="https://lh6.googleusercontent.com/_D9-nzLCi9qU/TNQ2gdP8JYI/AAAAAAAADtI/NU2WBbaXpgU/s500/twick_pool_stairsAndChanginRoom~.jpg" />
+				<img src="https://lh4.googleusercontent.com/_D9-nzLCi9qU/TNQ2UWpqLgI/AAAAAAAADtI/-OG4z6RxHwA/s500/twick_pool_hall~.jpg" />
 			</div>
 		</div>
 		
-		<a href="advanced_2.php"/>Previous</a> | <a href="index.php"/>Start again</a> 
+		<?php  echo get_pagination();?>
 			
-<?php include "footer.php" ?>
+<?php include "partials/footer.php" ?>
