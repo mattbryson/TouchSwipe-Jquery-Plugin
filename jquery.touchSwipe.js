@@ -1,5 +1,3 @@
-http://www.learningjquery.com/2007/10/a-plugin-development-pattern
-
 /*
  * touchSwipe - jQuery Plugin
  * http://plugins.jquery.com/project/touchSwipe
