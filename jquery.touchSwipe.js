@@ -159,7 +159,32 @@
 	//Expose our defaults so a user could override the plugin defaults
 	$.fn.swipe.defaults = defaults;
 		
-		
+			
+	//Expose our phase constants - READ ONLY
+	$.fn.swipe.phases = {
+		PHASE_START:PHASE_START,
+		PHASE_MOVE:PHASE_MOVE,
+		PHASE_END:PHASE_END,
+		PHASE_CANCEL:PHASE_CANCEL	
+	}
+	
+	//Expose our direction constants - READ ONLY
+	$.fn.swipe.directions = {
+		LEFT:LEFT,
+		RIGHT:RIGHT,
+		UP:UP,
+		DOWN:DOWN
+	}
+	
+	//Expose our page scroll directions - READ ONLY
+	$.fn.swipe.pageScroll = {	
+		NONE:NONE,
+		HORIZONTAL:HORIZONTAL,
+		VERTICAL:VERTICAL,
+		AUTO:AUTO
+	}
+	
+	
 	/**
 	 * Initialise the plugin for each DOM element matched
 	 * This creates a new instance of the main TouchSwipe class for each DOM element, and then 
@@ -223,8 +248,6 @@
 		// Add gestures to all swipable areas if supported
 		try
 		{
-			
-			
 			$element.bind(START_EV, touchStart, false);
 			$element.bind(CANCEL_EV, touchCancel);
 		}
@@ -274,15 +297,26 @@
 		 */
 		function touchStart(event) 
 		{
+			//As we use Jquery bind for events, we need to target the original event object
+			event = event.originalEvent;
+			
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event; 
-				
+			
 			phase = PHASE_START;
 	
+			//If we support touches, get the finger count
 			if (SUPPORTS_TOUCH) {
 				// get the total number of fingers touching the screen
 				fingerCount = event.touches.length;
 			}
+			//Else this is the desktop, so stop the browser from dragging the image
+			else
+			{
+				event.preventDefault();
+			}
+			
+			
 			
 			//clear vars..
 			distance=0;
@@ -290,7 +324,7 @@
 			duration=0;
 			
 			// check the number of fingers is what we are looking for
-			if (fingerCount == options.fingers || !SUPPORTS_TOUCH) 
+			if (!SUPPORTS_TOUCH || fingerCount == options.fingers) 
 			{
 				// get the coordinates of the touch
 				start.x = end.x = evt.pageX;
@@ -302,23 +336,27 @@
 			} 
 			else 
 			{
-				//touch with more/less than the fingers we are looking for
+				//A touch with more or less than the fingers we are looking for, so cancel
 				touchCancel(event);
 			}
 			
 			
 			
 			//If we have a return value from the users handler, then return and cancel
-			if (ret !== undefined)
+			if (ret === false)
+			{
+				phase = PHASE_CANCEL;
+				triggerHandler(event, phase); 
+				
+				
 				return ret;
-
-			//If this is a desktop, then assign to the move to the window
-//			if (MOVE_EV === 'mousemove')
-//				$(window).bind(MOVE_EV, touchMove);
-//			else
-
-			$element.bind(MOVE_EV, touchMove, false);
-			$element.bind(END_EV, touchEnd, false);
+			}
+			else
+			{	
+				//If this is a desktop, then assign to the move to the window
+				$element.bind(MOVE_EV, touchMove, false);
+				$element.bind(END_EV, touchEnd, false);
+			}
 		}
 
 		/**
@@ -327,6 +365,10 @@
 		 */
 		function touchMove(event) 
 		{
+			//As we use Jquery bind for events, we need to target the original event object
+			event = event.originalEvent;
+			
+			
 			if (phase == PHASE_END || phase == PHASE_CANCEL)
 				return;
 			
@@ -338,11 +380,11 @@
 			endTime = getTimeStamp();
 				
 			direction = calculateDirection();
-			if (SUPPORTS_TOUCH) {
+			if (SUPPORTS_TOUCH)
 				fingerCount = event.touches.length;
-			}
 			
-			phase = PHASE_MOVE
+			
+			phase = PHASE_MOVE;
 			
 			//Check if we need to prevent default evnet (page scroll) or not
 			validateDefaultEvent(event, direction);
@@ -358,12 +400,18 @@
 				//If we trigger whilst dragging, not on touch end, then calculate now...
 				if (!options.triggerOnTouchEnd)
 				{
+					var cancel = !validateSwipeTime();
+					
 					// if the user swiped more than the minimum length, perform the appropriate action
-					if ( distance >= options.threshold  && validateSwipeTime()) 
+					if ( validateSwipeDistance()===true ) 
 					{
 						phase = PHASE_END;
 						ret = triggerHandler(event, phase);
-						touchCancel(event); // reset the variables
+					}
+					else if (cancel)
+					{
+						phase = PHASE_CANCEL;
+						triggerHandler(event, phase); 
 					}
 				}
 			} 
@@ -371,11 +419,14 @@
 			{
 				phase = PHASE_CANCEL;
 				triggerHandler(event, phase); 
-				touchCancel(event);
 			}
 			
-			if (ret !== undefined)
-				return ret;
+			if (ret === false)
+			{
+				phase = PHASE_CANCEL;
+				triggerHandler(event, phase);
+			}
+
 		}
 		
 		/**
@@ -384,51 +435,50 @@
 		 */
 		function touchEnd(event) 
 		{
+			//As we use Jquery bind for events, we need to target the original event object
+			event = event.originalEvent;
+			
+			
 			event.preventDefault();
 			
-
 			distance = calculateDistance();
 			direction = calculateDirection();
 			duration = calculateDuration();		
-					
-			if (options.triggerOnTouchEnd)
+			
+			
+			
+			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
+			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd==false && phase == PHASE_MOVE))
 			{
 				phase = PHASE_END;
+				
 				// check to see if more than one finger was used and that there is an ending coordinate
 				if ( (fingerCount == options.fingers  || !SUPPORTS_TOUCH) && end.x != 0 ) 
 				{
+					var cancel = !validateSwipeTime();
+					
 					// if the user swiped more than the minimum length, perform the appropriate action
-					if ( distance >= options.threshold && validateSwipeTime())
+					if ( (validateSwipeDistance()===true || validateSwipeDistance()===null) && !cancel ) //null is retuned when no distance is set
 					{
 						triggerHandler(event, phase);
-						touchCancel(event); // reset the variables
-					} 
-					else 
+					}
+					else if(cancel || validateSwipeDistance()===false)
 					{
 						phase = PHASE_CANCEL;
 						triggerHandler(event, phase); 
-						touchCancel(event);
 					}	
 				} 
 				else 
 				{
 					phase = PHASE_CANCEL;
 					triggerHandler(event, phase); 
-					touchCancel(event);
 				}
 			}
 			else if (phase == PHASE_MOVE)
 			{
 				phase = PHASE_CANCEL;
 				triggerHandler(event, phase); 
-				touchCancel(event);
 			}
-			
-			
-			
-//			if (MOVE_EV === 'mousemove')
-//				$(window).unbind(MOVE_EV, touchMove);
-//			else
 			
 			$element.unbind(MOVE_EV, touchMove, false);
 			$element.unbind(END_EV, touchEnd, false);
@@ -506,9 +556,29 @@
 				}
 			}
 			
+			
+			if(phase==PHASE_CANCEL || phase==PHASE_END)
+			{
+			 	//Manually trigger the cancel handler to clean up data
+			 	touchCancel(event);
+			}
+			
 			if (ret !== undefined)
 				return ret;
 		}
+		
+		
+		/**
+		 * Checks the user has swipe far enough
+		 */
+		function validateSwipeDistance()
+		{
+			if(options.threshold!==null)
+				return distance >= options.threshold;
+			else
+				return null;
+		}
+		
 		
 		
 		/**
@@ -547,7 +617,7 @@
 			}
 			else 
 			{
-				var auto=options.allowPageScroll==AUTO;
+				var auto = options.allowPageScroll==AUTO;
 				
 				switch(direction)
 				{
