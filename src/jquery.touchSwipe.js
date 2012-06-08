@@ -1,12 +1,13 @@
 /*
  * touchSwipe - jQuery Plugin
- * http://plugins.jquery.com/project/touchSwipe
+ * https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
  * http://labs.skinkers.com/touchSwipe/
+ * http://plugins.jquery.com/project/touchSwipe
  *
  * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
- * $version: 1.3.0
+ * $version: 1.3.1
  *
  * Changelog
  * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -40,6 +41,9 @@
  *
  * $Date: 2012-06-06 (Wed, 06 June 2012) $
  * $version: 1.3.0 	- Refactored whole plugin to allow for methods to be executed, as well as exposed defaults for user override. Added 'enable', 'disable', and 'destroy' methods
+ *
+ * $Date: 2012-05-06 (Fri, 05 June 2012) $
+ * $version: 1.3.1 	- Bug fixes  - bind() with false as last argument is no longer supported in jQuery 1.6, also, if you just click, the duration is now returned correctly.
 
 
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
@@ -248,7 +252,7 @@
 		// Add gestures to all swipable areas if supported
 		try
 		{
-			$element.bind(START_EV, touchStart, false);
+			$element.bind(START_EV, touchStart);
 			$element.bind(CANCEL_EV, touchCancel);
 		}
 		catch(e)
@@ -354,8 +358,8 @@
 			else
 			{	
 				//If this is a desktop, then assign to the move to the window
-				$element.bind(MOVE_EV, touchMove, false);
-				$element.bind(END_EV, touchEnd, false);
+				$element.bind(MOVE_EV, touchMove);
+				$element.bind(END_EV, touchEnd);
 			}
 		}
 
@@ -438,8 +442,9 @@
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
 			
-			
 			event.preventDefault();
+			
+			endTime = getTimeStamp();
 			
 			distance = calculateDistance();
 			direction = calculateDirection();
