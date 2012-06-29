@@ -93,11 +93,7 @@
 		PHASE_CANCEL="cancel",
 	
 		SUPPORTS_TOUCH = 'ontouchstart' in window,
-		START_EV = SUPPORTS_TOUCH ? 'touchstart' : 'mousedown',
-		MOVE_EV = SUPPORTS_TOUCH ? 'touchmove' : 'mousemove',
-		END_EV = SUPPORTS_TOUCH ? 'touchend' : 'mouseup',
-		CANCEL_EV = 'touchcancel',
-		
+
 		PLUGIN_NS = 'TouchSwipe';
 	
 	
@@ -229,6 +225,12 @@
 	  */
 	function TouchSwipe (element, options)
 	{
+		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallback),
+			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
+			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
+			END_EV = useTouchEvents ? 'touchend' : 'mouseup',
+			CANCEL_EV = 'touchcancel';
+
 		//jQuery wrapped element for this instance
 		var $element = $(element);
 
