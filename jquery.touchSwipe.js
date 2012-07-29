@@ -90,8 +90,8 @@
 		NONE = "none",
 		HORIZONTAL = "horizontal",
 		VERTICAL = "vertical",
-		AUTO = "auto",
-		ALL_FINGERS = "all"
+		AUTO = "auto", 
+		ALL_FINGERS = "all",
 			
 		PHASE_START="start",
 		PHASE_MOVE="move",
@@ -474,7 +474,7 @@
 				phase = PHASE_END;
 				
 				// check to see if more than one finger was used and that there is an ending coordinate
-				if ( (fingerCount == options.fingers || options.fingers == ALL_FINGERS) || !SUPPORTS_TOUCH) && end.x != 0 ) 
+				if ( ((fingerCount == options.fingers || options.fingers == ALL_FINGERS) || !SUPPORTS_TOUCH) && end.x != 0 ) 
 				{
 					var cancel = !validateSwipeTime();
 					
