@@ -5,7 +5,7 @@
 			{
 				swipe:swipe,
 				threshold:0,
-				fingers:2
+				fingers:'all'
 			}
 			
 			$(function()
@@ -15,20 +15,21 @@
 			});
 		
 			//Swipe handlers.
-			function swipe(event,direction, distance, duration, fingerCount)
+			//The only arg passed is the original touch event object			
+			function swipe(event, direction, distance, duration, fingerCount)
 			{
-				$("#test").text("You swiped " + direction);
+				$("#test").text("You swiped " + direction + " with " + fingerCount + " fingers");
 			}
 		</script>
 		
 		
 		<?php include "partials/title.php" ?>
 		<h4>property: fingers</h4>
-		<p>By setting the number of fingers to 2, you can detect ONLY 2 finger swipes.</p>
+		<p>By setting the number of fingers to 'all', any number of fingers will trigger the swipe.</p>
 		
 		<?php  echo get_pagination();?>
 		
-		<div id="test" class="box">Swipe me with 2 fingers</div>
+		<div id="test" class="box">Swipe me with different combinations of fingers</div>
 		
 		<?php  echo get_pagination();?>
 <?php include "partials/footer.php" ?>

@@ -44,17 +44,21 @@
  *
  * $Date: 2012-05-06 (Fri, 05 June 2012) $
  * $version: 1.3.1 	- Bug fixes  - bind() with false as last argument is no longer supported in jQuery 1.6, also, if you just click, the duration is now returned correctly.
+ *
+ * $Date: 2012-29-07 (Sun, 29 July 2012) $
+ * $version: 1.3.2	- Added fallbackToMouseEvents option to NOT capture mouse events on non touch devices.
+ 			- Added "all" fingers value to the fingers property, so any combinatin of fingers triggers the swipe, allowing event handlers to check the finger count
 
 
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
  * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
  * Options: The defaults can be overridden by setting them in $.fn.swipe.defaults
- * 		swipe 			Function 	A catch all handler that is triggered for all swipe directions. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" , the distance of the swipe and the duration of the swipe.
- * 		swipeLeft		Function 	A handler that is triggered for "left" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe and the duration of the swipe.
- * 		swipeRight		Function 	A handler that is triggered for "right" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe and the duration of the swipe.
- * 		swipeUp			Function 	A handler that is triggered for "up" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" , the distance of the swipe and the duration of the swipe.
- * 		swipeDown		Function 	A handler that is triggered for "down" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe and the duration of the swipe.
- *		swipeStatus 	Function 	A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.Duration : The duration of the swipe
+ * 		swipe 			Function 	A catch all handler that is triggered for all swipe directions. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" , the distance of the swipe, the duration of the swipe and the finger count.
+ * 		swipeLeft		Function 	A handler that is triggered for "left" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe, the duration of the swipe and the finger count.
+ * 		swipeRight		Function 	A handler that is triggered for "right" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe, the duration of the swipe and the finger count.
+ * 		swipeUp			Function 	A handler that is triggered for "up" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" , the distance of the swipe, the duration of the swipe and the finger count.
+ * 		swipeDown		Function 	A handler that is triggered for "down" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe, the duration of the swipe and the finger count.
+ *		swipeStatus 	Function 	A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.Duration : The duration of the swipe :  The finger count
  *		click			Function	A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
  *
  * 		fingers 		int 		Default 1. 	The number of fingers to trigger the swipe, 1 or 2.
@@ -66,6 +70,7 @@
  *										"none" : the page will not scroll when user swipes.
  *										"horizontal" : will force page to scroll on horizontal swipes.
  *										"vertical" : will force page to scroll on vertical swipes.
+ *		fallbackToMouseEvents 	Boolean		Default true	if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
  *
  * Methods: To be executed as strings, $el.swipe('disable');
  *		disable		Will disable all touch events until enabled again
@@ -85,7 +90,8 @@
 		NONE = "none",
 		HORIZONTAL = "horizontal",
 		VERTICAL = "vertical",
-		AUTO = "auto",
+		AUTO = "auto", 
+		ALL_FINGERS = "all",
 			
 		PHASE_START="start",
 		PHASE_MOVE="move",
@@ -93,11 +99,7 @@
 		PHASE_CANCEL="cancel",
 	
 		SUPPORTS_TOUCH = 'ontouchstart' in window,
-		START_EV = SUPPORTS_TOUCH ? 'touchstart' : 'mousedown',
-		MOVE_EV = SUPPORTS_TOUCH ? 'touchmove' : 'mousemove',
-		END_EV = SUPPORTS_TOUCH ? 'touchend' : 'mouseup',
-		CANCEL_EV = 'touchcancel',
-		
+
 		PLUGIN_NS = 'TouchSwipe';
 	
 	
@@ -112,21 +114,22 @@
 		maxTimeThreshold  : null,      // int - Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe.
 		
 		
-		swipe 			: null,		// Function - A catch all handler that is triggered for all swipe directions. Accepts 2 arguments, the original event object and the direction of the swipe : "left", "right", "up", "down".
-		swipeLeft		: null,		// Function - A handler that is triggered for "left" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
-		swipeRight		: null,		// Function - A handler that is triggered for "right" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
-		swipeUp			: null,		// Function - A handler that is triggered for "up" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
-		swipeDown		: null,		// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" and the distance of the swipe.
-		swipeStatus		: null,		// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.
+		swipe 			: null,		// Function - A catch all handler that is triggered for all swipe directions. Accepts 2 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", and the finger count.
+		swipeLeft		: null,		// Function - A handler that is triggered for "left" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
+		swipeRight		: null,		// Function - A handler that is triggered for "right" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
+		swipeUp			: null,		// Function - A handler that is triggered for "up" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
+		swipeDown		: null,		// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
+		swipeStatus		: null,		// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe : The finger count.
 		click			: null,		// Function	- A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
 		
 		triggerOnTouchEnd : true,	// Boolean, if true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
-		allowPageScroll : "auto" 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
+		allowPageScroll : "auto", 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
 										"auto" : all undefined swipes will cause the page to scroll in that direction.
 										"none" : the page will not scroll when user swipes.
 										"horizontal" : will force page to scroll on horizontal swipes.
 										"vertical" : will force page to scroll on vertical swipes.
 									*/
+		fallbackToMouseEvents:true	//Boolean, if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
 	};
 	
 	
@@ -188,6 +191,13 @@
 		AUTO:AUTO
 	}
 	
+	//EXPOSE our fingers values - READ ONLY
+	$.fn.swipe.fingers = {
+		ONE:1,
+		TWO:2,
+		ALL:ALL_FINGERS
+	}
+	
 	
 	/**
 	 * Initialise the plugin for each DOM element matched
@@ -229,6 +239,12 @@
 	  */
 	function TouchSwipe (element, options)
 	{
+		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallbackToMouseEvents),
+			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
+			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
+			END_EV = useTouchEvents ? 'touchend' : 'mouseup',
+			CANCEL_EV = 'touchcancel';
+
 		//jQuery wrapped element for this instance
 		var $element = $(element);
 
@@ -328,7 +344,7 @@
 			duration=0;
 			
 			// check the number of fingers is what we are looking for
-			if (!SUPPORTS_TOUCH || fingerCount == options.fingers) 
+			if (!SUPPORTS_TOUCH || (fingerCount == options.fingers || options.fingers == ALL_FINGERS) ) 
 			{
 				// get the coordinates of the touch
 				start.x = end.x = evt.pageX;
@@ -393,7 +409,7 @@
 			//Check if we need to prevent default evnet (page scroll) or not
 			validateDefaultEvent(event, direction);
 	
-			if ( fingerCount == options.fingers || !SUPPORTS_TOUCH) 
+			if ( (fingerCount == options.fingers || options.fingers == ALL_FINGERS) || !SUPPORTS_TOUCH) 
 			{
 				distance = calculateDistance();
 				duration = calculateDuration();
@@ -458,7 +474,7 @@
 				phase = PHASE_END;
 				
 				// check to see if more than one finger was used and that there is an ending coordinate
-				if ( (fingerCount == options.fingers  || !SUPPORTS_TOUCH) && end.x != 0 ) 
+				if ( ((fingerCount == options.fingers || options.fingers == ALL_FINGERS) || !SUPPORTS_TOUCH) && end.x != 0 ) 
 				{
 					var cancel = !validateSwipeTime();
 					
@@ -520,7 +536,7 @@
 			
 			//update status
 			if (options.swipeStatus)
-				ret = options.swipeStatus.call($element,event, phase, direction || null, distance || 0, duration || 0);
+				ret = options.swipeStatus.call($element,event, phase, direction || null, distance || 0, duration || 0, fingerCount);
 			
 			
 			if (phase == PHASE_CANCEL)
@@ -534,29 +550,29 @@
 				//trigger catch all event handler
 				if (options.swipe)
 				{
-					ret = options.swipe.call($element,event, direction, distance, duration);
+					ret = options.swipe.call($element,event, direction, distance, duration, fingerCount);
 				}
 				//trigger direction specific event handlers	
 				switch(direction)
 				{
 					case LEFT :
 						if (options.swipeLeft)
-							ret = options.swipeLeft.call($element,event, direction, distance, duration);
+							ret = options.swipeLeft.call($element,event, direction, distance, duration, fingerCount);
 						break;
 					
 					case RIGHT :
 						if (options.swipeRight)
-							ret = options.swipeRight.call($element,event, direction, distance, duration);
+							ret = options.swipeRight.call($element,event, direction, distance, duration, fingerCount);
 						break;
 
 					case UP :
 						if (options.swipeUp)
-							ret = options.swipeUp.call($element,event, direction, distance, duration);
+							ret = options.swipeUp.call($element,event, direction, distance, duration, fingerCount);
 						break;
 					
 					case DOWN :	
 						if (options.swipeDown)
-							ret = options.swipeDown.call($element,event, direction, distance, duration);
+							ret = options.swipeDown.call($element,event, direction, distance, duration, fingerCount);
 						break;
 				}
 			}

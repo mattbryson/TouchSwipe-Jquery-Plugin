@@ -5,7 +5,8 @@
 			{
 				swipeStatus:swipeStatus,
 				threshold:200,
-				maxTimeThreshold:5000
+				maxTimeThreshold:5000,
+				fingers:'all'
 			}
 			
 			$(function()
@@ -16,13 +17,14 @@
 		
 			//Swipe handlers.
 			//The only arg passed is the original touch event object			
-			function swipeStatus(event, phase, direction, distance, duration)
+			function swipeStatus(event, phase, direction, distance, duration, fingers)
 			{
 				var str = "<h4>Swipe Phase : " + phase + "<br/>";
 				str += "Direction from inital touch: " + direction + "<br/>";
-				str += "Distance from inital touch:: " + distance + "<br/>";
-				str += "Duration of swipe :: " + duration + "<br/></h4>";
-				
+				str += "Distance from inital touch: " + distance + "<br/>";
+				str += "Duration of swipe: " + duration + "<br/>";
+				str += "Fingers used: " + fingers + "<br/></h4>";
+								
 				if (phase!="cancel" && phase!="end")
 				{
 					if (duration<swipeOptions.maxTimeThreshold)
