@@ -44,6 +44,9 @@
  *
  * $Date: 2012-05-06 (Fri, 05 June 2012) $
  * $version: 1.3.1 	- Bug fixes  - bind() with false as last argument is no longer supported in jQuery 1.6, also, if you just click, the duration is now returned correctly.
+ *
+ * $Date: 2012-29-07 (Sun, 29 July 2012) $
+ * $version: 1.3.2	- Added fallbackToMouseEvents option to NOT capture mouse events on non touch devices.
 
 
  * A jQuery plugin to capture left, right, up and down swipes on touch devices.
@@ -66,6 +69,7 @@
  *										"none" : the page will not scroll when user swipes.
  *										"horizontal" : will force page to scroll on horizontal swipes.
  *										"vertical" : will force page to scroll on vertical swipes.
+ *		fallbackToMouseEvents 	Boolean		Default true	if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
  *
  * Methods: To be executed as strings, $el.swipe('disable');
  *		disable		Will disable all touch events until enabled again
@@ -117,12 +121,13 @@
 		click			: null,		// Function	- A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
 		
 		triggerOnTouchEnd : true,	// Boolean, if true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
-		allowPageScroll : "auto" 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
+		allowPageScroll : "auto", 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
 										"auto" : all undefined swipes will cause the page to scroll in that direction.
 										"none" : the page will not scroll when user swipes.
 										"horizontal" : will force page to scroll on horizontal swipes.
 										"vertical" : will force page to scroll on vertical swipes.
 									*/
+		fallbackToMouseEvents:true	//Boolean, if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
 	};
 	
 	
@@ -225,7 +230,7 @@
 	  */
 	function TouchSwipe (element, options)
 	{
-		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallback),
+		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallbackToMouseEvents),
 			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
 			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
 			END_EV = useTouchEvents ? 'touchend' : 'mouseup',
