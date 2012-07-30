@@ -24,7 +24,7 @@
 		
 		<?php include "partials/title.php" ?>
 		<h4>property: fingers</h4>
-		<p>By setting the number of fingers to 2, you can detect ONLY 2 finger swipes.</p>
+		<p>By setting the number of fingers to 2, you can detect ONLY 2 finger swipes, likewise for 3 fingers.</p>
 		
 		<?php  echo get_pagination();?>
 		

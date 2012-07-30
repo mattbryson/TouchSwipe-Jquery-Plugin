@@ -195,6 +195,7 @@
 	$.fn.swipe.fingers = {
 		ONE:1,
 		TWO:2,
+		THREE:3,
 		ALL:ALL_FINGERS
 	}
 	
