@@ -133,7 +133,7 @@
 						
 						
 						<dt><b>fingers</b></dt>
-						<dd>int:1 The number of fingers to trigger the swipe, 1 or 2.</dd>
+						<dd>int:1 The number of fingers to trigger the swipe, 1, 2 or 3. Or 'all' to trigger on any combination of fingers</dd>
 						<br/>
 						<dt><b>threshold</b></dt>
 						<dd>int:75 The number of pixels that the user must move their finger before it is considered a swipe.</dd>
