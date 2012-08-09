@@ -7,7 +7,7 @@
 * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
-* $version: 1.3.1
+* $version: 1.3.3
 *
 * Changelog
 * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -47,9 +47,12 @@
 *
 * $Date: 2012-29-07 (Sun, 29 July 2012) $
 * $version: 1.3.2	- Added fallbackToMouseEvents option to NOT capture mouse events on non touch devices.
-- Added "all" fingers value to the fingers property, so any combinatin of fingers triggers the swipe, allowing event handlers to check the finger count
-
-
+* 			- Added "all" fingers value to the fingers property, so any combinatin of fingers triggers the swipe, allowing event handlers to check the finger count
+*
+* $Date: 2012-09-08 (Thurs, 9 Aug 2012) $
+* $version: 1.3.3	- Code tidy prep for minified version
+*
+*
 * A jQuery plugin to capture left, right, up and down swipes on touch devices.
 * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
 * Options: The defaults can be overridden by setting them in $.fn.swipe.defaults
