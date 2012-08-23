@@ -2,11 +2,17 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<?php if( isset($user_scale) ): ?>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+		<?php else: ?>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<?php endif; ?>
 		
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
 		
+			<script type="text/javascript" src="../prettify/prettify.js"></script>
+		<link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
 		
 		<title>touchSwipe</title>
 		
@@ -154,6 +160,9 @@
 			
 		
 		</style>
+		<script>
+			$( function(){ prettyPrint() });
+		</script>
 		
 	</head>
 	

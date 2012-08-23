@@ -3,44 +3,34 @@
 		<script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
 		
 		<script>
-			//Assign handlers to the simple direction handlers.
-			var swipeOptions=
-			{
-				click:click,
-				swipe:swipe,
-				threshold:50
-			}
-			
-			$(function()
-			{			
+			$(function() {	
+				
+				var clickCount=0;
+				var swipeCount=0;
+				var blueCount=0;
+					
 				//Enable swiping...
-				$("#test").swipe( swipeOptions );
+				$("#test").swipe( {
+						click:function(event, target) {
+							clickCount++;
+							$("#textText").html("You clicked " + clickCount +" times on " + $(target).attr("id"));
+						},
+						swipe:function() {
+							swipeCount++;
+							$("#textText").html("You swiped " + swipeCount + " times");
+						},
+						threshold:50
+				});
 				
 				//Assign a click handler to a child of the touchSwipe object
 				//This will require the jquery.ui.ipad.js to be picked up correctly.
-				$("#another_div").click( countBlueClicks );
+				$("#another_div").click( function(){
+						blueCount++;
+						$("#another_div").html("<h3 id='div text'>jQuery click handler fired on the black div : you clicked the black div "+ blueCount + " times</h3>");
+				});
+				
+				
 			});
-			
-			var blueCount=0;
-			function countBlueClicks()
-			{
-				blueCount++;
-				$("#another_div").html("<h3>jQuery click handler fired on the black div : you clicked the black div "+ blueCount + " times</h3>");
-			}
-		
-			var clickCount=0;
-			function click(event, target)
-			{
-				clickCount++;
-				$("#textText").html("You clicked " + clickCount +" times on " + $(target).attr("id"));
-			}
-			
-			var swipeCount=0;
-			function swipe(event)
-			{
-				swipeCount++;
-				$("#textText").html("You swiped " + swipeCount + " times");
-			}
 		</script>
 		
 		<?php include "partials/title.php" ?>
@@ -50,7 +40,23 @@
 			<br/><br/>
 			If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
 			standard jQuery mouse events on children of the touchSwipe object.</p>
-		
+		<pre class="prettyprint lang-js">
+var clickCount=0;
+var swipeCount=0;
+var blueCount=0;
+
+$("#test").swipe( {
+  click:function(event, target){
+    clickCount++;
+    $(this).html("You clicked " + clickCount +" times on " + $(target).attr("id"));
+  },
+  swipe:function(){
+    swipeCount++;
+    $(this).html("You swiped " + swipeCount + " times");
+  },
+  threshold:50
+}
+		</pre>
 		<?php  echo get_pagination();?>
 		
 		<div id="test" class="box">

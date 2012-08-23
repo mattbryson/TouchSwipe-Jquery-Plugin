@@ -11,10 +11,12 @@ foreach( $files as $file )
 {
 	if( substr($file, 0, 1)!="." && $file!="index.php" && !is_dir("$demo_url/$file"))
 	{
-		$file_tokens = explode(".", $file);
-		$name_tokens = explode("_", $file_tokens[0]);
-		
-		$index = array_shift($name_tokens); 
+		$file_tokens = explode("_", $file);
+		$index = array_shift($file_tokens);
+		$file_name = implode(" ", $file_tokens);
+		$name_tokens = explode(".", $file_name);
+		array_pop($name_tokens);	
+				
 		$nav[$index] = new stdClass();
 		$nav[$index]->name=implode(" ", $name_tokens);
 		$nav[$index]->file=$demo_url."/".$file;
