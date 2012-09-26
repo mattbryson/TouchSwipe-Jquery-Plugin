@@ -1,4 +1,9 @@
 /*
+* This is a fork of the touchSwipe jQuery plugin module.  The fork is maintained here:
+* https://github.com/Klortho/TouchSwipe-Jquery-Plugin.  The change was to allow multiple
+* event handlers to be bound to swipe events:
+* https://github.com/Klortho/TouchSwipe-Jquery-Plugin/commit/00bd371f2c0d154cf772a297d25c4008f1f84e96
+*
 * touchSwipe - jQuery Plugin
 * https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
 * http://labs.skinkers.com/touchSwipe/
