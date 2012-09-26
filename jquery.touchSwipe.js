@@ -147,12 +147,38 @@
 			plugin = $this.data(PLUGIN_NS);
 
 		//Check if we are already instantiated and trying to execute a method	
-		if (plugin && typeof method === 'string') {
-			if (plugin[method]) {
-				return plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
-			} else {
-				$.error('Method ' + method + ' does not exist on jQuery.swipe');
-			}
+		if (plugin) {
+            if (typeof method === 'string') {
+    			if (plugin[method]) {
+    				return plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
+    			} else {
+    				$.error('Method ' + method + ' does not exist on jQuery.swipe');
+    			}
+            }
+            else if (typeof method == 'object') {
+                // user wants to add another handler
+                console.info("trying to add another handler");
+                var handlers = plugin.getHandlers();
+                var evtNames = ["swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown", "swipeStatus", "click"];
+                for (var i = 0; i < evtNames.length; ++i) {
+                    var evt = evtNames[i];
+                    var newHandler = method[evt];
+                    if (typeof newHandler === "function") {
+                        if ($.isArray(handlers[evt])) {
+                            // Push new handler onto the array
+                            handlers[evt].push(method[evt]);
+                        }
+                        else if (typeof handlers[evt] === "function") {
+                            // Old hander is a function, turn it into an array
+                            handlers[evt] = [handlers[evt], method[evt]];
+                        }
+                        else {
+                            // First new handler
+                            handler[evt] = method[evt];
+                        }
+                    }
+                }
+            }
 		}
 		//Else not instantiated and trying to pass init object (or nothing)
 		else if (!plugin && (typeof method === 'object' || !method)) {
@@ -269,6 +295,7 @@
 		}
 
 		//Public methods
+        
 		/**
 		* re-enables the swipe plugin with the previous configuration
 		*/
@@ -295,6 +322,15 @@
 			$element.data(PLUGIN_NS, null);
 			return $element;
 		};
+
+        /**
+         * Get the options object, which includes all the handler functions.
+         * This is called from within the jQuery plugin function, so needs to be public.
+         */
+        this.getHandlers = function() {
+            return options;
+        };
+        
 
 		//Private methods
 		/**
@@ -482,12 +518,29 @@
 			startTime = 0;
 		}
 
+        // Utility function to invoke the handler(s).  The handlers argument might be null,
+        // a function, or an array of functions
+        function invokeHandlers(handlers, $element, args) {
+            var ret;
+            if (typeof handlers === "function") {
+                ret = handlers.apply($element, args);
+            }
+            else if ($.isArray(handlers)) {
+                for (var i = 0; i < handlers.length; ++i) {
+                    console.info("swipe handler " + i);
+                    ret = handlers[i].apply($element, args);
+                }
+            }
+            if (ret !== undefined) return ret;
+        }
 
 		/**
 		* Trigger the relevant event handler
-		* The handlers are passed the original event, the element that was swiped, and in the case of the catch all handler, the direction that was swiped, "left", "right", "up", or "down"
+		* The handlers are passed the original event, the element that was swiped, and in the case 
+        * of the catch all handler, the direction that was swiped, "left", "right", "up", or "down".
+        * Make this public, just for debugging, so swipe events can be simulated from the console.
 		*/
-		function triggerHandler(event, phase) {
+		var triggerHandler = this.triggerHandler = function(event, phase) {
 			var ret = undefined;
 
 			//update status
@@ -497,38 +550,44 @@
 
 			if (phase === PHASE_CANCEL) {
 				if (options.click && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
-					ret = options.click.call($element, event, event.target);
+                    ret = invokeHandlers(options.click, $element, [event, event.target]);
+					//ret = options.click.call($element, event, event.target);
 				}
 			}
 
 			if (phase == PHASE_END) {
 				//trigger catch all event handler
 				if (options.swipe) {
-					ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
+                    ret = invokeHandlers(options.swipe, $element, [event, direction, distance, duration]);
+					//ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
 				}
 				//trigger direction specific event handlers	
 				switch (direction) {
 					case LEFT:
 						if (options.swipeLeft) {
-							ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount);
+                            ret = invokeHandlers(options.swipeLeft, $element, [event, direction, distance, duration]);
+							//ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount);
 						}
 						break;
 
 					case RIGHT:
 						if (options.swipeRight) {
-							ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount);
+                            ret = invokeHandlers(options.swipeRight, $element, [event, direction, distance, duration]);
+							//ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount);
 						}
 						break;
 
 					case UP:
 						if (options.swipeUp) {
-							ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount);
+                            ret = invokeHandlers(options.swipeUp, $element, [event, direction, distance, duration]);
+							//ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount);
 						}
 						break;
 
 					case DOWN:
 						if (options.swipeDown) {
-							ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount);
+                            ret = invokeHandlers(options.swipeDown, $element, [event, direction, distance, duration]);
+							//ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount);
 						}
 						break;
 				}
