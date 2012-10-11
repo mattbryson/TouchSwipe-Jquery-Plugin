@@ -7,7 +7,7 @@
 * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
-* $version: 1.3.3
+* $version: 1.4.0
 *
 * Changelog
 * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -324,10 +324,6 @@
 		* Stops the default click event from triggering and stores where we touched
 		*/
 		function touchStart(event) {
-			console.log("start");
-			console.log(event);
-			
-			
 			//If we already in a touch event (a finger already in use) then ignore subsequent ones..
 			if( getTouchInProgress() )
 				return;
@@ -377,11 +373,6 @@
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				}
 				
-				
-				console.log("Set start ");
-				console.log(fingerData);
-					
-						
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
 				}
@@ -411,9 +402,6 @@
 		* If we change fingers during move, then cancel the event
 		*/
 		function touchMove(event) {
-		//	console.log("move");
-		//	console.log(event);
-			
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
 
@@ -441,14 +429,12 @@
 				//Keep track of the initial pinch distance, so we can calculate the diff later
 				//We do this here as well as the start event, incase they start with 1 finger, and the press 2 fingers
 				if(startTouchesDistance==0) {
-					console.log("no start so get one now in the move");
 					//Store second finger data as start
 					fingerData[1].start.x = event.touches[1].pageX;
 					fingerData[1].start.y = event.touches[1].pageY;
 					
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				} else {
-					console.log("we have start, so stroe end");
 					//Store second finger data as end
 					fingerData[1].end.x = event.touches[1].pageX;
 					fingerData[1].end.y = event.touches[1].pageY;
@@ -506,19 +492,13 @@
 		* Calculate the direction and trigger events
 		*/
 		function touchEnd(event) {
-			console.log("end");
-			console.log(event);
-			console.log(fingerData);
-			
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
 
 			//If we are still in a touch another finger is down, then dont cancel
-			if(event.touches.lenght>0)
+			if(event.touches && event.touches.length>0)
 				return true;
 				 
-
-			
 			event.preventDefault();
 
 			endTime = getTimeStamp();
@@ -538,16 +518,32 @@
 			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
 				phase = PHASE_END;
 
-				// check to see if more than one finger was used and that there is an ending coordinate
-				if (((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH) && fingerData[0].end.x !== 0) {
-					var cancel = !validateSwipeTime();
+				// Validate the types of swipe we are looking for
+				//Either we are listening for a pinch, and got one, or we are NOT listening so dont care.
+				var hasValidPinchResult = didPinch() || !hasPinches();
+				
+				//The number of fingers we want were matched, or on desktop we ignore
+				var hasCorrectFingerCount = ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH);
 
+				//We have an end value for the finger
+				var hasEndPoint = fingerData[0].end.x !== 0;
+				
+				//Check if the above conditions are met to make this swipe count...
+				var isSwipe = (hasCorrectFingerCount && hasEndPoint && hasValidPinchResult);
+				
+				//If we are in a swipe, validate the time and distance...
+				if (isSwipe) {
+					var hasValidTime = validateSwipeTime();
+					
+					//Check the distance meets threshold settings
+					var hasValidDistance = validateSwipeDistance();
+					
 					// if the user swiped more than the minimum length, perform the appropriate action
-					if ((validateSwipeDistance() === true || validateSwipeDistance() === null) && !cancel) //null is retuned when no distance is set
-					{
+					// hasValidDistance is null when no distance is set 
+					if ((hasValidDistance === true || hasValidDistance === null) && hasValidTime) {
 						triggerHandler(event, phase);
 					}
-					else if (cancel || validateSwipeDistance() === false) {
+					else if (!hasValidTime || hasValidDistance === false) {
 						phase = PHASE_CANCEL;
 						triggerHandler(event, phase);
 					}
@@ -596,7 +592,7 @@
 				ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount);
 			}
 			
-			if (options.pinchStatus) {
+			if (options.pinchStatus && didPinch()) {
 				ret = options.pinchStatus.call($element, event, phase, pinchDirection || null, endTouchesDistance || 0, duration || 0, fingerCount, pinchZoom);
 			}
 
@@ -850,6 +846,15 @@
 		function hasPinches() {
 			return options.pinchStatus || options.pinchIn || options.pinchOut;
 		}
+		
+		/**
+		 * Returns true if we are detecting pinches, and have one
+		 */
+		function didPinch() {
+			return pinchDirection && hasPinches();
+		}
+		
+
 		
 		/**
 		* gets a data flag to indicate that a touch is in progress

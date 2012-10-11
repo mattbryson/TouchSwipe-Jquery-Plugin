@@ -9,7 +9,7 @@
 		<?php endif; ?>
 		
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
 		
 			<script type="text/javascript" src="../prettify/prettify.js"></script>
 		<link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
