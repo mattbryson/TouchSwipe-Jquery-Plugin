@@ -56,7 +56,7 @@
 * $version: 1.4.0	- Added pinch support, pinchIn and pinchOut
 *
 * $Date: 2012-11-10 (Thurs, 11 Oct 2012) $
-* $version: 1.5.0	- Added excludedElements, an array of jquery selectors that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
+* $version: 1.5.0	- Added excludedElements, a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
  *
 * A jQuery plugin to capture left, right, up and down swipes on touch devices.
 * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
@@ -85,7 +85,7 @@
 *										"vertical" : will force page to scroll on vertical swipes.
 *		fallbackToMouseEvents 	Boolean		Default true	if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
 *
-*		excludedElements	Array 	an array of jquery selectors that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
+*		excludedElements	String 	jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all input, select, textarea, button and anchor elements as well as any .noSwipe classes.
 *
 * Methods: To be executed as strings, $el.swipe('disable');
 *		disable		Will disable all touch events until enabled again
@@ -156,7 +156,7 @@
 									*/
 		fallbackToMouseEvents: true,	//Boolean, if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
 		
-		excludedElements:["button, input, select, texarea, a"] //An array, so use could simply add to this list if they require, or replace it with their own.
+		excludedElements:"button, input, select, textarea, a, .noSwipe, " //a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
 	};
 
 
@@ -336,11 +336,8 @@
 			if( getTouchInProgress() )
 				return;
 			
-			//TODO: check this works, and write demo / test case for it
-			console.log( event );
-			
-			//Check if this element matches any in the excluded elements selectors, if so, DONT swipe
-			if( $(event.target).is( excludedElements.join(",") )
+			//Check if this element matches any in the excluded elements selectors,  or its parent is excluded, if so, DONT swipe
+			if( $(event.target).closest( options.excludedElements, $element ).length>0 ) 
 				return;
 				
 			//As we use Jquery bind for events, we need to target the original event object
