@@ -36,8 +36,9 @@
 		
 		<?php include "partials/title.php" ?>
 		<h4>property: excludedElements Array</h4>
-		<p>If you want to exclude certain child elements from triggering swipes, you can add a jQuery selector to exclude children.  By default all <i>button</i>, <i>input</i>, <i>select</i>, <i>textarea</i> and <i>a</i> elements are excluded. Along with any element with <i>.noSwipe</i> as a class.
-		So either add a <i>.noSwipe</i> class the element, or parent of the elements you dont want to swipe, or append to the excludedElements property
+		<p>If you want to exclude certain child elements from triggering swipes, you can simply add a "<i>.noSwipe</i>" class to the element.  Then the element and any of its children will no longer trigger the swipe.
+		<p>Also, a jQuery selector is used to exclude input elements as well as the .noSwipe elements.  By default all <i>button</i>, <i>input</i>, <i>select</i>, <i>textarea</i> and <i>a</i> elements are excluded.		
+		So either add a <i>.noSwipe</i> class the element, or set your own selector in the excludedElements property.
 		<pre class="prettyprint lang-js">
 
 var swipeCount1=0;
