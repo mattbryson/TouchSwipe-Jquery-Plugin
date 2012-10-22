@@ -7,7 +7,7 @@
 * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
-* $version: 1.4.0
+* $version: 1.5.1
 *
 * Changelog
 * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
@@ -57,7 +57,10 @@
 *
 * $Date: 2012-11-10 (Thurs, 11 Oct 2012) $
 * $version: 1.5.0	- Added excludedElements, a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
- *
+*
+* $Date: 2012-22-10 (Mon, 22 Oct 2012) $
+* $version: 1.5.1	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
+*
 * A jQuery plugin to capture left, right, up and down swipes on touch devices.
 * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
 * Options: The defaults can be overridden by setting them in $.fn.swipe.defaults
@@ -156,7 +159,7 @@
 									*/
 		fallbackToMouseEvents: true,	//Boolean, if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
 		
-		excludedElements:"button, input, select, textarea, a, .noSwipe, " //a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
+		excludedElements:"button, input, select, textarea, a, .noSwipe" //a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
 	};
 
 
