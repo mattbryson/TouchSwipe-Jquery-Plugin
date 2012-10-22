@@ -87,12 +87,14 @@
 						<h1>Features</h1>
 						<ul>
 							<li>Detects swipes in 4 directions, "up", "down", "left" and "right"</li>
+							<li>Detects pinches "in" and "out"</li>
 							<li>Supports single finger or double finger touch events</li>
 							<li>Supports click events both on the touchSwipe object and its child objects</li>
 							<li>Definable threshold / maxTimeThreshold to determin when a gesture is actually a swipe</li>
 							<li>Events triggered for swipe "start","move","end" and "cancel"</li>
 							<li>End event can be triggered either on touch release, or as soon as threshold is met</li>
 							<li>Allows swiping and page scrolling</li>
+							<li>Disables user input elements (Button, form, text etc) from triggering swipes</li>
 							
 						</ul>
 							
@@ -119,11 +121,33 @@
 						<dt><b>swipeStatus</b></dt>	
 						<dd>Function:null A handler triggered for every phase of the swipe. <dl><dt>Handler is passed 4 arguments</dt>
 						<dd>event : The original event object<br/>
-						phase:The current swipe face, either "start", "move", "end" or "cancel".<br/>
+						phase:The current swipe phase, either "start", "move", "end" or "cancel".<br/>
 						direction : The swipe direction, either "up", "down", "left " or "right".<br/>
 						distance : The distance of the swipe.<br/>
 						duration : The duration of the swipe.</dd></dl>
 
+						<dt><b>pinchIn</b></dt>				
+						<dd>Function:null A handler triggered for pinch inwards events.<dl><dt> Handler is passed 4 arguments</dt> 
+						<dd>event : The original event object<br/>
+						direction : "in"<br/>
+						distance : The distance of the pinch<br/>
+						zoom: the pinch zoom level</dd></dl>
+						
+						<dt><b>pinchOut</b></dt>
+						<dd>Function:null A handler triggered when the user pinch zooms outwards. <dl><dt> Handler is passed 4 arguments</dt> 
+						<dd>event : The original event object<br/>
+						direction : "out"<br/>
+						distance : The distance of the pinch<br/>
+						zoom: the pinch zoom level</dd></dl>
+						
+						<dt><b>pinchStatus</b></dt>
+						<dd>Function:null A handler triggered for every phase of a pinch. <dl><dt> Handler is passed 4 arguments</dt> 
+						<dd>event : The original event object<br/>
+						phase:The current swipe phase, either "start", "move", "end" or "cancel".<br/>
+						direction : either "in" or "out"<br/>
+						distance : The distance of the pinch<br/>
+						zoom: the pinch zoom level</dd></dl>
+						
 						<dt><b>click</b></dt>			
 						<dd>Function:null A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
 						<dl><dt>Handler is passed 2 arguments</dt></dl>
@@ -152,6 +176,11 @@
  										<br>"horizontal" : will force page to scroll on horizontal swipes.
  										<br>"vertical" : will force page to scroll on vertical swipes.</dd>
 									</dd>
+						<br/>			
+						<dt><b>excludedElements</b></dt> 	
+						<dd>String:"button, input, select, textarea, a, .noSwipe" a jquery selector that specifies child elements that do NOT trigger swipes. By default this removes all form, input select, button and anchor elements.
+						To Append to this list, use $.fn.swipe.defaults.excludedElements+", #some_other_div"
+						<br/>			
 						
 						</dl>
 						
