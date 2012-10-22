@@ -27,8 +27,8 @@
 						threshold:0,
 						//By default the value of $.fn.swipe.defaults.excludedElements is "button, input, select, textarea, a, .noSwipe, "
 						//To replace or clear the list, re set the excludedElements array.
-						//To append to it, do the following...
-						excludedElements:$.fn.swipe.defaults.excludedElements+"#some_other_div"
+						//To append to it, do the following (dont forget the proceeding comma) ...
+						excludedElements:$.fn.swipe.defaults.excludedElements+", #some_other_div"
 				});
 				
 			});
@@ -63,8 +63,8 @@ $("#test2").swipe( {
   threshold:0,
   //By default the value of $.fn.swipe.defaults.excludedElements is "button, input, select, textarea, a, .noSwipe, "
   //To replace or clear the list, re set the excludedElements array.
-  //To append to it, do the following...
-  excludedElements:$.fn.swipe.defaults.excludedElements+"#some_other_div"
+  //To append to it, do the following (dont forget the proceeding comma) ...
+  excludedElements:$.fn.swipe.defaults.excludedElements+", #some_other_div"
 });		
 		</pre>
 		<?php  echo get_pagination();?>
