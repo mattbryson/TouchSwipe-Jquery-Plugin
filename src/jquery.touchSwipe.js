@@ -60,6 +60,7 @@
 *
 * $Date: 2012-22-10 (Mon, 22 Oct 2012) $
 * $version: 1.5.1	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
+					- Fixed bug with IE and eventPreventDefault()
 *
 * A jQuery plugin to capture left, right, up and down swipes on touch devices.
 * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
@@ -141,8 +142,8 @@
 		swipeDown: null, 	// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
 		swipeStatus: null, 	// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe phase, either "start, "move, "end or "cancel. direction : The swipe direction, either "up", "down", "left" or "right". distance : The distance of the swipe, fingerCount: The finger count.
 		
-		pinchIn:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : "in". distance : The distance of the pinch, zoom: the pinch zoom level
-		pinchOut:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : "out". distance : The distance of the pinch, zoom: the pinch zoom level
+		pinchIn:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
+		pinchOut:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
 		pinchStatus:null,	// Function - A handler triggered for every phase of a pinch. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start", "move", "end" or "cancel". direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
 		
 		
@@ -334,17 +335,17 @@
 		* Event handler for a touch start event. 
 		* Stops the default click event from triggering and stores where we touched
 		*/
-		function touchStart(event) {
+		function touchStart(jqEvent) {
 			//If we already in a touch event (a finger already in use) then ignore subsequent ones..
 			if( getTouchInProgress() )
 				return;
 			
 			//Check if this element matches any in the excluded elements selectors,  or its parent is excluded, if so, DONT swipe
-			if( $(event.target).closest( options.excludedElements, $element ).length>0 ) 
+			if( $(jqEvent.target).closest( options.excludedElements, $element ).length>0 ) 
 				return;
 				
 			//As we use Jquery bind for events, we need to target the original event object
-			event = event.originalEvent;
+			var event = jqEvent.originalEvent;
 			
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
@@ -358,7 +359,7 @@
 			}
 			//Else this is the desktop, so stop the browser from dragging the image
 			else {
-				event.preventDefault();
+				jqEvent.preventDefault(); //call this on jq event so we are cross browser
 			}
 
 			//clear vars..
@@ -416,9 +417,9 @@
 		* Event handler for a touch move event. 
 		* If we change fingers during move, then cancel the event
 		*/
-		function touchMove(event) {
+		function touchMove(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
-			event = event.originalEvent;
+			var event = jqEvent.originalEvent;
 
 			if (phase === PHASE_END || phase === PHASE_CANCEL)
 				return;
@@ -467,7 +468,7 @@
 			if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH) {
 				
 				//Check if we need to prevent default evnet (page scroll / pinch zoom) or not
-				validateDefaultEvent(event, direction);
+				validateDefaultEvent(jqEvent, direction);
 
 				//Distance and duration are all off the main finger
 				distance = calculateDistance(fingerData[0].start, fingerData[0].end);
@@ -506,15 +507,15 @@
 		* Event handler for a touch end event. 
 		* Calculate the direction and trigger events
 		*/
-		function touchEnd(event) {
+		function touchEnd(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
-			event = event.originalEvent;
+			var event = jqEvent.originalEvent;
 
 			//If we are still in a touch another finger is down, then dont cancel
 			if(event.touches && event.touches.length>0)
 				return true;
 				 
-			event.preventDefault();
+			jqEvent.preventDefault(); //call this on jq event so we are cross browser
 
 			endTime = getTimeStamp();
 			
@@ -713,34 +714,34 @@
 		* Checks direction of the swipe and the value allowPageScroll to see if we should allow or prevent the default behaviour from occurring.
 		* This will essentially allow page scrolling or not when the user is swiping on a touchSwipe object.
 		*/
-		function validateDefaultEvent(event, direction) {
+		function validateDefaultEvent(jqEvent, direction) {
 			if (options.allowPageScroll === NONE || hasPinches()) {
-				event.preventDefault();
+				jqEvent.preventDefault();
 			} else {
 				var auto = options.allowPageScroll === AUTO;
 
 				switch (direction) {
 					case LEFT:
 						if ((options.swipeLeft && auto) || (!auto && options.allowPageScroll != HORIZONTAL)) {
-							event.preventDefault();
+							jqEvent.preventDefault();
 						}
 						break;
 
 					case RIGHT:
 						if ((options.swipeRight && auto) || (!auto && options.allowPageScroll != HORIZONTAL)) {
-							event.preventDefault();
+							jqEvent.preventDefault();
 						}
 						break;
 
 					case UP:
 						if ((options.swipeUp && auto) || (!auto && options.allowPageScroll != VERTICAL)) {
-							event.preventDefault();
+							jqEvent.preventDefault();
 						}
 						break;
 
 					case DOWN:
 						if ((options.swipeDown && auto) || (!auto && options.allowPageScroll != VERTICAL)) {
-							event.preventDefault();
+							jqEvent.preventDefault();
 						}
 						break;
 				}
