@@ -23,6 +23,7 @@ https://github.com/cowgp/xui-touchSwipe
 
 * **1.5.1** *2012-11-22*	
 	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
+	- Fixed bug with IE and event.preventDefault();
 * **1.5.0** *2012-11-10*
 	- Added `excludedElements`, a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
 * **1.4.0** *2012-04-10*
