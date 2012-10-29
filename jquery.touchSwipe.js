@@ -344,10 +344,11 @@
 				return;
 				
 			//As we use Jquery bind for events, we need to target the original event object
+                        var jqEvent = event; // jQuery event, not the original
 			event = event.originalEvent;
 			
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				evt = SUPPORTS_TOUCH ? event.touches[0] : jqEvent;
 
 			phase = PHASE_START;
 
@@ -358,7 +359,7 @@
 			}
 			//Else this is the desktop, so stop the browser from dragging the image
 			else {
-				event.preventDefault();
+				jqEvent.preventDefault();
 			}
 
 			//clear vars..
@@ -417,6 +418,7 @@
 		* If we change fingers during move, then cancel the event
 		*/
 		function touchMove(event) {
+                        var jqEvent = event;
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
 
@@ -424,7 +426,7 @@
 				return;
 
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				evt = SUPPORTS_TOUCH ? event.touches[0] : jqEvent;
 
 			//Save the first finger data
 			fingerData[0].end.x = SUPPORTS_TOUCH ? event.touches[0].pageX : evt.pageX;
@@ -467,7 +469,7 @@
 			if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH) {
 				
 				//Check if we need to prevent default evnet (page scroll / pinch zoom) or not
-				validateDefaultEvent(event, direction);
+				validateDefaultEvent(jqEvent, direction);
 
 				//Distance and duration are all off the main finger
 				distance = calculateDistance(fingerData[0].start, fingerData[0].end);
@@ -507,6 +509,7 @@
 		* Calculate the direction and trigger events
 		*/
 		function touchEnd(event) {
+                        var jqEvent = event;
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
 
@@ -514,7 +517,7 @@
 			if(event.touches && event.touches.length>0)
 				return true;
 				 
-			event.preventDefault();
+			jqEvent.preventDefault();
 
 			endTime = getTimeStamp();
 			
