@@ -351,7 +351,7 @@
 			var event = jqEvent.originalEvent;
 
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				evtData = SUPPORTS_TOUCH ? event.touches[0] : event;
 
 			phase = PHASE_START;
 
@@ -379,8 +379,8 @@
 			// check the number of fingers is what we are looking for, or we are capturing pinches
 			if (!SUPPORTS_TOUCH || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
 				// get the coordinates of the touch
-				fingerData[0].start.x = fingerData[0].end.x = evt.pageX;
-				fingerData[0].start.y = fingerData[0].end.y = evt.pageY;
+				fingerData[0].start.x = fingerData[0].end.x = evtData.pageX;
+				fingerData[0].start.y = fingerData[0].end.y = evtData.pageY;
 				startTime = getTimeStamp();
 
 				if(fingerCount==2) {
@@ -428,11 +428,11 @@
 				return;
 
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				evtData = SUPPORTS_TOUCH ? event.touches[0] : event;
 
 			//Save the first finger data
-			fingerData[0].end.x = SUPPORTS_TOUCH ? event.touches[0].pageX : evt.pageX;
-			fingerData[0].end.y = SUPPORTS_TOUCH ? event.touches[0].pageY : evt.pageY;
+			fingerData[0].end.x = evtData.pageX;
+			fingerData[0].end.y = evtData.pageY;
 
 			endTime = getTimeStamp();
 
