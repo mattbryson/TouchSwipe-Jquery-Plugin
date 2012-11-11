@@ -7,11 +7,11 @@
 * Copyright (c) 2010 Matt Bryson (www.skinkers.com)
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
-* $version: 1.5.1
+* $version: 1.6.0
 *
 * Changelog
 * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
-* $version: 1.0.0 
+* $version: 1.0.0
 * $version: 1.0.1 - removed multibyte comments
 *
 * $Date: 2011-21-02 (Mon, 21 Feb 2011) $
@@ -22,7 +22,7 @@
 *					- If you use the http://code.google.com/p/jquery-ui-for-ipad-and-iphone/ plugin, you can also assign jQuery mouse events to children of a touchSwipe object.
 * $version: 1.2.1 	- removed console log!
 *
-* $version: 1.2.2 	- Fixed bug where scope was not preserved in callback methods. 
+* $version: 1.2.2 	- Fixed bug where scope was not preserved in callback methods.
 *
 * $Date: 2011-28-04 (Thurs, 28 April 2011) $
 * $version: 1.2.4 	- Changed licence terms to be MIT or GPL inline with jQuery. Added check for support of touch events to stop non compatible browsers erroring.
@@ -32,7 +32,7 @@
 *
 * $Date: 2012-14-05 (Mon, 14 May 2012) $
 * $version: 1.2.6 	- Added timeThreshold between start and end touch, so user can ignore slow swipes (thanks to Mark Chase). Default is null, all swipes are detected
-* 
+*
 * $Date: 2012-05-06 (Tues, 05 June 2012) $
 * $version: 1.2.7 	- Changed time threshold to have null default for backwards compatibility. Added duration param passed back in events, and refactored how time is handled.
 *
@@ -60,7 +60,10 @@
 *
 * $Date: 2012-22-10 (Mon, 22 Oct 2012) $
 * $version: 1.5.1	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
-					- Fixed bug with IE and eventPreventDefault()
+*					- Fixed bug with IE and eventPreventDefault()
+* $Date: 2012-22-10 (Sun, 11 Nov 2012) $
+* $version: 1.6.0	- Small code tidy
+*
 *
 * A jQuery plugin to capture left, right, up and down swipes on touch devices.
 * You can capture 2 finger or 1 finger swipes, set the threshold and define either a catch all handler, or individual direction handlers.
@@ -71,18 +74,18 @@
 * 		swipeUp			Function 	A handler that is triggered for "up" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down" , the distance of the swipe, the duration of the swipe and the finger count.
 * 		swipeDown		Function 	A handler that is triggered for "down" swipes. Handler is passed 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down"  , the distance of the swipe, the duration of the swipe and the finger count.
 *		swipeStatus 	Function 	A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe phase, either "start", "move", "end" or "cancel". direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe.Duration : The duration of the swipe :  The finger count
-*		
-* 		pinchIn			Function 	A handler triggered when the user pinch zooms inward. Handler is passed 
+*
+* 		pinchIn			Function 	A handler triggered when the user pinch zooms inward. Handler is passed
 * 		pinchOut		Function 	A handler triggered when the user pinch zooms outward. Handler is passed
 * 		pinchStatus		Function 	A handler triggered for every phase of a pinch. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start", "move", "end" or "cancel". direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
-* 		
+*
 * 		click			Function	A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
 *
 * 		fingers 		int 		Default 1. 	The number of fingers to trigger the swipe, 1 or 2.
 * 		threshold 		int  		Default 75.	The number of pixels that the user must move their finger by before it is considered a swipe.
 * 		maxTimeThreshold 	int  		Default null. Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe.
 *		triggerOnTouchEnd Boolean Default true If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
-*		allowPageScroll String Default "auto". How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
+*		allowPageScroll String Default "auto". How the browser handles page scrolls when the user is swiping on a touchSwipe object.
 *										"auto" : all undefined swipes will cause the page to scroll in that direction.
 *										"none" : the page will not scroll when user swipes.
 *										"horizontal" : will force page to scroll on horizontal swipes.
@@ -141,25 +144,25 @@
 		swipeUp: null, 		// Function - A handler that is triggered for "up" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
 		swipeDown: null, 	// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
 		swipeStatus: null, 	// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe phase, either "start, "move, "end or "cancel. direction : The swipe direction, either "up", "down", "left" or "right". distance : The distance of the swipe, fingerCount: The finger count.
-		
+
 		pinchIn:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
 		pinchOut:null,		// Function - A handler triggered for pinch in events. Handler is passed 4 arguments: event : The original event object, direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
 		pinchStatus:null,	// Function - A handler triggered for every phase of a pinch. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start", "move", "end" or "cancel". direction : The swipe direction, either "in" or "out". distance : The distance of the pinch, zoom: the pinch zoom level
-		
-		
-		
+
+
+
 		click: null, 		// Function	- A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
-		
-		
+
+
 		triggerOnTouchEnd: true, // Boolean, if true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
-		allowPageScroll: "auto", 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
+		allowPageScroll: "auto", 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object.
 										"auto" : all undefined swipes will cause the page to scroll in that direction.
 										"none" : the page will not scroll when user swipes.
 										"horizontal" : will force page to scroll on horizontal swipes.
 										"vertical" : will force page to scroll on vertical swipes.
 									*/
 		fallbackToMouseEvents: true,	//Boolean, if true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices
-		
+
 		excludedElements:"button, input, select, textarea, a, .noSwipe" //a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
 	};
 
@@ -174,7 +177,7 @@
 		var $this = $(this),
 			plugin = $this.data(PLUGIN_NS);
 
-		//Check if we are already instantiated and trying to execute a method	
+		//Check if we are already instantiated and trying to execute a method
 		if (plugin && typeof method === 'string') {
 			if (plugin[method]) {
 				return plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -210,7 +213,7 @@
 		IN : IN,
 		OUT: OUT
 	};
-	
+
 	//Expose our page scroll directions - READ ONLY
 	$.fn.swipe.pageScroll = {
 		NONE: NONE,
@@ -229,7 +232,7 @@
 
 	/**
 	* Initialise the plugin for each DOM element matched
-	* This creates a new instance of the main TouchSwipe class for each DOM element, and then 
+	* This creates a new instance of the main TouchSwipe class for each DOM element, and then
 	* saves a reference to that instance in the elements data property.
 	*/
 	function init(options) {
@@ -276,14 +279,14 @@
 		var endTouchesDistance=0;
 		var pinchZoom = 1;
 		var pinchDirection=0;
-		
-		
+
+
 		//jQuery wrapped element for this instance
 		var $element = $(element);
 
 		var phase = "start";
 
-		var fingerCount = 0; 		// the current number of fingers being used.	
+		var fingerCount = 0; 		// the current number of fingers being used.
 
 		//track mouse points / delta
 		var fingerData=null;
@@ -332,21 +335,21 @@
 
 		//Private methods
 		/**
-		* Event handler for a touch start event. 
+		* Event handler for a touch start event.
 		* Stops the default click event from triggering and stores where we touched
 		*/
 		function touchStart(jqEvent) {
 			//If we already in a touch event (a finger already in use) then ignore subsequent ones..
 			if( getTouchInProgress() )
 				return;
-			
+
 			//Check if this element matches any in the excluded elements selectors,  or its parent is excluded, if so, DONT swipe
-			if( $(jqEvent.target).closest( options.excludedElements, $element ).length>0 ) 
+			if( $(jqEvent.target).closest( options.excludedElements, $element ).length>0 )
 				return;
-				
+
 			//As we use Jquery bind for events, we need to target the original event object
 			var event = jqEvent.originalEvent;
-			
+
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
 
@@ -372,23 +375,23 @@
 			pinchZoom = 1;
 			fingerData=createFingerData();
 
-			
+
 			// check the number of fingers is what we are looking for, or we are capturing pinches
 			if (!SUPPORTS_TOUCH || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
 				// get the coordinates of the touch
 				fingerData[0].start.x = fingerData[0].end.x = evt.pageX;
 				fingerData[0].start.y = fingerData[0].end.y = evt.pageY;
 				startTime = getTimeStamp();
-				
+
 				if(fingerCount==2) {
 					//Keep track of the initial pinch distance, so we can calculate the diff later
 					//Store second finger data as start
 					fingerData[1].start.x = fingerData[1].end.x = event.touches[1].pageX;
 					fingerData[1].start.y = fingerData[1].end.y = event.touches[1].pageY;
-					
+
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				}
-				
+
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
 				}
@@ -409,12 +412,12 @@
 				setTouchInProgress(true);
 				$element.bind(MOVE_EV, touchMove);
 				$element.bind(END_EV, touchEnd);
-				
+
 			}
 		};
 
 		/**
-		* Event handler for a touch move event. 
+		* Event handler for a touch move event.
 		* If we change fingers during move, then cancel the event
 		*/
 		function touchMove(jqEvent) {
@@ -430,7 +433,7 @@
 			//Save the first finger data
 			fingerData[0].end.x = SUPPORTS_TOUCH ? event.touches[0].pageX : evt.pageX;
 			fingerData[0].end.y = SUPPORTS_TOUCH ? event.touches[0].pageY : evt.pageY;
-			
+
 			endTime = getTimeStamp();
 
 			direction = calculateDirection(fingerData[0].start, fingerData[0].end);
@@ -448,25 +451,25 @@
 					//Store second finger data as start
 					fingerData[1].start.x = event.touches[1].pageX;
 					fingerData[1].start.y = event.touches[1].pageY;
-					
+
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				} else {
 					//Store second finger data as end
 					fingerData[1].end.x = event.touches[1].pageX;
 					fingerData[1].end.y = event.touches[1].pageY;
-					
+
 					endTouchesDistance = calculateTouchesDistance(fingerData[0].end, fingerData[1].end);
 					pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);
 				}
-				
-				
+
+
 				pinchZoom = calculatePinchZoom(startTouchesDistance, endTouchesDistance);
 			}
-			
-			
-			
+
+
+
 			if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH) {
-				
+
 				//Check if we need to prevent default evnet (page scroll / pinch zoom) or not
 				validateDefaultEvent(jqEvent, direction);
 
@@ -504,7 +507,7 @@
 		}
 
 		/**
-		* Event handler for a touch end event. 
+		* Event handler for a touch end event.
 		* Calculate the direction and trigger events
 		*/
 		function touchEnd(jqEvent) {
@@ -514,18 +517,18 @@
 			//If we are still in a touch another finger is down, then dont cancel
 			if(event.touches && event.touches.length>0)
 				return true;
-				 
+
 			jqEvent.preventDefault(); //call this on jq event so we are cross browser
 
 			endTime = getTimeStamp();
-			
+
 			//If we have any touches distance data (they pinched at some point) get Touches distance as well
 			if(startTouchesDistance!=0) {
 				endTouchesDistance = calculateTouchesDistance(fingerData[0].end, fingerData[1].end);
 				pinchZoom = calculatePinchZoom(startTouchesDistance, endTouchesDistance);
-				pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);	
+				pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);
 			}
-			
+
 			distance = calculateDistance(fingerData[0].start, fingerData[0].end);
 			direction = calculateDirection(fingerData[0].start, fingerData[0].end);
 			duration = calculateDuration();
@@ -537,25 +540,25 @@
 				// Validate the types of swipe we are looking for
 				//Either we are listening for a pinch, and got one, or we are NOT listening so dont care.
 				var hasValidPinchResult = didPinch() || !hasPinches();
-				
+
 				//The number of fingers we want were matched, or on desktop we ignore
 				var hasCorrectFingerCount = ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH);
 
 				//We have an end value for the finger
 				var hasEndPoint = fingerData[0].end.x !== 0;
-				
+
 				//Check if the above conditions are met to make this swipe count...
 				var isSwipe = (hasCorrectFingerCount && hasEndPoint && hasValidPinchResult);
-				
+
 				//If we are in a swipe, validate the time and distance...
 				if (isSwipe) {
 					var hasValidTime = validateSwipeTime();
-					
+
 					//Check the distance meets threshold settings
 					var hasValidDistance = validateSwipeDistance();
-					
+
 					// if the user swiped more than the minimum length, perform the appropriate action
-					// hasValidDistance is null when no distance is set 
+					// hasValidDistance is null when no distance is set
 					if ((hasValidDistance === true || hasValidDistance === null) && hasValidTime) {
 						triggerHandler(event, phase);
 					}
@@ -576,12 +579,12 @@
 
 			$element.unbind(MOVE_EV, touchMove, false);
 			$element.unbind(END_EV, touchEnd, false);
-			
+
 			setTouchInProgress(false);
 		}
 
 		/**
-		* Event handler for a touch cancel event. 
+		* Event handler for a touch cancel event.
 		* Clears current vars
 		*/
 		function touchCancel() {
@@ -607,7 +610,7 @@
 			if (options.swipeStatus) {
 				ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount);
 			}
-			
+
 			if (options.pinchStatus && didPinch()) {
 				ret = options.pinchStatus.call($element, event, phase, pinchDirection || null, endTouchesDistance || 0, duration || 0, fingerCount, pinchZoom);
 			}
@@ -617,13 +620,13 @@
 					ret = options.click.call($element, event, event.target);
 				}
 			}
-			
+
 			if (phase == PHASE_END) {
 				//trigger catch all event handler
 				if (options.swipe) {
 					ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
 				}
-				//trigger direction specific event handlers	
+				//trigger direction specific event handlers
 				switch (direction) {
 					case LEFT:
 						if (options.swipeLeft) {
@@ -649,20 +652,20 @@
 						}
 						break;
 				}
-				
-				
+
+
 				switch (pinchDirection) {
 					case IN:
 						if (options.pinchIn) {
 							ret = options.pinchIn.call($element, event, pinchDirection || null, endTouchesDistance || 0, duration || 0, fingerCount, pinchZoom);
 						}
 						break;
-					
+
 					case OUT:
 						if (options.pinchOut) {
 							ret = options.pinchOut.call($element, event, pinchDirection || null, endTouchesDistance || 0, duration || 0, fingerCount, pinchZoom);
 						}
-						break;	
+						break;
 				}
 			}
 
@@ -756,17 +759,17 @@
 		function calculateDuration() {
 			return endTime - startTime;
 		}
-		
+
 		/**
 		* Calculate the distance between 2 touches (pinch)
 		*/
 		function calculateTouchesDistance(startPoint, endPoint) {
 			var diffX = Math.abs(startPoint.x - endPoint.x);
 			var diffY = Math.abs(startPoint.y - endPoint.y);
-				
+
 			return Math.round(Math.sqrt(diffX*diffX+diffY*diffY));
 		}
-		
+
 		/**
 		* Calculate the zoom factor between the start and end distances
 		*/
@@ -774,8 +777,8 @@
 			var percent = (endDistance/startDistance) * 1;
 			return percent.toFixed(2);
 		}
-		
-		
+
+
 		/**
 		* Returns the pinch direction, either IN or OUT for the given points
 		*/
@@ -787,8 +790,8 @@
 				return IN;
 			}
 		}
-		
-		
+
+
 		/**
 		* Calculate the length / distance of the swipe
 		* @param finger A finger object containing start and end points
@@ -835,7 +838,7 @@
 				return UP;
 			}
 		}
-		
+
 
 		/**
 		* Returns a MS time stamp of the current time
@@ -855,38 +858,38 @@
 			$element.unbind(END_EV, touchEnd);
 			setTouchInProgress(false);
 		}
-		
+
 		/**
 		 * Returns true if any Pinch events have been registered
 		 */
 		function hasPinches() {
 			return options.pinchStatus || options.pinchIn || options.pinchOut;
 		}
-		
+
 		/**
 		 * Returns true if we are detecting pinches, and have one
 		 */
 		function didPinch() {
 			return pinchDirection && hasPinches();
 		}
-		
 
-		
+
+
 		/**
 		* gets a data flag to indicate that a touch is in progress
 		*/
 		function getTouchInProgress() {
-			return $element.data(PLUGIN_NS+'_intouch') === true ? true : false;
+			return $element.data(PLUGIN_NS+'_intouch') === true;
 		}
-		
+
 		/**
 		* Sets a data flag to indicate that a touch is in progress
 		*/
 		function setTouchInProgress(val) {
-			val = val===true?true:false;
+			val = val===true;
 			$element.data(PLUGIN_NS+'_intouch', val);
 		}
-		
+
 		function createFingerData() {
 			var fingerData=[];
 			for (var i=0; i<=5; i++) {
@@ -896,7 +899,7 @@
 					delta:{ x: 0, y: 0 }
 				});
 			}
-			
+
 			return fingerData;
 		}
 
