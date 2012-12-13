@@ -411,7 +411,7 @@
 				$element.bind(END_EV, touchEnd);
 				
 			}
-		};
+		}
 
 		/**
 		* Event handler for a touch move event. 
@@ -696,11 +696,7 @@
 			//If no time set, then return true
 
 			if (options.maxTimeThreshold) {
-				if (duration >= options.maxTimeThreshold) {
-					result = false;
-				} else {
-					result = true;
-				}
+				result = duration < options.maxTimeThreshold;
 			}
 			else {
 				result = true;
@@ -771,7 +767,7 @@
 		* Calculate the zoom factor between the start and end distances
 		*/
 		function calculatePinchZoom(startDistance, endDistance) {
-			var percent = (endDistance/startDistance) * 1;
+			var percent = (endDistance / startDistance);
 			return percent.toFixed(2);
 		}
 		
@@ -877,14 +873,14 @@
 		* gets a data flag to indicate that a touch is in progress
 		*/
 		function getTouchInProgress() {
-			return $element.data(PLUGIN_NS+'_intouch') === true ? true : false;
+			return !!($element.data(PLUGIN_NS + '_intouch') === true);
 		}
 		
 		/**
 		* Sets a data flag to indicate that a touch is in progress
 		*/
 		function setTouchInProgress(val) {
-			val = val===true?true:false;
+			val = !!(val === true);
 			$element.data(PLUGIN_NS+'_intouch', val);
 		}
 		
