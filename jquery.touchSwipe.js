@@ -790,7 +790,6 @@
 		
 		/**
 		* Calculate the length / distance of the swipe
-		* @param finger A finger object containing start and end points
 		*/
 		function calculateDistance(startPoint, endPoint) {
 			return Math.round(Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2)));
@@ -798,7 +797,8 @@
 
 		/**
 		* Calculate the angle of the swipe
-		* @param finger A finger object containing start and end points
+		* @param startPoint
+		* @param endPoint
 		*/
 		function calculateAngle(startPoint, endPoint) {
 			var x = startPoint.x - endPoint.x;
@@ -817,7 +817,8 @@
 		/**
 		* Calculate the direction of the swipe
 		* This will also call calculateAngle to get the latest angle of swipe
-		* @param finger A finger object containing start and end points
+		* @param startPoint
+		* @param endPoint
 		*/
 		function calculateDirection(startPoint, endPoint ) {
 			var angle = calculateAngle(startPoint, endPoint);
