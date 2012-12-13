@@ -98,6 +98,7 @@
 * This jQuery plugin will only run on devices running Mobile Webkit based browsers (iOS 2.0+, android 2.2+)
 */
 (function ($) {
+	"use strict";
 
 	//Constants
 	var LEFT = "left",
@@ -410,7 +411,7 @@
 				$element.bind(END_EV, touchEnd);
 				
 			}
-		};
+		}
 
 		/**
 		* Event handler for a touch move event. 
@@ -695,11 +696,7 @@
 			//If no time set, then return true
 
 			if (options.maxTimeThreshold) {
-				if (duration >= options.maxTimeThreshold) {
-					result = false;
-				} else {
-					result = true;
-				}
+				result = duration < options.maxTimeThreshold;
 			}
 			else {
 				result = true;
@@ -770,7 +767,7 @@
 		* Calculate the zoom factor between the start and end distances
 		*/
 		function calculatePinchZoom(startDistance, endDistance) {
-			var percent = (endDistance/startDistance) * 1;
+			var percent = (endDistance / startDistance);
 			return percent.toFixed(2);
 		}
 		
@@ -790,17 +787,17 @@
 		
 		/**
 		* Calculate the length / distance of the swipe
-		* @param finger A finger object containing start and end points
 		*/
 		function calculateDistance(startPoint, endPoint) {
 			return Math.round(Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2)));
 		}
 
 		/**
-		* Calcualte the angle of the swipe
-		* @param finger A finger object containing start and end points
+		* Calculate the angle of the swipe
+		* @param startPoint
+		* @param endPoint
 		*/
-		function caluculateAngle(startPoint, endPoint) {
+		function calculateAngle(startPoint, endPoint) {
 			var x = startPoint.x - endPoint.x;
 			var y = endPoint.y - startPoint.y;
 			var r = Math.atan2(y, x); //radians
@@ -815,12 +812,13 @@
 		}
 
 		/**
-		* Calcualte the direction of the swipe
-		* This will also call caluculateAngle to get the latest angle of swipe
-		* @param finger A finger object containing start and end points
+		* Calculate the direction of the swipe
+		* This will also call calculateAngle to get the latest angle of swipe
+		* @param startPoint
+		* @param endPoint
 		*/
 		function calculateDirection(startPoint, endPoint ) {
-			var angle = caluculateAngle(startPoint, endPoint);
+			var angle = calculateAngle(startPoint, endPoint);
 
 			if ((angle <= 45) && (angle >= 0)) {
 				return LEFT;
@@ -875,14 +873,14 @@
 		* gets a data flag to indicate that a touch is in progress
 		*/
 		function getTouchInProgress() {
-			return $element.data(PLUGIN_NS+'_intouch') === true ? true : false;
+			return !!($element.data(PLUGIN_NS + '_intouch') === true);
 		}
 		
 		/**
 		* Sets a data flag to indicate that a touch is in progress
 		*/
 		function setTouchInProgress(val) {
-			val = val===true?true:false;
+			val = !!(val === true);
 			$element.data(PLUGIN_NS+'_intouch', val);
 		}
 		
