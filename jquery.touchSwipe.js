@@ -800,7 +800,7 @@
 		* Calcualte the angle of the swipe
 		* @param finger A finger object containing start and end points
 		*/
-		function caluculateAngle(startPoint, endPoint) {
+		function calculateAngle(startPoint, endPoint) {
 			var x = startPoint.x - endPoint.x;
 			var y = endPoint.y - startPoint.y;
 			var r = Math.atan2(y, x); //radians
@@ -815,12 +815,12 @@
 		}
 
 		/**
-		* Calcualte the direction of the swipe
-		* This will also call caluculateAngle to get the latest angle of swipe
+		* Calculate the direction of the swipe
+		* This will also call calculateAngle to get the latest angle of swipe
 		* @param finger A finger object containing start and end points
 		*/
 		function calculateDirection(startPoint, endPoint ) {
-			var angle = caluculateAngle(startPoint, endPoint);
+			var angle = calculateAngle(startPoint, endPoint);
 
 			if ((angle <= 45) && (angle >= 0)) {
 				return LEFT;
