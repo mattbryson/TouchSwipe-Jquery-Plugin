@@ -797,7 +797,7 @@
 		}
 
 		/**
-		* Calcualte the angle of the swipe
+		* Calculate the angle of the swipe
 		* @param finger A finger object containing start and end points
 		*/
 		function calculateAngle(startPoint, endPoint) {
