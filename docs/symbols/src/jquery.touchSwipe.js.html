@@ -1,4 +1,75 @@
-/*
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Source - jquery.touchSwipe.js</title>
+	<meta name="generator" content="JsDoc Toolkit" />
+
+	<link media="all" rel="stylesheet" href="../../css/common.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../../css/bootstrap.min.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../../css/prettify.css" type="text/css" />
+	<link media="print" rel="stylesheet" href="../../css/print.css" type="text/css" />
+	<style type="text/css">
+		.icon-jsdoc {
+			background: url("../../img/classicons.png") no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="../../js/prettify.js" type="text/javascript"></script>
+	<script src="../../js/bootstrap.min.js" type="text/javascript"></script>
+</head>
+<body><div class="container-fluid">
+<!-- ============================== header ================================= -->
+	<!-- begin static/header.html -->
+	<header class="header navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+				<ul id="class-file-selector" class="nav">
+					<li><a href="../../index.html">Class Index</a></li>
+					<li><a href="../../files.html">File Index</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+	<div class="row-fluid">
+		<div id="index" class="span3">
+			<!-- begin publish.classesIndex -->
+			<div class="well" id="class-list">
+	<ul class="nav nav-list">
+		<li class="nav-header">Classes</li>
+		
+			<li><a href="../../symbols/%24.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">$</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.html"><span class="indent" style="padding-left:14px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">fn</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.html"><span class="indent" style="padding-left:28px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">swipe</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.defaults.html"><span class="indent" style="padding-left:42px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">defaults</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.directions.html"><span class="indent" style="padding-left:42px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">directions</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.fingers.html"><span class="indent" style="padding-left:42px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">fingers</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.pageScroll.html"><span class="indent" style="padding-left:42px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">pageScroll</span></span></a></li>
+		
+			<li><a href="../../symbols/%24.fn.swipe.phases.html"><span class="indent" style="padding-left:42px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">phases</span></span></a></li>
+		
+			<li><a href="../../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
+		
+	</ul>
+</div>
+
+			<!-- end publish.classesIndex -->
+		</div>
+
+		<div id="content" class="span9">
+<!-- ============================== source code ============================ -->
+
+			<pre id="source-code" class="prettyprint linenums">/*
 * @fileOverview TouchSwipe - jQuery Plugin
 * @version 1.6.0
 *
@@ -142,11 +213,11 @@
 	* @property {function} [pinchStatus=null] A handler triggered for every phase of a pinch. See {@link $.fn.swipe#event:pinchStatus}
 	* @property {function} [click=null] A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not. 
 	* @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically. 
-	* @property {string} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
-										<code>"auto"</code> : all undefined swipes will cause the page to scroll in that direction. <br/>
-										<code>"none"</code> : the page will not scroll when user swipes. <br/>
-										<code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
-										<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
+	* @property {string} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  &lt;br/&gt;&lt;br/&gt;
+										&lt;code&gt;"auto"&lt;/code&gt; : all undefined swipes will cause the page to scroll in that direction. &lt;br/&gt;
+										&lt;code&gt;"none"&lt;/code&gt; : the page will not scroll when user swipes. &lt;br/&gt;
+										&lt;code&gt;"horizontal"&lt;/code&gt; : will force page to scroll on horizontal swipes. &lt;br/&gt;
+										&lt;code&gt;"vertical"&lt;/code&gt; : will force page to scroll on vertical swipes. &lt;br/&gt;
 	* @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices. 
 	* @property {string} [excludedElements="button, input, select, textarea, a, .noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes all form, input, select, button, anchor and .noSwipe elements. 
 	*/
@@ -180,9 +251,9 @@
 	* TouchSwipe can be executed via this method as per jQuery plugin architecture.
 	* @see TouchSwipe
 	* @class
-	* @param {Mixed} method If the current DOMNode is a TouchSwipe object, and <code>method</code> is a TouchSwipe method, then
-	* the <code>method</code> is executed, and any following arguments are passed to the TouchSwipe method.
-	* If <code>method</code> is an object, then the TouchSwipe class is instantiated on the current DOMNode, passing the 
+	* @param {Mixed} method If the current DOMNode is a TouchSwipe object, and &lt;code&gt;method&lt;/code&gt; is a TouchSwipe method, then
+	* the &lt;code&gt;method&lt;/code&gt; is executed, and any following arguments are passed to the TouchSwipe method.
+	* If &lt;code&gt;method&lt;/code&gt; is an object, then the TouchSwipe class is instantiated on the current DOMNode, passing the 
 	* configuration properties defined in the object. See TouchSwipe
 	*
 	*/
@@ -191,7 +262,7 @@
 			plugin = $this.data(PLUGIN_NS);
 
 		//Check if we are already instantiated and trying to execute a method	
-		if (plugin && typeof method === 'string') {
+		if (plugin &amp;&amp; typeof method === 'string') {
 			if (plugin[method]) {
 				return plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
 			} else {
@@ -199,7 +270,7 @@
 			}
 		}
 		//Else not instantiated and trying to pass init object (or nothing)
-		else if (!plugin && (typeof method === 'object' || !method)) {
+		else if (!plugin &amp;&amp; (typeof method === 'object' || !method)) {
 			return init.apply(this, arguments);
 		}
 
@@ -210,14 +281,14 @@
 	$.fn.swipe.defaults = defaults;
 
 	/**
-	* The phases that a touch event goes through.  The <code>phase</code> is passed to the event handlers. 
+	* The phases that a touch event goes through.  The &lt;code&gt;phase&lt;/code&gt; is passed to the event handlers. 
 	* These properties are read only, attempting to change them will not alter the values passed to the event handlers.
 	* @namespace
 	* @readonly
-	* @property {string} PHASE_START Constant indicating the start phase of the touch event. Value is <code>"start"</code>.
-	* @property {string} PHASE_MOVE Constant indicating the move phase of the touch event. Value is <code>"move"</code>.
-	* @property {string} PHASE_END Constant indicating the end phase of the touch event. Value is <code>"end"</code>.
-	* @property {string} PHASE_CANCEL Constant indicating the cancel phase of the touch event. Value is <code>"cancel"</code>.
+	* @property {string} PHASE_START Constant indicating the start phase of the touch event. Value is &lt;code&gt;"start"&lt;/code&gt;.
+	* @property {string} PHASE_MOVE Constant indicating the move phase of the touch event. Value is &lt;code&gt;"move"&lt;/code&gt;.
+	* @property {string} PHASE_END Constant indicating the end phase of the touch event. Value is &lt;code&gt;"end"&lt;/code&gt;.
+	* @property {string} PHASE_CANCEL Constant indicating the cancel phase of the touch event. Value is &lt;code&gt;"cancel"&lt;/code&gt;.
 	*/
 	$.fn.swipe.phases = {
 		PHASE_START: PHASE_START,
@@ -231,12 +302,12 @@
 	* These properties are read only, attempting to change them will not alter the values passed to the event handlers.
 	* @namespace
 	* @readonly
-	* @property {string} LEFT Constant indicating the left direction. Value is <code>"left"</code>.
-	* @property {string} RIGHT Constant indicating the right direction. Value is <code>"right"</code>.
-	* @property {string} UP Constant indicating the up direction. Value is <code>"up"</code>.
-	* @property {string} DOWN Constant indicating the down direction. Value is <code>"cancel"</code>.
-	* @property {string} IN Constant indicating the in direction. Value is <code>"in"</code>.
-	* @property {string} OUT Constant indicating the out direction. Value is <code>"out"</code>.
+	* @property {string} LEFT Constant indicating the left direction. Value is &lt;code&gt;"left"&lt;/code&gt;.
+	* @property {string} RIGHT Constant indicating the right direction. Value is &lt;code&gt;"right"&lt;/code&gt;.
+	* @property {string} UP Constant indicating the up direction. Value is &lt;code&gt;"up"&lt;/code&gt;.
+	* @property {string} DOWN Constant indicating the down direction. Value is &lt;code&gt;"cancel"&lt;/code&gt;.
+	* @property {string} IN Constant indicating the in direction. Value is &lt;code&gt;"in"&lt;/code&gt;.
+	* @property {string} OUT Constant indicating the out direction. Value is &lt;code&gt;"out"&lt;/code&gt;.
 	*/
 	$.fn.swipe.directions = {
 		LEFT: LEFT,
@@ -248,15 +319,15 @@
 	};
 	
 	/**
-	* The page scroll constants that can be used to set the value of <code>allowPageScroll</code> option
+	* The page scroll constants that can be used to set the value of &lt;code&gt;allowPageScroll&lt;/code&gt; option
 	* These properties are read only
 	* @namespace
 	* @readonly
 	* @see $.fn.swipe.defaults#allowPageScroll
-	* @property {string} NONE Constant indicating no page scrolling is allowed. Value is <code>"none"</code>.
-	* @property {string} HORIZONTAL Constant indicating horizontal page scrolling is allowed. Value is <code>"horizontal"</code>.
-	* @property {string} VERTICAL Constant indicating vertical page scrolling is allowed. Value is <code>"vertical"</code>.
-	* @property {string} AUTO Constant indicating either horizontal or vertical will be allowed, depending on the swipe handlers registered. Value is <code>"auto"</code>.
+	* @property {string} NONE Constant indicating no page scrolling is allowed. Value is &lt;code&gt;"none"&lt;/code&gt;.
+	* @property {string} HORIZONTAL Constant indicating horizontal page scrolling is allowed. Value is &lt;code&gt;"horizontal"&lt;/code&gt;.
+	* @property {string} VERTICAL Constant indicating vertical page scrolling is allowed. Value is &lt;code&gt;"vertical"&lt;/code&gt;.
+	* @property {string} AUTO Constant indicating either horizontal or vertical will be allowed, depending on the swipe handlers registered. Value is &lt;code&gt;"auto"&lt;/code&gt;.
 	*/
 	$.fn.swipe.pageScroll = {
 		NONE: NONE,
@@ -266,16 +337,16 @@
 	};
 
 	/**
-	* Constants representing the number of fingers used in a swipe.  These are used to set both the value of <code>fingers</code> in the 
-	* options object, as well as the value of the <code>fingers</code> event property.
+	* Constants representing the number of fingers used in a swipe.  These are used to set both the value of &lt;code&gt;fingers&lt;/code&gt; in the 
+	* options object, as well as the value of the &lt;code&gt;fingers&lt;/code&gt; event property.
 	* These properties are read only, attempting to change them will not alter the values passed to the event handlers.
 	* @namespace
 	* @readonly
 	* @see $.fn.swipe.defaults#fingers
-	* @property {string} ONE Constant indicating 1 finger is to be detected / was detected. Value is <code>1</code>.
-	* @property {string} TWO Constant indicating 2 fingers are to be detected / were detected. Value is <code>1</code>.
-	* @property {string} THREE Constant indicating 3 finger are to be detected / were detected. Value is <code>1</code>.
-	* @property {string} ALL Constant indicating any combination of finger are to be detected.  Value is <code>"all"</code>.
+	* @property {string} ONE Constant indicating 1 finger is to be detected / was detected. Value is &lt;code&gt;1&lt;/code&gt;.
+	* @property {string} TWO Constant indicating 2 fingers are to be detected / were detected. Value is &lt;code&gt;1&lt;/code&gt;.
+	* @property {string} THREE Constant indicating 3 finger are to be detected / were detected. Value is &lt;code&gt;1&lt;/code&gt;.
+	* @property {string} ALL Constant indicating any combination of finger are to be detected.  Value is &lt;code&gt;"all"&lt;/code&gt;.
 	*/
 	$.fn.swipe.fingers = {
 		ONE: 1,
@@ -292,7 +363,7 @@
 	*/
 	function init(options) {
 		//Prep and extend the options
-		if (options && (options.allowPageScroll === undefined && (options.swipe !== undefined || options.swipeStatus !== undefined))) {
+		if (options &amp;&amp; (options.allowPageScroll === undefined &amp;&amp; (options.swipe !== undefined || options.swipeStatus !== undefined))) {
 			options.allowPageScroll = NONE;
 		}
 
@@ -434,7 +505,7 @@
 				return;
 			
 			//Check if this element matches any in the excluded elements selectors,  or its parent is excluded, if so, DONT swipe
-			if( $(jqEvent.target).closest( options.excludedElements, $element ).length>0 ) 
+			if( $(jqEvent.target).closest( options.excludedElements, $element ).length&gt;0 ) 
 				return;
 				
 			//As we use Jquery bind for events, we need to target the original event object
@@ -611,7 +682,7 @@
 			//If we are still in a touch with another finger return
 			//This allows us to wait a fraction and see if the other finger comes up, if it does within the threshold, then we treat it as a multi release, not a single release.
 			if (SUPPORTS_TOUCH) {
-				if(event.touches.length>0) {
+				if(event.touches.length&gt;0) {
 					startMultiFingerRelease();
 					return true;
 				}
@@ -631,7 +702,7 @@
 			
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
-			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
+			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false &amp;&amp; phase === PHASE_MOVE)) {
 				phase = PHASE_END;
 
 				//The number of fingers we want were matched, or on desktop we ignore
@@ -641,7 +712,7 @@
 				var hasEndPoint = fingerData[0].end.x !== 0;
 				
 				//Check if the above conditions are met to make this swipe count...
-				var isSwipe = hasCorrectFingerCount && hasEndPoint && (didPinch() || didSwipe());
+				var isSwipe = hasCorrectFingerCount &amp;&amp; hasEndPoint &amp;&amp; (didPinch() || didSwipe());
 				
 				//If we are in a swipe, validate the time and distance...
 				if (isSwipe) {
@@ -713,13 +784,13 @@
 			}
 			
 			// PINCH GESTURES (if the above didnt cancel)
-			if(hasPinches() && ret!==false) {
+			if(hasPinches() &amp;&amp; ret!==false) {
 				//Trigger the pinch events...
 				ret = triggerHandlerForGesture(event, phase, PINCH);
 			}
 				
 			// CLICKS / TAPS (if the above didnt cancel)
-			if(hasClick() && ret!==false) {
+			if(hasClick() &amp;&amp; ret!==false) {
 				//Trigger the pinch events...
 				ret = triggerHandlerForGesture(event, phase, CLICK);
 			}	
@@ -770,7 +841,7 @@
 				}
 				
 				
-				if (phase == PHASE_END && validateSwipe()) {
+				if (phase == PHASE_END &amp;&amp; validateSwipe()) {
 					//trigger catch all event handler
 					if (options.swipe) {
 						ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
@@ -817,7 +888,7 @@
 					if(ret===false) return false;
 				}
 				
-				if(phase==PHASE_END && validatePinch()) {
+				if(phase==PHASE_END &amp;&amp; validatePinch()) {
 					
 					switch (pinchDirection) {
 						case IN:
@@ -839,7 +910,7 @@
 			//CLICKS...
 			if(gesture==CLICK) {
 				if(phase === PHASE_CANCEL) {
-					if (options.click && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
+					if (options.click &amp;&amp; (fingerCount === 1 || !SUPPORTS_TOUCH) &amp;&amp; (isNaN(distance) || distance === 0)) {
 						ret = options.click.call($element, event, event.target);
 					}
 				}
@@ -863,7 +934,7 @@
 		*/
 		function validateSwipeDistance() {
 			if (options.threshold !== null) {
-				return distance >= options.threshold;
+				return distance &gt;= options.threshold;
 			}
 			return null;
 		}
@@ -873,7 +944,7 @@
 		*/
 		function validatePinchDistance() {
 			if (options.pinchThreshold !== null) {
-				return pinchDistance >= options.pinchThreshold;
+				return pinchDistance &gt;= options.pinchThreshold;
 			}
 			return null;
 		}
@@ -886,7 +957,7 @@
 			//If no time set, then return true
 
 			if (options.maxTimeThreshold) {
-				if (duration >= options.maxTimeThreshold) {
+				if (duration &gt;= options.maxTimeThreshold) {
 					result = false;
 				} else {
 					result = true;
@@ -912,25 +983,25 @@
 
 				switch (direction) {
 					case LEFT:
-						if ((options.swipeLeft && auto) || (!auto && options.allowPageScroll != HORIZONTAL)) {
+						if ((options.swipeLeft &amp;&amp; auto) || (!auto &amp;&amp; options.allowPageScroll != HORIZONTAL)) {
 							jqEvent.preventDefault();
 						}
 						break;
 
 					case RIGHT:
-						if ((options.swipeRight && auto) || (!auto && options.allowPageScroll != HORIZONTAL)) {
+						if ((options.swipeRight &amp;&amp; auto) || (!auto &amp;&amp; options.allowPageScroll != HORIZONTAL)) {
 							jqEvent.preventDefault();
 						}
 						break;
 
 					case UP:
-						if ((options.swipeUp && auto) || (!auto && options.allowPageScroll != VERTICAL)) {
+						if ((options.swipeUp &amp;&amp; auto) || (!auto &amp;&amp; options.allowPageScroll != VERTICAL)) {
 							jqEvent.preventDefault();
 						}
 						break;
 
 					case DOWN:
-						if ((options.swipeDown && auto) || (!auto && options.allowPageScroll != VERTICAL)) {
+						if ((options.swipeDown &amp;&amp; auto) || (!auto &amp;&amp; options.allowPageScroll != VERTICAL)) {
 							jqEvent.preventDefault();
 						}
 						break;
@@ -967,7 +1038,7 @@
 		 */
 		function didPinch() {
 			//Enure we dont return 0 or null for false values
-			return !!(pinchDirection && hasPinches());
+			return !!(pinchDirection &amp;&amp; hasPinches());
 		}
 
 
@@ -984,7 +1055,7 @@
 		
 			// if the user swiped more than the minimum length, perform the appropriate action
 			// hasValidDistance is null when no distance is set 
-			var valid =  (hasValidDistance === true || hasValidDistance === null) && hasValidTime;
+			var valid =  (hasValidDistance === true || hasValidDistance === null) &amp;&amp; hasValidTime;
 			
 			return valid;
 		}
@@ -1002,7 +1073,7 @@
 		 */
 		function didSwipe() {
 			//Enure we dont return 0 or null for false values
-			return !!(direction && hasSwipes());
+			return !!(direction &amp;&amp; hasSwipes());
 		}
 
 
@@ -1042,7 +1113,7 @@
 			
 			if(previousTouchEndTime) {	
 				var diff = getTimeStamp() - previousTouchEndTime	
-				if( diff<=options.fingerReleaseThreshold ) {
+				if( diff&lt;=options.fingerReleaseThreshold ) {
 					withinThreshold = true;
 				}
 			}
@@ -1103,7 +1174,7 @@
 		 * to track repeat touches
 		 */
 		function getFingerData( id ) {
-			for(var i=0; i<fingerData.length; i++) {
+			for(var i=0; i&lt;fingerData.length; i++) {
 				if(fingerData[i].identifier == id) {
 					return fingerData[i];	
 				}
@@ -1116,7 +1187,7 @@
 		 */
 		function createAllFingerData() {
 			var fingerData=[];
-			for (var i=0; i<=5; i++) {
+			for (var i=0; i&lt;=5; i++) {
 				fingerData.push({
 					start:{ x: 0, y: 0 },
 					end:{ x: 0, y: 0 },
@@ -1164,7 +1235,7 @@
 		* Returns the pinch direction, either IN or OUT for the given points
 		*/
 		function calculatePinchDirection() {
-			if(pinchZoom<1) {
+			if(pinchZoom&lt;1) {
 				return OUT;
 			}
 			else {
@@ -1192,7 +1263,7 @@
 			var angle = Math.round(r * 180 / Math.PI); //degrees
 
 			//ensure value is positive
-			if (angle < 0) {
+			if (angle &lt; 0) {
 				angle = 360 - Math.abs(angle);
 			}
 
@@ -1207,13 +1278,13 @@
 		function calculateDirection(startPoint, endPoint ) {
 			var angle = caluculateAngle(startPoint, endPoint);
 
-			if ((angle <= 45) && (angle >= 0)) {
+			if ((angle &lt;= 45) &amp;&amp; (angle &gt;= 0)) {
 				return LEFT;
-			} else if ((angle <= 360) && (angle >= 315)) {
+			} else if ((angle &lt;= 360) &amp;&amp; (angle &gt;= 315)) {
 				return LEFT;
-			} else if ((angle >= 135) && (angle <= 225)) {
+			} else if ((angle &gt;= 135) &amp;&amp; (angle &lt;= 225)) {
 				return RIGHT;
-			} else if ((angle > 45) && (angle < 135)) {
+			} else if ((angle &gt; 45) &amp;&amp; (angle &lt; 135)) {
 				return DOWN;
 			} else {
 				return UP;
@@ -1360,4 +1431,22 @@
  * @param {DomObject} target The element clicked on.
  */
 
-})(jQuery);
+})(jQuery);</pre>
+		</div>
+	</div>
+
+<!-- ============================== footer ================================= -->
+	<footer class="footer">
+		
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jan 21 2013 13:15:35 GMT-0000 (GMT)</p>
+	</footer>
+</div>
+<script type="text/javascript">
+	prettyPrint();
+	var i = 1;
+	$('#source-code li').each(function() {
+		$(this).attr({ id: 'line' + (i++) });
+	});
+</script>
+</body>
+</html>

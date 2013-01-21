@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+    <head>  
+        <!-- 
+    		NOTE viewport is set so user can scale 
+    		-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+       
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function() {			
+					$("#test").swipe( {
+						swipeStatus:function(event, phase, direction, distance , duration , fingerCount) {
+						   $(this).find('#swipe_text').text("swiped " + distance + ' px');
+						   if(phase === $.fn.swipe.phases.PHASE_END || phase === $.fn.swipe.phases.PHASE_CANCEL) {
+							   //The handlers below fire after the status, 
+							   // so we can change the text here, and it will be replaced if the handlers below fire
+							   $(this).find('#swipe_text').text("No swipe was made");
+						   }
+						},
+
+						pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+							$(this).find('#pinch_text').text("pinched " + distance + " px ");
+							if(phase === $.fn.swipe.phases.PHASE_END || phase === $.fn.swipe.phases.PHASE_CANCEL) {
+							   //The handlers below fire after the status, 
+							   // so we can change the text here, and it will be replaced if the handlers below fire
+							   $(this).find('#pinch_text').text("No pinch was made");
+						   }
+						},
+
+						swipe:function(event, direction, distance, duration, fingerCount) {
+							 $(this).find('#swipe_text').text("You swiped " + direction + " with " + fingerCount + " fingers");
+						},
+
+						pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+							$(this).find('#pinch_text').text("You pinched " +direction + " by " + distance +"px, zoom scale is "+pinchZoom); 
+						},
+
+						pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+							$(this).find('#pinch_text').text("You pinched " +direction + " by " + distance +"px, zoom scale is "+pinchZoom);
+						},
+
+						fingers:$.fn.swipe.fingers.ALL	
+					});
+				});
+			</script>
+			
+			
+			<span class='title'></span>
+			<h4>events: <code>pinchStatus</code>, <code>swipeStatus</code><h4>
+			<h4>properties: <code>pinchThreshold</code></h4>
+			<p>You can combine both <code>pinch</code> and <code>swipe</code> events. As the user can simultaneously pinch and swipe, both events are tirggered at the same time.<br/> 
+			  The <code>pinchThreshold</code> property sets how far the user must pinch before it is considered a pinch. The default is 20px.  This is useful when trying to elimate slight pinch movement when the user is actually swiping.
+			</p>
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src='code_1'></pre>	
+				<span class='navigation'></span>
+			
+				<div id="test" class="box">
+					 <div id='swipe_text'>Pinch me</div>
+					 <div id='pinch_text'></div>
+				</div>
+			
+				<span class='navigation'></span>
+			</div>
+	   </body>
+	</html>

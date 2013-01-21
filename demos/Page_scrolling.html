@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+    <head>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function() {			
+					$("#test1").swipe( { swipeLeft:swipe1, swipeRight:swipe1, allowPageScroll:"auto"} );
+					$("#test2").swipe( { swipeLeft:swipe1, allowPageScroll:"none"} );
+					$("#test3").swipe( { swipeLeft:swipe2, swipeRight:swipe2} );
+					$("#test4").swipe( { swipeStatus:swipe2, allowPageScroll:"vertical"} );
+					$("#test5").swipe( { swipeStatus:swipe2, allowPageScroll:"horizontal" } );
+
+					//Swipe handlers.
+					function swipe1(event, direction) {
+						$(this).text( "You have swiped " + direction );
+					}
+				
+					function swipe2(event, phase, direction, distance) {
+						$(this).text( phase +" you have swiped " + distance + "px in direction:" + direction );
+					}
+				});
+			</script>
+	
+	
+		
+			<span class='title'></span>
+			<h4>property: <code>allowPageScroll</code></h4>
+			<p>You can set how page scrolling is handled by the browser when the user is interacting with a touchSwipe object.
+				<br/>There are 4 possible settings for the <code>allowPageScroll</code> option. These can be strings, or use the plugin constants in </code>$.fn.swipe.pageScroll</code>
+					<ul>
+						<li><code>auto</code> or <code>$.fn.swipe.pageScroll.AUTO</code> <br/>scrolling will only occur if a user swipes in a direction for which you have NOT defined a swipe handler. E.g If only <i>swipeLeft</i> is defined, then a RIGHT, UP or DOWN swipe would cause the page to scroll.</li>
+						<li><code>none</code> or <code>$.fn.swipe.pageScroll.NONE</code> <br/>scrolling will never occur.</li>
+						<li><code>horizontal</code> or <code>$.fn.swipe.pageScroll.HORIZONTAL</code> <br/>horizontal swipes will cause the page to scroll.</li>
+						<li><code>vertical</code> or <code>$.fn.swipe.pageScroll.VERTICAL</code> <br/>vertical swipes will cause the page to scroll.</li>
+					</ul>
+					
+				<br>
+					NOTE: if the general <code>swipe</code> or <code>swipeStatus</code> handlers are specificed, then <code>allowPageScroll</code> will be dissabled by default, as they detect swipes in all directions.
+					To use scrolling AND the <code>swipe</code> handler, set <code>allowPageScroll</code> to the direction you want the user to be able to scroll.
+			</p>
+			
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>		
+			<span class='navigation'></span>
+			
+			<br><br>
+			<b>allowPageScroll = "auto" or $.fn.swipe.pageScroll.AUTO</b>
+			<br><b>Swipe Left or Right </b>The swipe will trigger but the page will NOT scroll. 
+			<br><b>Swipe Up or Down </b>The page will scroll as there is no up or down swipe handler.<br>
+			<div class="box" id="test1">Swipe me</div>
+			
+			<br><br>
+			<b>allowPageScroll = "none" or $.fn.swipe.pageScroll.NONE</b>
+			<br><b>Swipe Left </b>The swipe will trigger but the page will NOT scroll. 
+			<br><b>Swipe right, Up or Down </b>No swipe handler is defined, so nothihng happens and the page will NOT scroll.<br>
+			<div class="box" id="test2">Swipe me</div>
+			
+			<br><br>
+			<b>allowPageScroll = "horizontal" or $.fn.swipe.pageScroll.HORIZONTAL</b>
+			<br>Swipe left and right are triggered<br>
+			<div class="box" id="test3">Swipe me</div>
+			
+			<br><br>
+			<b>allowPageScroll = "vertical" or $.fn.swipe.pageScroll.VERTICAL</b>
+			<br/>
+			<b>With the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
+			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "vertical" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
+			<br>Note how the vertical swipe is hit and miss. As soon as the page starts scrolling, the user is no longer swiping across the object.
+			<div class="box" id="test4" >Swipe me</div>
+			
+			<br><br>
+			<b>allowPageScroll = "vertical" or $.fn.swipe.pageScroll.HORIZONTAL</b>
+			<br/>
+			<b>Vertical, but WITH the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
+			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "vertical" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
+			<br>Note how the vertical swipe is hit and miss. As soon as the page starts scrolling, the user is no longer swiping across the object.
+			<div class="box" id="test5" >Swipe me</div>
+			
+			<span class='navigation'></span>
+	
+		</div>
+   </body>
+</html>
