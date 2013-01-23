@@ -89,6 +89,7 @@
  
  
 (function ($) {
++  "use strict";
 
 	//Constants
 	var LEFT = "left",
@@ -426,7 +427,7 @@
 		* Event handler for a touch start event.
 		* Stops the default click event from triggering and stores where we touched
 		* @inner
-		* @param {Event} jQEvent The jQuery event object
+		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchStart(jqEvent) {
 			//If we already in a touch event (a finger already in use) then ignore subsequent ones..
@@ -509,6 +510,8 @@
 		/**
 		* Event handler for a touch move event. 
 		* If we change fingers during move, then cancel the event
+		* @inner
+		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchMove(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
@@ -602,6 +605,8 @@
 		/**
 		* Event handler for a touch end event. 
 		* Calculate the direction and trigger events
+		* @inner
+		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchEnd(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
@@ -667,6 +672,7 @@
 		/**
 		* Event handler for a touch cancel event. 
 		* Clears current vars
+		* @inner
 		*/
 		function touchCancel() {
 			// reset the variables back to default values
@@ -686,6 +692,7 @@
 		
 		/**
 		* Removes all listeners that were associated with the plugin
+		* @inner
 		*/
 		function removeListeners() {
 			$element.unbind(START_EV, touchStart);
@@ -699,8 +706,9 @@
 		/**
 		* Trigger the relevant event handler
 		* The handlers are passed the original event, the element that was swiped, and in the case of the catch all handler, the direction that was swiped, "left", "right", "up", or "down"
-		* @param event the original event object
-		* @param phase the phase of the swipe (start, end cancel etc)
+		* @param {object} event the original event object
+		* @param {string} phase the phase of the swipe (start, end cancel etc) {@link $.fn.swipe.phases}
+		* @inner
 		*/
 		function triggerHandler(event, phase) {
 			
@@ -752,9 +760,11 @@
 		/**
 		* Trigger the relevant event handler
 		* The handlers are passed the original event, the element that was swiped, and in the case of the catch all handler, the direction that was swiped, "left", "right", "up", or "down"
-		* @param event the original event object
-		* @param phase the phase of the swipe (start, end cancel etc)
-		* @param gesture the gesture to triger a handler for : PINCH or SWIPE
+		* @param {object} event the original event object
+		* @param {string} phase the phase of the swipe (start, end cancel etc) {@link $.fn.swipe.phases}
+		* @param {string} gesture the gesture to triger a handler for : PINCH or SWIPE {@link $.fn.swipe.gestures}
+		* @return Boolean False, to indicate that the event should stop propagation, or void.
+		* @inner
 		*/
 		function triggerHandlerForGesture(event, phase, gesture) {	
 			
@@ -860,6 +870,8 @@
 		
 		/**
 		* Checks the user has swipe far enough
+		* @return Boolean if <code>threshold</code> has been set, else null is returned.
+		* @inner
 		*/
 		function validateSwipeDistance() {
 			if (options.threshold !== null) {
@@ -870,6 +882,8 @@
 
 		/**
 		* Checks the user has pinched far enough
+		* @return Boolean if <code>pinchThreshold</code> has been set, else null is returned.
+		* @inner
 		*/
 		function validatePinchDistance() {
 			if (options.pinchThreshold !== null) {
@@ -880,6 +894,8 @@
 
 		/**
 		* Checks that the time taken to swipe meets the minimum / maximum requirements
+		* @return Boolean
+		* @inner
 		*/
 		function validateSwipeTime() {
 			var result;
@@ -903,6 +919,10 @@
 		/**
 		* Checks direction of the swipe and the value allowPageScroll to see if we should allow or prevent the default behaviour from occurring.
 		* This will essentially allow page scrolling or not when the user is swiping on a touchSwipe object.
+		* @param {object} jqEvent The normalised jQuery representation of the event object.
+		* @param {string} direction The direction of the event. See {@link $.fn.swipe.directions}
+		* @see $.fn.swipe.directions
+		* @inner
 		*/
 		function validateDefaultEvent(jqEvent, direction) {
 			if (options.allowPageScroll === NONE || hasPinches()) {
@@ -943,7 +963,9 @@
 		// PINCHES
 		/**
 		 * Returns true of the current pinch meets the thresholds
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function validatePinch() {
 			//Check the pinch thresholds
 			var hasValidPinchDistance = validatePinchDistance();	
@@ -956,7 +978,9 @@
 		
 		/**
 		 * Returns true if any Pinch events have been registered
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function hasPinches() {
 			//Enure we dont return 0 or null for false values
 			return !!(options.pinchStatus || options.pinchIn || options.pinchOut);
@@ -964,6 +988,8 @@
 		
 		/**
 		 * Returns true if we are detecting pinches, and have one
+		 * @return Boolean
+		 * @inner
 		 */
 		function didPinch() {
 			//Enure we dont return 0 or null for false values
@@ -976,7 +1002,9 @@
 		// SWIPES
 		/**
 		 * Returns true if the current swipe meets the thresholds
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function validateSwipe() {
 			//Check validity of swipe
 			var hasValidTime = validateSwipeTime();
@@ -991,7 +1019,9 @@
 		
 		/**
 		 * Returns true if any Swipe events have been registered
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function hasSwipes() {
 			//Enure we dont return 0 or null for false values
 			return !!(options.swipe || options.swipeStatus || options.swipeLeft || options.swipeRight || options.swipeUp || options.swipeDown);
@@ -999,7 +1029,9 @@
 		
 		/**
 		 * Returns true if we are detecting swipes and have one
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function didSwipe() {
 			//Enure we dont return 0 or null for false values
 			return !!(direction && hasSwipes());
@@ -1009,7 +1041,9 @@
 		// TAP / CLICK
 		/**
 		 * Returns true of any clcik / tap evetns have been registered
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function hasClick() {
 			//Enure we dont return 0 or null for false values
 			return !!(options.click);
@@ -1019,7 +1053,8 @@
 		// MULTI FINGER TOUCH
 		/**
 		 * Starts tracking the time between 2 finger releases, and keeps track of how many fingers we initially had up
-		 */
+		 * @inner
+		*/
 		function startMultiFingerRelease() {
 			previousTouchEndTime = getTimeStamp();
 			previousTouchFingerCount = event.touches.length+1;
@@ -1027,7 +1062,8 @@
 		
 		/**
 		 * Cancels the tracking of time between 2 finger releases, and resets counters
-		 */
+		 * @inner
+		*/
 		function cancelMultiFingerRelease() {
 			previousTouchEndTime = 0;
 			previousTouchFingerCount = 0;
@@ -1035,7 +1071,9 @@
 		
 		/**
 		 * Checks if we are in the threshold between 2 fingers being released 
-		 */
+		 * @return Boolean
+		 * @inner
+		*/
 		function inMultiFingerRelease() {
 			
 			var withinThreshold = false;
@@ -1053,25 +1091,32 @@
 
 		/**
 		* gets a data flag to indicate that a touch is in progress
+		* @return Boolean
+		* @inner
 		*/
 		function getTouchInProgress() {
-			return $element.data(PLUGIN_NS+'_intouch') === true ? true : false;
+			//strict equality to ensure only true and false are returned
+			return !!($element.data(PLUGIN_NS+'_intouch') === true);
 		}
 		
 		/**
 		* Sets a data flag to indicate that a touch is in progress
+		* @param {boolean} val The value to set the property to
+		* @inner
 		*/
 		function setTouchInProgress(val) {
-			val = val===true?true:false;
-			$element.data(PLUGIN_NS+'_intouch', val);
+			//strict equality to ensure only true and false can update the value
+			$element.data(PLUGIN_NS+'_intouch', val === true);
 		}
 		
 		
 		/**
 		 * Creates the finger data for the touch/finger in the event object.
-		 * @param index The index in the array to store the finger data (usually the order the fingers were pressed)
-		 * @param evt The event object containing finger data
-		 */
+		 * @param {int} index The index in the array to store the finger data (usually the order the fingers were pressed)
+		 * @param {object} evt The event object containing finger data
+		 * @return finger data object
+		 * @inner
+		*/
 		function createFingerData( index, evt ) {
 			var id = evt.identifier!==undefined ? evt.identifier : 0; 
 			
@@ -1084,8 +1129,10 @@
 		
 		/**
 		 * Updates the finger data for a particular event object
-		 * @param evt THe event object containing the touch/finger data to upate
-		 */
+		 * @param {object} evt The event object containing the touch/finger data to upadte
+		 * @return a finger data object.
+		 * @inner
+		*/
 		function updateFingerData(evt) {
 			
 			var id = evt.identifier!==undefined ? evt.identifier : 0; 
@@ -1101,7 +1148,10 @@
 		 * Returns a finger data object by its event ID.
 		 * Each touch event has an identifier property, which is used 
 		 * to track repeat touches
-		 */
+		 * @param {int} id The unique id of the finger in the sequence of touch events.
+		 * @return a finger data object.
+		 * @inner
+		*/
 		function getFingerData( id ) {
 			for(var i=0; i<fingerData.length; i++) {
 				if(fingerData[i].identifier == id) {
@@ -1113,7 +1163,8 @@
 		/**
 		 * Creats all the finger onjects and returns an array of finger data
 		 * @return Array of finger objects
-		 */
+		 * @inner
+		*/
 		function createAllFingerData() {
 			var fingerData=[];
 			for (var i=0; i<=5; i++) {
@@ -1135,7 +1186,9 @@
 		//
 
 		/**
-		* Calcualte the duration of the swipe
+		* Calculate the duration of the swipe
+		* @return int
+		* @inner
 		*/
 		function calculateDuration() {
 			return endTime - startTime;
@@ -1143,6 +1196,10 @@
 		
 		/**
 		* Calculate the distance between 2 touches (pinch)
+		* @param {point} startPoint A point object containing x and y co-ordinates
+	    * @param {point} endPoint A point object containing x and y co-ordinates
+	    * @return int;
+		* @inner
 		*/
 		function calculateTouchesDistance(startPoint, endPoint) {
 			var diffX = Math.abs(startPoint.x - endPoint.x);
@@ -1153,6 +1210,10 @@
 		
 		/**
 		* Calculate the zoom factor between the start and end distances
+		* @param {int} startDistance Distance (between 2 fingers) the user started pinching at
+	    * @param {int} endDistance Distance (between 2 fingers) the user ended pinching at
+	    * @return float The zoom value from 0 to 1.
+		* @inner
 		*/
 		function calculatePinchZoom(startDistance, endDistance) {
 			var percent = (endDistance/startDistance) * 1;
@@ -1162,6 +1223,9 @@
 		
 		/**
 		* Returns the pinch direction, either IN or OUT for the given points
+		* @return string Either {@link $.fn.swipe.directions.IN} or {@link $.fn.swipe.directions.OUT}
+		* @see $.fn.swipe.directions
+		* @inner
 		*/
 		function calculatePinchDirection() {
 			if(pinchZoom<1) {
@@ -1175,17 +1239,23 @@
 		
 		/**
 		* Calculate the length / distance of the swipe
-		* @param finger A finger object containing start and end points
+		* @param {point} startPoint A point object containing x and y co-ordinates
+	    * @param {point} endPoint A point object containing x and y co-ordinates
+	    * @return int
+		* @inner
 		*/
 		function calculateDistance(startPoint, endPoint) {
 			return Math.round(Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2)));
 		}
 
 		/**
-		* Calcualte the angle of the swipe
-		* @param finger A finger object containing start and end points
+		* Calculate the angle of the swipe
+		* @param {point} startPoint A point object containing x and y co-ordinates
+	    * @param {point} endPoint A point object containing x and y co-ordinates
+	    * @return int
+		* @inner
 		*/
-		function caluculateAngle(startPoint, endPoint) {
+		function calculateAngle(startPoint, endPoint) {
 			var x = startPoint.x - endPoint.x;
 			var y = endPoint.y - startPoint.y;
 			var r = Math.atan2(y, x); //radians
@@ -1200,12 +1270,16 @@
 		}
 
 		/**
-		* Calcualte the direction of the swipe
-		* This will also call caluculateAngle to get the latest angle of swipe
-		* @param finger A finger object containing start and end points
+		* Calculate the direction of the swipe
+		* This will also call calculateAngle to get the latest angle of swipe
+		* @param {point} startPoint A point object containing x and y co-ordinates
+	    * @param {point} endPoint A point object containing x and y co-ordinates
+	    * @return string Either {@link $.fn.swipe.directions.LEFT} / {@link $.fn.swipe.directions.RIGHT} / {@link $.fn.swipe.directions.DOWN} / {@link $.fn.swipe.directions.UP}
+		* @see $.fn.swipe.directions
+		* @inner
 		*/
 		function calculateDirection(startPoint, endPoint ) {
-			var angle = caluculateAngle(startPoint, endPoint);
+			var angle = calculateAngle(startPoint, endPoint);
 
 			if ((angle <= 45) && (angle >= 0)) {
 				return LEFT;
@@ -1223,6 +1297,8 @@
 
 		/**
 		* Returns a MS time stamp of the current time
+		* @return int
+		* @inner
 		*/
 		function getTimeStamp() {
 			var now = new Date();
