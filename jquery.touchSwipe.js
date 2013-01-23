@@ -66,7 +66,9 @@
 * $Date: 2013-01-12 (Fri, 12 Jan 2013) $
 * $version: 1.6.0	- Fixed bugs with pinching, mainly when both pinch and swipe enabled, as well as adding time threshold for multifinger gestures, so releasing one finger beofre the other doesnt trigger as single finger gesture.
 *					- made the demo site all static local HTML pages so they can be run locally by a developer
-*					- added jsDoc comments and added documentation for the plugin				
+*					- added jsDoc comments and added documentation for the plugin	
+*					- code tidy
+*					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
 */
 
 /**
@@ -143,6 +145,7 @@
 	* @property {function} [pinchStatus=null] A handler triggered for every phase of a pinch. See {@link $.fn.swipe#event:pinchStatus}
 	* @property {function} [click=null] A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not. 
 	* @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically. 
+	* @property {boolean} [triggerOnTouchLeave=false] If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers. 
 	* @property {string} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
 										<code>"auto"</code> : all undefined swipes will cause the page to scroll in that direction. <br/>
 										<code>"none"</code> : the page will not scroll when user swipes. <br/>
@@ -150,6 +153,7 @@
 										<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
 	* @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices. 
 	* @property {string} [excludedElements="button, input, select, textarea, a, .noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes all form, input, select, button, anchor and .noSwipe elements. 
+	
 	*/
 	var defaults = {
 		fingers: 1, 		
@@ -168,9 +172,10 @@
 		pinchStatus:null,	
 		click: null, 		
 		triggerOnTouchEnd: true, 
+		triggerOnTouchLeave:false, 
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
-		excludedElements:"button, input, select, textarea, a, .noSwipe" 
+		excludedElements:"button, input, select, textarea, a, .noSwipe"
 	};
 
 
@@ -334,7 +339,10 @@
 			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
 			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
 			END_EV = useTouchEvents ? 'touchend' : 'mouseup',
+			LEAVE_EV = useTouchEvents ? null : 'mouseleave', //we manually detect leave on touch devices, so null event here
 			CANCEL_EV = 'touchcancel';
+
+
 
 		//touch properties
 		var distance = 0;
@@ -499,9 +507,6 @@
 			}
 			else {
 				setTouchInProgress(true);
-				
-				$element.bind(MOVE_EV, touchMove);
-				$element.bind(END_EV, touchEnd);
 			}
 		};
 		
@@ -514,6 +519,7 @@
 		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchMove(jqEvent) {
+			
 			//As we use Jquery bind for events, we need to target the original event object
 			var event = jqEvent.originalEvent;
 
@@ -524,7 +530,7 @@
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
 			
-			
+
 			//Update the  finger data 
 			var currentFinger = updateFingerData(evt);
 			endTime = getTimeStamp();
@@ -559,7 +565,6 @@
 			}
 			
 			
-			
 			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH || hasPinches() ) {
 				
 				direction = calculateDirection(currentFinger.start, currentFinger.end);
@@ -574,19 +579,31 @@
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
 				}
-
-				//If we trigger whilst dragging, not on touch end, then calculate now...
-				if (!options.triggerOnTouchEnd) {
-					var cancel = !validateSwipeTime();
-
-					// if the user swiped more than the minimum length, perform the appropriate action
-					if (validateSwipeDistance() === true) {
-						phase = PHASE_END;
-						ret = triggerHandler(event, phase);
-					} else if (cancel) {
-						phase = PHASE_CANCEL;
-						triggerHandler(event, phase);
+				
+				
+				//If we trigger end events when threshold are met, or trigger events when touch leves element
+				if(!options.triggerOnTouchEnd || options.triggerOnTouchLeave) {
+					
+					var inBounds = true;
+					
+					//If checking if we leave the element, run the bounds check (we can use touchleave as its not supported on webkit)
+					if(options.triggerOnTouchLeave) {
+						var bounds = getbounds( this );
+						inBounds = isInBounds( currentFinger.end, bounds );
 					}
+					
+					//Trigger end handles as we swipe if thresholds met or if we have left the element if the user has asked to check these..
+					if(!options.triggerOnTouchEnd && inBounds) {
+						phase = getNextPhase( PHASE_MOVE );
+					} 
+					//We end if out of bounds here, so set current phase to END, and check if its modified 
+					else if(options.triggerOnTouchLeave && !inBounds ) {
+						phase = getNextPhase( PHASE_END );
+					}
+						
+					if(phase==PHASE_CANCEL || phase==PHASE_END)	{
+						triggerHandler(event, phase);
+					}				
 				}
 			}
 			else {
@@ -636,7 +653,7 @@
 			
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
-			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
+			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
 				phase = PHASE_END;
 
 				//The number of fingers we want were matched, or on desktop we ignore
@@ -646,7 +663,7 @@
 				var hasEndPoint = fingerData[0].end.x !== 0;
 				
 				//Check if the above conditions are met to make this swipe count...
-				var isSwipe = hasCorrectFingerCount && hasEndPoint && (didPinch() || didSwipe());
+				var isSwipe = hasCorrectFingerCount && hasEndPoint && (validatePinch() || validateSwipe());
 				
 				//If we are in a swipe, validate the time and distance...
 				if (isSwipe) {
@@ -661,9 +678,6 @@
 				triggerHandler(event, phase);
 			}
 
-			$element.unbind(MOVE_EV, touchMove, false);
-			$element.unbind(END_EV, touchEnd, false);
-			
 			setTouchInProgress(false);
 		}
 
@@ -691,6 +705,22 @@
 		
 		
 		/**
+		* Event handler for a touch leave event. 
+		* This is only triggered on desktops, in touch we work this out manually
+		* as the touchleave event is not supported in webkit
+		* @inner
+		*/
+		function touchLeave(jqEvent) {
+			var event = jqEvent.originalEvent;
+			
+			//If we have the trigger on leve property set....
+			if(options.triggerOnTouchLeave) {
+				phase = getNextPhase( PHASE_END );
+				triggerHandler(event, phase);
+			}
+		}
+		
+		/**
 		* Removes all listeners that were associated with the plugin
 		* @inner
 		*/
@@ -699,10 +729,46 @@
 			$element.unbind(CANCEL_EV, touchCancel);
 			$element.unbind(MOVE_EV, touchMove);
 			$element.unbind(END_EV, touchEnd);
+			
+			//we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
+			if(LEAVE_EV) { 
+				$element.unbind(LEAVE_EV, touchLeave);
+			}
+			
 			setTouchInProgress(false);
 		}
 
-
+		
+		/**
+		 * Checks if the time and distance thresholds have been met, and if so then the appropriate handlers are fired.
+		 */
+		function getNextPhase(currentPhase) {
+			
+			var nextPhase = currentPhase;
+			
+			// Ensure we have valid swipe (under time and over distance  and check if we are out of bound...)
+			var validTime = validateSwipeTime();
+			var validDistance = validateSwipeDistance();
+			
+						
+			//If we have exceeded our time, then cancel	
+			if(!validTime) {
+				nextPhase = PHASE_CANCEL;
+			}
+			//Else if we are moving, and have reached distance then end
+			else if (validDistance && currentPhase == PHASE_MOVE && (!options.triggerOnTouchEnd || options.triggerOnTouchLeave) ) {
+				nextPhase = PHASE_END;
+			} 
+			//Else if we have ended by leaving and didnt reach distance, then cancel
+			else if (!validDistance && currentPhase==PHASE_END && options.triggerOnTouchLeave) {
+				nextPhase = PHASE_CANCEL;
+			}
+			
+			
+			return nextPhase;
+		}
+		
+		
 		/**
 		* Trigger the relevant event handler
 		* The handlers are passed the original event, the element that was swiped, and in the case of the catch all handler, the direction that was swiped, "left", "right", "up", or "down"
@@ -734,13 +800,11 @@
 			
 			// If we are cancelling the gesture, then manually trigger the reset handler
 			if (phase === PHASE_CANCEL) {
-				
 				touchCancel(event);
 			}
 			
 			// If we are ending the gesture, then manually trigger the reset handler IF all fingers are off
 			if(phase === PHASE_END) {
-				
 				//If we support touch, then check that all fingers are off before we cancel
 				if (SUPPORTS_TOUCH) {
 					if(event.touches.length==0) {
@@ -860,36 +924,36 @@
 
 
 
-
-
-
-
+		
 		//
 		// GESTURE VALIDATION
 		//
 		
 		/**
 		* Checks the user has swipe far enough
-		* @return Boolean if <code>threshold</code> has been set, else null is returned.
+		* @return Boolean if <code>threshold</code> has been set, return true if the threshold was met, else false.
+		* If no threshold was set, then we return true.
 		* @inner
 		*/
 		function validateSwipeDistance() {
 			if (options.threshold !== null) {
 				return distance >= options.threshold;
 			}
-			return null;
+			
+			return true;
 		}
 
 		/**
 		* Checks the user has pinched far enough
-		* @return Boolean if <code>pinchThreshold</code> has been set, else null is returned.
+		* @return Boolean if <code>pinchThreshold</code> has been set, return true if the threshold was met, else false.
+		* If no threshold was set, then we return true.
 		* @inner
 		*/
 		function validatePinchDistance() {
 			if (options.pinchThreshold !== null) {
 				return pinchDistance >= options.pinchThreshold;
 			}
-			return null;
+			return true;
 		}
 
 		/**
@@ -967,13 +1031,7 @@
 		 * @inner
 		*/
 		function validatePinch() {
-			//Check the pinch thresholds
-			var hasValidPinchDistance = validatePinchDistance();	
-		
-			//Check the pinch met the minimum requirements
-			var valid = (hasValidPinchDistance === true || hasValidPinchDistance === null);
-			
-			return valid;
+			return validatePinchDistance();;
 		}
 		
 		/**
@@ -993,7 +1051,7 @@
 		 */
 		function didPinch() {
 			//Enure we dont return 0 or null for false values
-			return !!(pinchDirection && hasPinches());
+			return !!(validatePinch() && hasPinches());
 		}
 
 
@@ -1012,7 +1070,7 @@
 		
 			// if the user swiped more than the minimum length, perform the appropriate action
 			// hasValidDistance is null when no distance is set 
-			var valid =  (hasValidDistance === true || hasValidDistance === null) && hasValidTime;
+			var valid =  hasValidDistance && hasValidTime;
 			
 			return valid;
 		}
@@ -1027,6 +1085,7 @@
 			return !!(options.swipe || options.swipeStatus || options.swipeLeft || options.swipeRight || options.swipeUp || options.swipeDown);
 		}
 		
+		
 		/**
 		 * Returns true if we are detecting swipes and have one
 		 * @return Boolean
@@ -1034,7 +1093,7 @@
 		*/
 		function didSwipe() {
 			//Enure we dont return 0 or null for false values
-			return !!(direction && hasSwipes());
+			return !!(validateSwipe() && hasSwipes());
 		}
 
 
@@ -1105,6 +1164,27 @@
 		* @inner
 		*/
 		function setTouchInProgress(val) {
+			
+			//Add or remove event listeners depending on touch status
+			if(val===true) {
+				$element.bind(MOVE_EV, touchMove);
+				$element.bind(END_EV, touchEnd);
+				
+				//we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
+				if(LEAVE_EV) { 
+					$element.bind(LEAVE_EV, touchLeave);
+				}
+			} else {
+				$element.unbind(MOVE_EV, touchMove, false);
+				$element.unbind(END_EV, touchEnd, false);
+			
+				//we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
+				if(LEAVE_EV) { 
+					$element.unbind(LEAVE_EV, touchLeave, false);
+				}
+			}
+			
+		
 			//strict equality to ensure only true and false can update the value
 			$element.data(PLUGIN_NS+'_intouch', val === true);
 		}
@@ -1304,6 +1384,42 @@
 			var now = new Date();
 			return now.getTime();
 		}
+		
+		
+		
+		/**
+		 * Returns a bounds object with left, right, top and bottom properties for the element specified.
+		 * @param {DomNode} The DOM node to get the bounds for.
+		 */
+		function getbounds( el ) {
+			el = $(el);
+			var offset = el.offset();
+			
+			var bounds = {	
+					left:offset.left,
+					right:offset.left+el.outerWidth(),
+					top:offset.top,
+					bottom:offset.top+el.outerHeight()
+					}
+			
+			return bounds;	
+		}
+		
+		
+		/**
+		 * Checks if the point object is in the bounds object.
+		 * @param {object} point A point object.
+		 * @param {int} point.x The x value of the point.
+		 * @param {int} point.y The x value of the point.
+		 * @param {object} bounds The bounds object to test
+		 * @param {int} bounds.left The leftmost value
+		 * @param {int} bounds.right The righttmost value
+		 * @param {int} bounds.top The topmost value
+		* @param {int} bounds.bottom The bottommost value
+		 */
+		function isInBounds(point, bounds) {
+			return (point.x > bounds.left && point.x < bounds.right && point.y > bounds.top && point.y < bounds.bottom);
+		};
 	
 	
 	}
