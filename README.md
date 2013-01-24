@@ -1,4 +1,4 @@
-#TouchSwipe 1.6
+#TouchSwipe 1.6 
 A jquery plugin to be used on touch devices such as iPad, iPhone, android etc
 
 Detects single and multiple finger swipes, pinches and falls back to mouse 'drags' on the desktop. 
