@@ -1,0 +1,1 @@
+<?php header( 'Location: 1_Basic_swipe.php' ) ; ?>
