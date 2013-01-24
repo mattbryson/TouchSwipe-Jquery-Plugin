@@ -14,6 +14,8 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 
 [http://labs.skinkers.com/touchSwipe/demo](http://labs.skinkers.com/touchSwipe/demo)
 
+[http://labs.skinkers.com/touchSwipe/docs](http://labs.skinkers.com/touchSwipe/docs)
+
 
 
 ### For port to XUI see:
@@ -26,6 +28,10 @@ https://github.com/cowgp/xui-touchSwipe
  	- Fixed bugs with pinching, mainly when both pinch and swipe enabled, as well as adding time threshold for multifinger gestures, so releasing one finger beofre the other doesnt trigger as single finger gesture.
 	- made the demo site all static local HTML pages so they can be run locally by a developer
 	- added jsDoc comments and added documentation for the plugin	
+	- code tidy
+	- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
+
+
 * **1.5.1** *2012-11-22*	
 	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
 	- Fixed bug with IE and event.preventDefault();
