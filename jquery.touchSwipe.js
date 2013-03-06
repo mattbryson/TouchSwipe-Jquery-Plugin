@@ -69,6 +69,7 @@
 *					- added jsDoc comments and added documentation for the plugin	
 *					- code tidy
 *					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
+* $version: 1.6.1	- Added support for ie8
 */
 
 /**
