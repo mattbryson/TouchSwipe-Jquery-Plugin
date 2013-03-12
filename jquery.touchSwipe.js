@@ -69,7 +69,7 @@
 *					- added jsDoc comments and added documentation for the plugin	
 *					- code tidy
 *					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
-* $version: 1.6.1	- Added support for ie8
+* $version: 1.6.1	- Added support for ie8 touch events
 */
 
 /**
@@ -448,7 +448,8 @@
 				return;
 				
 			//As we use Jquery bind for events, we need to target the original event object
-			var event = jqEvent.originalEvent;
+			//If these events are being programatically triggered, we dont have an orignal event object, so use the Jq one.
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 			
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
@@ -522,8 +523,9 @@
 		function touchMove(jqEvent) {
 			
 			//As we use Jquery bind for events, we need to target the original event object
-			var event = jqEvent.originalEvent;
-
+			//If these events are being programatically triggered, we dont have an orignal event object, so use the Jq one.
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
+			
 			//If we are ending, cancelling, or within the threshold of 2 fingers being released, dont track anything..
 			if (phase === PHASE_END || phase === PHASE_CANCEL || inMultiFingerRelease())
 				return;
