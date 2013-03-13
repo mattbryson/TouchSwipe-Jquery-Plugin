@@ -840,6 +840,11 @@
 			//SWIPES....
 			if(gesture==SWIPE) {
 				//Trigger status every time..
+				
+				//Trigger the event...
+				$element.trigger('swipeStatus', [phase, direction || null, distance || 0, duration || 0, fingerCount]);
+				
+				//Fire the callback
 				if (options.swipeStatus) {
 					ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount);
 					//If the status cancels, then dont run the subsequent event handlers..
@@ -847,8 +852,13 @@
 				}
 				
 				
+				
+				
 				if (phase == PHASE_END && validateSwipe()) {
-					//trigger catch all event handler
+					//Fire the catch all event
+					$element.trigger('swipe', [direction, distance, duration, fingerCount]);
+					
+					//Fire catch all callback
 					if (options.swipe) {
 						ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
 						//If the status cancels, then dont run the subsequent event handlers..
@@ -858,24 +868,40 @@
 					//trigger direction specific event handlers	
 					switch (direction) {
 						case LEFT:
+							//Trigger the event
+							$element.trigger('swipeLeft', [direction, distance, duration, fingerCount]);
+					
+					        //Fire the callback
 							if (options.swipeLeft) {
 								ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount);
 							}
 							break;
 	
 						case RIGHT:
+							//Trigger the event
+					        $element.trigger('swipeRight', [direction, distance, duration, fingerCount]);
+					
+					        //Fire the callback
 							if (options.swipeRight) {
 								ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount);
 							}
 							break;
 	
 						case UP:
+							//Trigger the event
+					        $element.trigger('swipeUp', [direction, distance, duration, fingerCount]);
+					
+					        //Fire the callback
 							if (options.swipeUp) {
 								ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount);
 							}
 							break;
 	
 						case DOWN:
+							//Trigger the event
+					        $element.trigger('swipeDown', [direction, distance, duration, fingerCount]);
+					
+					        //Fire the callback
 							if (options.swipeDown) {
 								ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount);
 							}
@@ -887,7 +913,10 @@
 			
 			//PINCHES....
 			if(gesture==PINCH) {
-				//Trigger status every time
+				//Trigger the event
+			     $element.trigger('pinchStatus', [phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+					
+                //Fire the callback
 				if (options.pinchStatus) {
 					ret = options.pinchStatus.call($element, event, phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
 					//If the status cancels, then dont run the subsequent event handlers..
@@ -898,13 +927,21 @@
 					
 					switch (pinchDirection) {
 						case IN:
-							if (options.pinchIn) {
+							//Trigger the event
+                            $element.trigger('pinchIn', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+                    
+                            //Fire the callback
+                            if (options.pinchIn) {
 								ret = options.pinchIn.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
 							}
 							break;
 						
 						case OUT:
-							if (options.pinchOut) {
+							//Trigger the event
+                            $element.trigger('pinchOut', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+                    
+                            //Fire the callback
+                            if (options.pinchOut) {
 								ret = options.pinchOut.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
 							}
 							break;	
@@ -916,8 +953,14 @@
 			//CLICKS...
 			if(gesture==CLICK) {
 				if(phase === PHASE_CANCEL) {
-					if (options.click && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
-						ret = options.click.call($element, event, event.target);
+					if ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
+						//Trigger the event
+                        $element.trigger('click', [event.target]);
+                    
+                        //Fire the callback
+						if(options.click) {
+    						ret = options.click.call($element, event, event.target);
+    					}
 					}
 				}
 			}		

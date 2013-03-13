@@ -39,6 +39,8 @@
 	font-weight: 300;
 	font-size: 20px;
 	line-height: 36px;
+	
+	overflow:hidden;
 }
 
 body
