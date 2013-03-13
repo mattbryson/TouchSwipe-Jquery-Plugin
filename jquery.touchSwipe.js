@@ -70,6 +70,8 @@
 *					- code tidy
 *					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
 * $version: 1.6.1	- Added support for ie8 touch events
+* $version: 1.6.2	- Added support for events binding with on / off / bind in jQ for all callback names.
+*                   - Deprecated the 'click' handler in favour of tap.
 */
 
 /**
@@ -107,7 +109,7 @@
 		
 		SWIPE = "swipe",
 		PINCH = "pinch",
-		CLICK = "click",
+		TAP = "tap",
 		
 		HORIZONTAL = "horizontal",
 		VERTICAL = "vertical",
@@ -144,7 +146,7 @@
 	* @property {function} [pinchIn=null] A handler triggered for pinch in events. See {@link $.fn.swipe#event:pinchIn}
 	* @property {function} [pinchOut=null] A handler triggered for pinch out events. See {@link $.fn.swipe#event:pinchOut}
 	* @property {function} [pinchStatus=null] A handler triggered for every phase of a pinch. See {@link $.fn.swipe#event:pinchStatus}
-	* @property {function} [click=null] A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not. 
+	* @property {function} [tap=null] A handler triggered when a user just taps on the item, rather than swipes it. If they do not move, tap is triggered, if they do move, it is not. 
 	* @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically. 
 	* @property {boolean} [triggerOnTouchLeave=false] If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers. 
 	* @property {string} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
@@ -171,7 +173,8 @@
 		pinchIn:null,		
 		pinchOut:null,		
 		pinchStatus:null,	
-		click: null, 		
+		click:null, //Deprecated since 1.6.2
+		tap:null, 		
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
 		allowPageScroll: "auto", 
@@ -301,6 +304,12 @@
 		//Prep and extend the options
 		if (options && (options.allowPageScroll === undefined && (options.swipe !== undefined || options.swipeStatus !== undefined))) {
 			options.allowPageScroll = NONE;
+		}
+		
+		//Check for deprecated options
+		//Ensure that any old click handlers are assigned to the new tap, unless we have a tap
+		if(options.click!==null && options.tap===null) {
+		    options.tap = options.click;
 		}
 
 		if (!options) {
@@ -796,9 +805,9 @@
 			}
 				
 			// CLICKS / TAPS (if the above didnt cancel)
-			if(hasClick() && ret!==false) {
+			if(hasTap() && ret!==false) {
 				//Trigger the pinch events...
-				ret = triggerHandlerForGesture(event, phase, CLICK);
+				ret = triggerHandlerForGesture(event, phase, TAP);
 			}	
 			
 			// If we are cancelling the gesture, then manually trigger the reset handler
@@ -951,15 +960,15 @@
 			
 			
 			//CLICKS...
-			if(gesture==CLICK) {
+			if(gesture==TAP) {
 				if(phase === PHASE_CANCEL) {
 					if ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
 						//Trigger the event
-                        $element.trigger('click', [event.target]);
+                        $element.trigger('tap', [event.target]);
                     
                         //Fire the callback
-						if(options.click) {
-    						ret = options.click.call($element, event, event.target);
+						if(options.tap) {
+    						ret = options.tap.call($element, event, event.target);
     					}
 					}
 				}
@@ -1149,9 +1158,9 @@
 		 * @return Boolean
 		 * @inner
 		*/
-		function hasClick() {
+		function hasTap() {
 			//Enure we dont return 0 or null for false values
-			return !!(options.click);
+			return !!(options.tap);
 		}
 		
 		
@@ -1591,7 +1600,20 @@
 
 /**
  * A click handler triggered when a user simply clicks, rather than swipes on an element.
+ * This is deprecated since version 1.6.2, any assignment to click will be assigned to the tap handler.
+ * You cannot use <code>on</code> to bind to this event as the default jQ <code>click</code> event will be triggered.
+ * Use the <code>tap</code> event instead.
  * @name $.fn.swipe#click
+ * @event
+ * @deprecated since version 1.6.2, please use {@link $.fn.swipe#tap} instead 
+ * @default null
+ * @param {EventObject} event The original event object
+ * @param {DomObject} target The element clicked on.
+ */
+ 
+ /**
+ * A click / tap handler triggered when a user simply clicks or taps, rather than swipes on an element.
+ * @name $.fn.swipe#tap
  * @event
  * @default null
  * @param {EventObject} event The original event object
