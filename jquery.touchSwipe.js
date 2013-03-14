@@ -92,7 +92,7 @@
  
  
 (function ($) {
-+  "use strict";
+	"use strict";
 
 	//Constants
 	var LEFT = "left",
