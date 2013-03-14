@@ -306,17 +306,17 @@
 			options.allowPageScroll = NONE;
 		}
 		
-		//Check for deprecated options
+        //Check for deprecated options
 		//Ensure that any old click handlers are assigned to the new tap, unless we have a tap
-		if(options.click!==null && options.tap===null) {
+		if(options.click!==undefined && options.tap===undefined) {
 		    options.tap = options.click;
 		}
 
 		if (!options) {
 			options = {};
 		}
-
-		//pass empty object so we dont modify the defaults
+		
+        //pass empty object so we dont modify the defaults
 		options = $.extend({}, $.fn.swipe.defaults, options);
 
 		//For each element instantiate the plugin
@@ -685,6 +685,14 @@
 					triggerHandler(event, phase);
 				}
 			}
+			//Special case - A tap should always fire on touch end regardless,
+			//So here we manually trigger the tap end handler by itself
+			//We dont run trigger handler as it will re-trigger events that may have fired already
+			else if (!options.triggerOnTouchEnd && hasTap()) {
+                //Trigger the pinch events...
+			    phase = PHASE_END;
+			    triggerHandlerForGesture(event, phase, TAP);
+			}	
 			else if (phase === PHASE_MOVE) {
 				phase = PHASE_CANCEL;
 				triggerHandler(event, phase);
@@ -958,10 +966,10 @@
 				}
 			}
 			
-			
+
 			//CLICKS...
 			if(gesture==TAP) {
-				if(phase === PHASE_CANCEL) {
+				if(phase === PHASE_CANCEL || phase === PHASE_END) {
 					if ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
 						//Trigger the event
                         $element.trigger('tap', [event.target]);
