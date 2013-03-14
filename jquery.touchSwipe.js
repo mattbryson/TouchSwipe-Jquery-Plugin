@@ -346,13 +346,14 @@
 
 
 		//touch properties
-		var distance = 0;
-		var direction = null;
-		var duration = 0;
-		var startTouchesDistance=0;
-		var endTouchesDistance=0;
-		var pinchZoom = 1;
-		var pinchDirection=0;
+		var distance = 0,
+			direction = null,
+			duration = 0,
+			startTouchesDistance = 0,
+			endTouchesDistance = 0,
+			pinchZoom = 1,
+			pinchDistance = 0,
+			pinchDirection = 0;
 		
 		
 		//jQuery wrapped element for this instance
@@ -368,10 +369,10 @@
 		var fingerData=null;
 
 		//track times
-		var startTime = 0;
-		var endTime = 0;
-		var previousTouchEndTime=0;
-		var previousTouchFingerCount=0;
+		var startTime = 0,
+			endTime = 0,
+			previousTouchEndTime=0,
+			previousTouchFingerCount=0;
 
 		// Add gestures to all swipable areas if supported
 		try {
