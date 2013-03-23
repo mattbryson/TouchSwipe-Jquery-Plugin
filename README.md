@@ -27,6 +27,7 @@ https://github.com/cowgp/xui-touchSwipe
     - Added support for events binding with on / off / bind in jQ for all callback names.
     - Deprecated the 'click' handler in favour of tap.
     - added cancelThreshold property
+    - added 'option' method to update init options at runtime
 * **1.6.1** *2013-02-12*    
     - Added support for ie8 touch events
 * **1.6.0** *2013-01-12*

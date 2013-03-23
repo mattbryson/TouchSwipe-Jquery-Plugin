@@ -73,7 +73,8 @@
 * $version: 1.6.1	- Added support for ie8 touch events
 * $version: 1.6.2	- Added support for events binding with on / off / bind in jQ for all callback names.
 *                   - Deprecated the 'click' handler in favour of tap.
-*                    - added cancelThreshold property
+*                   - added cancelThreshold property
+*                   - added option method to update init options at runtime
 *
 */
 
@@ -332,7 +333,7 @@
 			var plugin = $this.data(PLUGIN_NS);
 
 			if (!plugin) {
-				plugin = new touchSwipe(this, options);
+				plugin = new TouchSwipe(this, options);
 				$this.data(PLUGIN_NS, plugin);
 			}
 		});
@@ -349,7 +350,7 @@
 	* @see $.fh.swipe
     * @class
 	*/
-	function touchSwipe(element, options) {
+	function TouchSwipe(element, options) {
 		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallbackToMouseEvents),
 			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
 			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
@@ -441,6 +442,30 @@
 			return $element;
 		};
 
+
+        /**
+         * Allows run time updating of the swipe configuration options.
+         * @function
+    	 * @name $.fn.swipe#option
+    	 * @param {String} property The option property to get or set
+         * @param {Object} [value] The value to set the property to
+		 * @return {Object} If only a property name is passed, then that property value is returned.
+		 * @example $("#element").swipe("option", "threshold"); // return the threshold
+         * @example $("#element").swipe("option", "threshold", 100); // set the threshold after init
+         * @see $.fn.swipe.defaults
+         *
+         */
+        this.option = function (property, value) {
+            if(options[property]!==undefined) {
+                if(value===undefined) {
+                    return options[property];
+                } else {
+                    options[property] = value;
+                }
+            } else {
+                $.error('Option ' + property + ' does not exist on jQuery.swipe.options');
+            }
+        }
 
 		//
 		// Private methods
