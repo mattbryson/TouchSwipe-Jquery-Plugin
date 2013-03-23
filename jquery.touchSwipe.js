@@ -69,17 +69,12 @@
 *					- added jsDoc comments and added documentation for the plugin	
 *					- code tidy
 *					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
-<<<<<<< HEAD
+* $Date: 2013-03-23 (Sat, 23 Mar 2013) $
 * $version: 1.6.1	- Added support for ie8 touch events
 * $version: 1.6.2	- Added support for events binding with on / off / bind in jQ for all callback names.
 *                   - Deprecated the 'click' handler in favour of tap.
-=======
-* $version: 1.6.1	- Added support for ie8
-* $Date: 2013-03-23 (Sat, 23 Mar 2013) $
-* $version: 1.6.2	- more IE8 fixes
-                    - added events as well as callbacks, so all callbacks can be used with on/bind etc
-                    - added cancelThreshold property
->>>>>>> master
+*                    - added cancelThreshold property
+*
 */
 
 /**
