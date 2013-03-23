@@ -10,11 +10,8 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 
 ### Demos, examples and docs
 
-[http://labs.skinkers.com/touchSwipe](http://labs.skinkers.com/touchSwipe)
-
-[http://labs.skinkers.com/touchSwipe/demo](http://labs.skinkers.com/touchSwipe/demo)
-
-[http://labs.skinkers.com/touchSwipe/docs](http://labs.skinkers.com/touchSwipe/docs)
+[http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)
+[http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
 
 

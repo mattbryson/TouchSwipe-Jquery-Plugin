@@ -18,6 +18,7 @@ var fileList = [
 	'Thresholds.html',
 	'Enable_and_destroy.html',
 	'Page_scrolling.html',
+	'Options.html',
 	'Image_gallery_example.html'
 ];
 
