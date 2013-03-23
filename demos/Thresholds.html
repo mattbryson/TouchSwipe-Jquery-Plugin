@@ -9,7 +9,7 @@
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         
         <title>touchSwipe</title>
@@ -52,6 +52,31 @@
 				});
 			</script>
 			
+			
+			<script id='code_3'>		
+				$(function() {				
+					$("#test3").swipe( {
+						swipe:function(event, direction) {
+							$(this).text("You swiped " + direction );
+						},
+						swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+							
+							$("#test3").text("Your have swiped " + distance + " px so far");
+							
+							if(distance>200) {
+							    $("#test3").text("Now swipe back 50px and release to cancel.. distance = " + distance + "px");
+							}
+							
+							if (phase=="cancel") {
+								$("#test3").text("You cancelled the swipe");
+							}
+						},
+						threshold:200,
+						cancelThreshold:10
+					});
+				});
+			</script>
+			
 			<span class='title'></span>
 			<h4>property: <code>threshold</code></h4>
 			<p>By setting the <code>threshold</code> you can set how far the user must swipe before it is considered a swipe. <br/>Swipe at least 200px</p>
@@ -60,7 +85,14 @@
 			<pre class="prettyprint lang-js" data-src="code_1"></pre>
 			<span class='navigation'></span>
 			
-			<div id="test" class="box">Swipe me with for at least 200 px</div>
+			<div id="test" class="box">Swipe me for at least 200 px</div>
+			
+			<h4>property: <code>cancelThreshold</code><h4>
+			<p>By setting the <code>cancelThreshold</code> you can set the minimum distance in px that the user needs to swipe back to cancel the current swipe, even if they have passed the main <code>threshold</code></p>
+			
+
+			<pre class="prettyprint lang-js" data-src="code_3"></pre>			
+			<div id="test3" class='box'>Swipe me for at least 200 px, then back 10px to cancel</div>
 			
 			<h4>property: <code>maxTimeThreshold</code><h4>
 			<p>By setting the <code>maxTimeThreshold</code> you can set the maximum time the user has to complete the swipe. A swipe LONGER than this is cancelled. This can be useful for ignoring long slow swipes. <br/>Swipe in under 500ms</p>

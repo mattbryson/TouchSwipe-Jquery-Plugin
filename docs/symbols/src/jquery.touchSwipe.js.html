@@ -71,14 +71,14 @@
 
 			<pre id="source-code" class="prettyprint linenums">/*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.0
+* @version 1.6.2
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
 * @see http://labs.skinkers.com/touchSwipe/
 * @see http://plugins.jquery.com/project/touchSwipe
 *
-* Copyright (c) 2010 Matt Bryson (www.skinkers.com)
+* Copyright (c) 2010 Matt Bryson
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 *
@@ -140,6 +140,11 @@
 *					- added jsDoc comments and added documentation for the plugin	
 *					- code tidy
 *					- added triggerOnTouchLeave property that will end the event when the user swipes off the element.
+* $version: 1.6.1	- Added support for ie8
+* $Date: 2013-03-23 (Sat, 23 Mar 2013) $
+* $version: 1.6.2	- more IE8 fixes
+                    - added events as well as callbacks, so all callbacks can be used with on/bind etc
+                    - added cancelThreshold property
 */
 
 /**
@@ -162,7 +167,7 @@
  
  
 (function ($) {
-+  "use strict";
+	"use strict";
 
 	//Constants
 	var LEFT = "left",
@@ -195,13 +200,14 @@
 
 
 
-		/**
+	/**
 	* The default configuration, and available options to configure touch swipe with.
 	* You can set the default values by updating any of the properties prior to instantiation.
 	* @name $.fn.swipe.defaults
 	* @namespace
 	* @property {int} [fingers=1] The number of fingers to detect in a swipe. Any swipes that do not meet this requirement will NOT trigger swipe handlers.
 	* @property {int} [threshold=75] The number of pixels that the user must move their finger by before it is considered a swipe. 
+	* @property {int} [cancelThreshold=25] The number of pixels that the user must move their finger back from the original swipe direction to cancel the gesture.
 	* @property {int} [pinchThreshold=20] The number of pixels that the user must pinch their finger by before it is considered a pinch. 
 	* @property {int} [maxTimeThreshold=null] Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe. 
 	* @property {int} [fingerReleaseThreshold=250] Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release. 
@@ -228,7 +234,8 @@
 	*/
 	var defaults = {
 		fingers: 1, 		
-		threshold: 75, 		
+		threshold: 75, 	
+		cancelThreshold:25,	
 		pinchThreshold:20,
 		maxTimeThreshold: null, 
 		fingerReleaseThreshold:250, 
@@ -416,13 +423,16 @@
 
 
 		//touch properties
-		var distance = 0;
-		var direction = null;
-		var duration = 0;
-		var startTouchesDistance=0;
-		var endTouchesDistance=0;
-		var pinchZoom = 1;
-		var pinchDirection=0;
+		var distance = 0,
+			direction = null,
+			duration = 0,
+			startTouchesDistance = 0,
+			endTouchesDistance = 0,
+			pinchZoom = 1,
+			pinchDistance = 0,
+			pinchDirection = 0,
+			maximumsMap=null;
+
 		
 		
 		//jQuery wrapped element for this instance
@@ -438,10 +448,10 @@
 		var fingerData=null;
 
 		//track times
-		var startTime = 0;
-		var endTime = 0;
-		var previousTouchEndTime=0;
-		var previousTouchFingerCount=0;
+		var startTime = 0,
+			endTime = 0,
+			previousTouchEndTime=0,
+			previousTouchFingerCount=0;
 
 		// Add gestures to all swipable areas if supported
 		try {
@@ -545,6 +555,7 @@
 			pinchZoom = 1;
 			pinchDistance = 0;
 			fingerData=createAllFingerData();
+			maximumsMap=createMaximumsData();
 			cancelMultiFingerRelease();
 
 			
@@ -646,6 +657,10 @@
 				//Distance and duration are all off the main finger
 				distance = calculateDistance(currentFinger.start, currentFinger.end);
 				duration = calculateDuration();
+
+                //Cache the maximum distance we made in this direction
+                setMaxDistance(direction, distance);
+
 
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
@@ -1007,11 +1022,18 @@
 		* @inner
 		*/
 		function validateSwipeDistance() {
+			var valid = true;
+			//If we made it past the min swipe distance..
 			if (options.threshold !== null) {
-				return distance &gt;= options.threshold;
+				valid = distance &gt;= options.threshold;
 			}
 			
-			return true;
+            //And we didn't swipe back to cancel...
+			if(valid &amp;&amp; options.cancelThreshold !== null) {
+    			valid =  (getMaxDistance( direction ) - distance) &lt; options.cancelThreshold;
+			}
+			
+			return valid;
 		}
 
 		/**
@@ -1272,8 +1294,8 @@
 			var id = evt.identifier!==undefined ? evt.identifier : 0; 
 			
 			fingerData[index].identifier = id;
-			fingerData[index].start.x = fingerData[index].end.x = evt.pageX;
-			fingerData[index].start.y = fingerData[index].end.y = evt.pageY;
+			fingerData[index].start.x = fingerData[index].end.x = evt.pageX||evt.clientX;
+			fingerData[index].start.y = fingerData[index].end.y = evt.pageY||evt.clientY;
 			
 			return fingerData[index];
 		}
@@ -1289,8 +1311,8 @@
 			var id = evt.identifier!==undefined ? evt.identifier : 0; 
 			var f = getFingerData( id );
 			
-			f.end.x = evt.pageX;
-			f.end.y = evt.pageY;
+			f.end.x = evt.pageX||evt.clientX;
+			f.end.y = evt.pageY||evt.clientY;
 			
 			return f;
 		}
@@ -1329,7 +1351,55 @@
 			return fingerData;
 		}
 		
+		/**
+		 * Sets the maximum distance swiped in the given direction. 
+		 * If the new value is lower than the current value, the max value is not changed.
+		 * @param {string}  direction The direction of the swipe
+		 * @param {int}  distance The distance of the swipe
+		 * @inner
+		*/
+		function setMaxDistance(direction, distance) {
+    		distance = Math.max(distance, getMaxDistance(direction) );
+    		maximumsMap[direction].distance = distance;
+		}
+        
+        /**
+		 * gets the maximum distance swiped in the given direction. 
+		 * @param {string}  direction The direction of the swipe
+		 * @return int  The distance of the swipe
+		 * @inner
+		*/        
+        function getMaxDistance(direction) {
+            return maximumsMap[direction].distance;
+        }
 		
+		/**
+		 * Creats a map of directions to maximum swiped values.
+		 * @return Object A dictionary of maximum values, indexed by direction.
+		 * @inner
+		*/
+		function createMaximumsData() {
+			var maxData={};
+			maxData[LEFT]=createMaximumVO(LEFT);
+			maxData[RIGHT]=createMaximumVO(RIGHT);
+			maxData[UP]=createMaximumVO(UP);
+			maxData[DOWN]=createMaximumVO(DOWN);
+			
+			return maxData;
+		}
+		
+		/**
+		 * Creates a map maximum swiped values for a given swipe direction
+		 * @param {string} The direction that these values will be associated with
+		 * @return Object Maximum values
+		 * @inner
+		*/
+		function createMaximumVO(dir) {
+		    return { 
+		        direction:dir, 
+		        distance:0
+		    }
+		}
 		
 		
 		//
@@ -1630,7 +1700,7 @@
 <!-- ============================== footer ================================= -->
 	<footer class="footer">
 		
-		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Wed Jan 23 2013 17:52:44 GMT-0000 (GMT)</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Mar 23 2013 17:46:50 GMT-0000 (GMT)</p>
 	</footer>
 </div>
 <script type="text/javascript">
