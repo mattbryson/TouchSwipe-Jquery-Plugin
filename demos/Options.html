@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+    <head>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function()
+				{	
+					$("#getThreshold").click(function(){
+						alert( $("#test").swipe("option", "threshold") );
+					});
+					
+					$("#setThreshold").change(function(){
+						$("#test").swipe("option", "threshold", $(this).val() );
+					});
+				
+					$("#test").swipe( {
+					    threshold:200,
+					    swipe:function(event, direction, distance, duration, fingerCount)
+				        {
+                            this.text("You swiped " + distance + "px");
+					    }
+					});
+				});
+			</script>
+			
+			<span class='title'></span>
+			<h4>methods: <code>option</code></h4>
+			<p>By using the <code>option</code> method, you can change any of the init option properties at run time.</br>
+			</p>
+			
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src='code_1'></pre>
+			<span class='navigation'></span>
+			
+			</br>
+			
+			
+				<select class='btn' id="setThreshold">
+				    <option>20</option>
+				    <option>50</option>
+				    <option>100</option>
+				    <option>200</option>
+				    <option>500</option>
+				    <option>1000</option>
+				</select>
+                <button class='btn' id="getThreshold">Get Threshold</button>
+				
+			
+			<div id="test" class="box">Swipe me</div>
+			
+			<br/><br/>
+			
+			<span class='navigation'></span>
+		</div>
+   </body>
+</html>
