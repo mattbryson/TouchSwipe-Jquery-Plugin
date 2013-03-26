@@ -12,7 +12,7 @@ var fileList = [
 	'Trigger_handlers.html',
 	'Stop_propegation.html',
 	'Handlers_and_events.html',
-	'Click_vs_swipe.html',
+	'Tap_vs_swipe.html',
 	'Excluded_children.html',
 	'Page_zoom.html',
 	'Thresholds.html',

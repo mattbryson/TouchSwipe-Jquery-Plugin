@@ -76,6 +76,7 @@
 *                   - added cancelThreshold property
 *                   - added option method to update init options at runtime
 *
+* $version 1.6.3    - added doubletap, longtap events and longTapThreshold, doubleTapThreshold property
 */
 
 /**
@@ -114,11 +115,15 @@
 		SWIPE = "swipe",
 		PINCH = "pinch",
 		TAP = "tap",
+		DOUBLE_TAP = "doubletap",
+		LONG_TAP = "longtap",
 		
 		HORIZONTAL = "horizontal",
 		VERTICAL = "vertical",
 
 		ALL_FINGERS = "all",
+		
+		DOUBLE_TAP_THRESHOLD = 10,
 
 		PHASE_START = "start",
 		PHASE_MOVE = "move",
@@ -142,6 +147,8 @@
 	* @property {int} [pinchThreshold=20] The number of pixels that the user must pinch their finger by before it is considered a pinch. 
 	* @property {int} [maxTimeThreshold=null] Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe. 
 	* @property {int} [fingerReleaseThreshold=250] Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release. 
+	* @property {int} [longTapThreshold=1000] Time in milliseconds between tap and release for a long tap
+    * @property {int} [doubleTapThreshold=200] Time in milliseconds between 2 taps to count as a doubletap
 	* @property {function} [swipe=null] A handler to catch all swipes. See {@link $.fn.swipe#event:swipe}
 	* @property {function} [swipeLeft=null] A handler that is triggered for "left" swipes. See {@link $.fn.swipe#event:swipeLeft}
 	* @property {function} [swipeRight=null] A handler that is triggered for "right" swipes. See {@link $.fn.swipe#event:swipeRight}
@@ -152,6 +159,8 @@
 	* @property {function} [pinchOut=null] A handler triggered for pinch out events. See {@link $.fn.swipe#event:pinchOut}
 	* @property {function} [pinchStatus=null] A handler triggered for every phase of a pinch. See {@link $.fn.swipe#event:pinchStatus}
 	* @property {function} [tap=null] A handler triggered when a user just taps on the item, rather than swipes it. If they do not move, tap is triggered, if they do move, it is not. 
+	* @property {function} [doubleTap=null] A handler triggered when a user double taps on the item. The delay between taps can be set with the doubleTapThreshold property. See {@link $.fn.swipe.defaults#doubleTapThreshold}
+	* @property {function} [longTap=null] A handler triggered when a user long taps on the item. The delay between start and end can be set with the longTapThreshold property. See {@link $.fn.swipe.defaults#doubleTapThreshold}
 	* @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically. 
 	* @property {boolean} [triggerOnTouchLeave=false] If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers. 
 	* @property {string} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
@@ -170,6 +179,8 @@
 		pinchThreshold:20,
 		maxTimeThreshold: null, 
 		fingerReleaseThreshold:250, 
+		longTapThreshold:1000,
+		doubleTapThreshold:200,
 		swipe: null, 		
 		swipeLeft: null, 	
 		swipeRight: null, 	
@@ -180,7 +191,9 @@
 		pinchOut:null,		
 		pinchStatus:null,	
 		click:null, //Deprecated since 1.6.2
-		tap:null, 		
+		tap:null,
+		doubleTap:null,
+		longTap:null, 		
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
 		allowPageScroll: "auto", 
@@ -389,8 +402,12 @@
 		var startTime = 0,
 			endTime = 0,
 			previousTouchEndTime=0,
-			previousTouchFingerCount=0;
+			previousTouchFingerCount=0,
+			doubleTapStartTime=0;
 
+        //Timeouts
+        var singleTapTimeout=null;
+        
 		// Add gestures to all swipable areas if supported
 		try {
 			$element.bind(START_EV, touchStart);
@@ -701,36 +718,22 @@
 			//Set end of swipe
 			endTime = getTimeStamp();
 			
+			//Get duration incase move was never fired
+			duration = calculateDuration();
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
 			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
 				phase = PHASE_END;
-
-				//The number of fingers we want were matched, or on desktop we ignore
-				var hasCorrectFingerCount = ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH);
-
-				//We have an end value for the finger
-				var hasEndPoint = fingerData[0].end.x !== 0;
-				
-				//Check if the above conditions are met to make this swipe count...
-				var isSwipe = hasCorrectFingerCount && hasEndPoint && (validatePinch() || validateSwipe());
-				
-				//If we are in a swipe, validate the time and distance...
-				if (isSwipe) {
-					triggerHandler(event, phase);
-				} else {
-					phase = PHASE_CANCEL;
-					triggerHandler(event, phase);
-				}
+                triggerHandler(event, phase);
 			}
-			//Special case - A tap should always fire on touch end regardless,
+			//Special cases - A tap should always fire on touch end regardless,
 			//So here we manually trigger the tap end handler by itself
 			//We dont run trigger handler as it will re-trigger events that may have fired already
 			else if (!options.triggerOnTouchEnd && hasTap()) {
                 //Trigger the pinch events...
 			    phase = PHASE_END;
 			    triggerHandlerForGesture(event, phase, TAP);
-			}	
+			}
 			else if (phase === PHASE_MOVE) {
 				phase = PHASE_CANCEL;
 				triggerHandler(event, phase);
@@ -839,22 +842,36 @@
 			var ret = undefined;
 			
 			// SWIPE GESTURES
-			if(hasSwipes()) {
+			if(didSwipe()) {
 				//Trigger the swipe events...
 				ret = triggerHandlerForGesture(event, phase, SWIPE);
 			}
 			
 			// PINCH GESTURES (if the above didnt cancel)
-			if(hasPinches() && ret!==false) {
+			else if(didPinch() && ret!==false) {
 				//Trigger the pinch events...
 				ret = triggerHandlerForGesture(event, phase, PINCH);
 			}
-				
-			// CLICKS / TAPS (if the above didnt cancel)
-			if(hasTap() && ret!==false) {
-				//Trigger the pinch events...
+			
+			// CLICK / TAP (if the above didnt cancel)
+			if(didDoubleTap() && ret!==false) {
+				//Trigger the tap events...
+				ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP);
+			}
+			
+			// CLICK / TAP (if the above didnt cancel)
+			else if(didLongTap() && ret!==false) {
+				//Trigger the tap events...
+				ret = triggerHandlerForGesture(event, phase, LONG_TAP);
+			}
+
+			// CLICK / TAP (if the above didnt cancel)
+			else if(didTap() && ret!==false) {
+				//Trigger the tap event..
 				ret = triggerHandlerForGesture(event, phase, TAP);
-			}	
+	    	}
+			
+			
 			
 			// If we are cancelling the gesture, then manually trigger the reset handler
 			if (phase === PHASE_CANCEL) {
@@ -1005,20 +1022,81 @@
 			}
 			
 
-			//CLICKS...
+
+                
+	    		
 			if(gesture==TAP) {
 				if(phase === PHASE_CANCEL || phase === PHASE_END) {
-					if ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
-						//Trigger the event
+					
+    			    
+    			    //Cancel any existing double tap
+				    clearTimeout(singleTapTimeout);
+				           
+					//If we are also looking for doubelTaps, wait incase this is one...
+				    if(hasDoubleTap() && !inDoubleTap()) {
+				        //Cache the time of this tap
+                        doubleTapStartTime = getTimeStamp();
+                       
+				        //Now wait for the double tap timeout, and trigger this single tap
+				        //if its not cancelled by a double tap
+				        singleTapTimeout = setTimeout($.proxy(function() {
+        			        doubleTapStartTime=null;
+        			        //Trigger the event
+                            $element.trigger('tap', [event.target]);
+
+                        
+                            //Fire the callback
+                            if(options.tap) {
+                                ret = options.tap.call($element, event, event.target);
+                            }
+    			        }, this), options.doubleTapThreshold );
+    			    	
+    			    } else {
+                        doubleTapStartTime=null;
+                        
+                        //Trigger the event
                         $element.trigger('tap', [event.target]);
-                    
+
+                        
                         //Fire the callback
-						if(options.tap) {
-    						ret = options.tap.call($element, event, event.target);
-    					}
-					}
-				}
-			}		
+                        if(options.tap) {
+                            ret = options.tap.call($element, event, event.target);
+                        }
+	    		    }
+	    		}
+			}
+			
+			else if (gesture==DOUBLE_TAP) {
+				if(phase === PHASE_CANCEL || phase === PHASE_END) {
+					//Cancel any pending singletap 
+				    clearTimeout(singleTapTimeout);
+				    doubleTapStartTime=null;
+				        
+                    //Trigger the event
+                    $element.trigger('doubletap', [event.target]);
+                
+                    //Fire the callback
+                    if(options.doubleTap) {
+                        ret = options.doubleTap.call($element, event, event.target);
+                    }
+	    		}
+			}
+			
+			else if (gesture==LONG_TAP) {
+				if(phase === PHASE_CANCEL || phase === PHASE_END) {
+					//Cancel any pending singletap (shouldnt be one)
+				    clearTimeout(singleTapTimeout);
+				    doubleTapStartTime=null;
+				        
+                    //Trigger the event
+                    $element.trigger('longtap', [event.target]);
+                
+                    //Fire the callback
+                    if(options.longTap) {
+                        ret = options.longTap.call($element, event, event.target);
+                    }
+	    		}
+			}				
 				
 			return ret;
 		}
@@ -1139,7 +1217,11 @@
 		 * @inner
 		*/
 		function validatePinch() {
-			return validatePinchDistance();;
+		    var hasCorrectFingerCount = validateFingers();
+		    var hasEndPoint = validateEndPoint();
+			var hasCorrectDistance = validatePinchDistance();
+			return hasCorrectFingerCount && hasEndPoint && hasCorrectDistance;
+			
 		}
 		
 		/**
@@ -1175,10 +1257,12 @@
 			//Check validity of swipe
 			var hasValidTime = validateSwipeTime();
 			var hasValidDistance = validateSwipeDistance();		
-		
+		    var hasCorrectFingerCount = validateFingers();
+		    var hasEndPoint = validateEndPoint();
+		    
 			// if the user swiped more than the minimum length, perform the appropriate action
 			// hasValidDistance is null when no distance is set 
-			var valid =  hasValidDistance && hasValidTime;
+			var valid =  hasEndPoint && hasCorrectFingerCount && hasValidDistance && hasValidTime;
 			
 			return valid;
 		}
@@ -1204,17 +1288,131 @@
 			return !!(validateSwipe() && hasSwipes());
 		}
 
+        /**
+		 * Returns true if we have matched the number of fingers we are looking for
+		 * @return Boolean
+		 * @inner
+		*/
+        function validateFingers() {
+            //The number of fingers we want were matched, or on desktop we ignore
+    		return ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH);
+    	}
+        
+        /**
+		 * Returns true if we have an end point for the swipe
+		 * @return Boolean
+		 * @inner
+		*/
+        function validateEndPoint() {
+            //We have an end value for the finger
+		    return fingerData[0].end.x !== 0;
+        }
 
 		// TAP / CLICK
 		/**
-		 * Returns true of any clcik / tap evetns have been registered
+		 * Returns true if a click / tap events have been registered
 		 * @return Boolean
 		 * @inner
 		*/
 		function hasTap() {
 			//Enure we dont return 0 or null for false values
-			return !!(options.tap);
+			return !!(options.tap) ;
 		}
+		
+		/**
+		 * Returns true if a double tap events have been registered
+		 * @return Boolean
+		 * @inner
+		*/
+		function hasDoubleTap() {
+			//Enure we dont return 0 or null for false values
+			return !!(options.doubleTap) ;
+		}
+		
+		/**
+		 * Returns true if any long tap events have been registered
+		 * @return Boolean
+		 * @inner
+		*/
+		function hasLongTap() {
+			//Enure we dont return 0 or null for false values
+			return !!(options.longTap) ;
+		}
+		
+		/**
+		 * Returns true if we could be in the process of a double tap (one tap has occurred, we are listening for double taps, and the threshold hasn't past.
+		 * @return Boolean
+		 * @inner
+		*/
+		function validateDoubleTap() {
+		    if(doubleTapStartTime==null){
+		        return false;
+		    }
+		    var now = getTimeStamp();
+		    return (hasDoubleTap() && ((now-doubleTapStartTime) <= options.doubleTapThreshold));
+		}
+		
+		/**
+		 * Returns true if we could be in the process of a double tap (one tap has occurred, we are listening for double taps, and the threshold hasn't past.
+		 * @return Boolean
+		 * @inner
+		*/
+		function inDoubleTap() {
+		    return validateDoubleTap();
+		}
+		
+		
+		/**
+		 * Returns true if we have a valid tap
+		 * @return Boolean
+		 * @inner
+		*/
+		function validateTap() {
+		    return ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0));
+		}
+		
+		/**
+		 * Returns true if we have a valid long tap
+		 * @return Boolean
+		 * @inner
+		*/
+		function validateLongTap() {
+		    //slight threshold on moving finger
+		    return ((duration > options.longTapThreshold) && (distance < DOUBLE_TAP_THRESHOLD)); 
+		}
+		
+		/**
+		 * Returns true if we are detecting taps and have one
+		 * @return Boolean
+		 * @inner
+		*/
+		function didTap() {
+		    //Enure we dont return 0 or null for false values
+			return !!(validateTap() && hasTap());
+		}
+		
+		
+		/**
+		 * Returns true if we are detecting double taps and have one
+		 * @return Boolean
+		 * @inner
+		*/
+		function didDoubleTap() {
+		    //Enure we dont return 0 or null for false values
+			return !!(validateDoubleTap() && hasDoubleTap());
+		}
+		
+		/**
+		 * Returns true if we are detecting long taps and have one
+		 * @return Boolean
+		 * @inner
+		*/
+		function didLongTap() {
+		    //Enure we dont return 0 or null for false values
+			return !!(validateLongTap() && hasLongTap());
+		}
+		
+		
 		
 		
 		// MULTI FINGER TOUCH
@@ -1715,6 +1913,30 @@
  /**
  * A click / tap handler triggered when a user simply clicks or taps, rather than swipes on an element.
  * @name $.fn.swipe#tap
+ * @event
+ * @default null
+ * @param {EventObject} event The original event object
+ * @param {DomObject} target The element clicked on.
+ */
+ 
+/**
+ * A double tap handler triggered when a user double clicks or taps on an element.
+ * You can set the time delay for a double tap with the {@link $.fn.swipe.defaults#doubleTapThreshold} property. 
+ * Note: If you set both <code>doubleTap</code> and <code>tap</code> handlers, the <code>tap</code> event will be delayed by the <code>doubleTapThreshold</code>
+ * as the script needs to check if its a double tap.
+ * @name $.fn.swipe#doubleTap
+ * @see  $.fn.swipe.defaults#doubleTapThreshold
+ * @event
+ * @default null
+ * @param {EventObject} event The original event object
+ * @param {DomObject} target The element clicked on.
+ */
+ 
+ /**
+ * A long tap handler triggered when a user long clicks or taps on an element.
+ * You can set the time delay for a long tap with the {@link $.fn.swipe.defaults#longTapThreshold} property. 
+ * @name $.fn.swipe#longTap
+ * @see  $.fn.swipe.defaults#longTapThreshold
  * @event
  * @default null
  * @param {EventObject} event The original event object

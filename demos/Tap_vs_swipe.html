@@ -24,6 +24,8 @@
 			<script id='code_1'>
 				$(function() {	
 					var tapCount=0;
+					var doubleTapCount=0;
+					var longTapCount=0;
 					var swipeCount=0;
 					var blackCount=0;
 
@@ -31,7 +33,15 @@
 					$("#test").swipe( {
 						tap:function(event, target) {
 							tapCount++;
-							$("#textText").html("You clicked " + tapCount +" times on " + $(target).attr("id"));
+							msg(target);
+						},
+						doubleTap:function(event, target) {
+							doubleTapCount++;
+							msg(target);
+						},
+						longTap:function(event, target) {
+							longTapCount++;
+							msg(target);
 						},
 						swipe:function() {
 							swipeCount++;
@@ -47,18 +57,27 @@
 						$("#another_div").html("<h3 id='div text'>jQuery click handler fired on the black div : you clicked the black div "+ 
 						blackCount + " times</h3>");
 					});
+					
+					function msg(target) {
+					    $("#textText").html("You tapped " + tapCount +", double tapped " +  doubleTapCount + " and long tapped " +  longTapCount + " times on " +  $(target).attr("id"));
+					}
 				});
 			</script>
 			
 			<span class='title'></span>
-			<h4>events: <code>tap</code>, <code>swipe</code></h4>
+			<h4>events: <code>tap</code>, <code>doubleTap</code>, <code>longTap</code>, <code>swipe</code></h4>
+			<h4>properties: <code>longTapThreshold</code>, <code>doubleTapThreshold</code></h4>
 			<p>You can also detect if the user simply clicks and does not swipe with the <code>tap</code> handler<br/><br/>
-				The <code>tap</code> handler is passed the original event object and the target that was clicked.
-				<br/><br/>
-				If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
+				The <code>tap</code>, <code>doubleTap</code> and <code>longTap</code> handler are passed the original event object and the target that was clicked.
+				<br/></p>
+				<p class="muted">If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
 				standard jQuery mouse events on children of the touchSwipe object.</p>
 				
-				<p><code>tap</code> replaces the old <code>click</code> handler for naming consistency. Since the introduction of event 
+				<p>You can set the delay between taps which defines a double tap, and the length of a long tap with the <code>doubleTapThreshold</code> and <code>longTapThreshold</code> properties.</p>
+				
+				<p>Note: If you assign both tap and double tap, you tap events will be delayed by the length of <code>doubleTapThreshold</code> as it waits to see if its a double before trigger the event</p>				
+				
+				<p class="muted"><code>tap</code> replaces the old <code>click</code> handler for naming consistency. Since the introduction of event 
 				triggering as well as callbacks, the plugin cannot trigger a <code>click</code> event as it clashes with the jQ click event, 
 				so both the event and callback are called <code>tap</code>. For backwards compatibility, the <code>click</code> callback will still work
 				but there is no click event. You must use the <code>tap</code> event when binding with <code>on</code> or <code>bind</code></p>
@@ -69,7 +88,7 @@
 			<span class='navigation'></span>
 			
 			<div id="test" class="box">
-				<div id="textText">Swipe or Click me</div><br/>
+				<div id="textText">Swipe, Tap, Double Tap or Long Tap me</div><br/>
 				<div id="a_div" class="box" style="width:150px;height:50px;background:#666"><h3 id='a_div_text'>Im just a child div</h3></div>
 				<div id="another_div" class="box" style="width:200px;height:100px;background:#000"><h3>Im a child div with my own jQuery click handler</h3></div>
 			</div>
