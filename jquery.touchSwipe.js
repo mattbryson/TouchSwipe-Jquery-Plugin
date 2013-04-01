@@ -147,7 +147,7 @@
 	* @property {int} [pinchThreshold=20] The number of pixels that the user must pinch their finger by before it is considered a pinch. 
 	* @property {int} [maxTimeThreshold=null] Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe. 
 	* @property {int} [fingerReleaseThreshold=250] Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release. 
-	* @property {int} [longTapThreshold=1000] Time in milliseconds between tap and release for a long tap
+	* @property {int} [longTapThreshold=500] Time in milliseconds between tap and release for a long tap
     * @property {int} [doubleTapThreshold=200] Time in milliseconds between 2 taps to count as a doubletap
 	* @property {function} [swipe=null] A handler to catch all swipes. See {@link $.fn.swipe#event:swipe}
 	* @property {function} [swipeLeft=null] A handler that is triggered for "left" swipes. See {@link $.fn.swipe#event:swipeLeft}
@@ -179,7 +179,7 @@
 		pinchThreshold:20,
 		maxTimeThreshold: null, 
 		fingerReleaseThreshold:250, 
-		longTapThreshold:1000,
+		longTapThreshold:500,
 		doubleTapThreshold:200,
 		swipe: null, 		
 		swipeLeft: null, 	
@@ -1378,7 +1378,7 @@
 		*/
 		function validateLongTap() {
 		    //slight threshold on moving finger
-		    return ((duration > options.longTapThreshold) && (distance < DOUBLE_TAP_THRESHOLD)); 
+            return ((duration > options.longTapThreshold) && (distance < DOUBLE_TAP_THRESHOLD)); 
 		}
 		
 		/**
