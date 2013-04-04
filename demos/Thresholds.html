@@ -61,18 +61,19 @@
 						},
 						swipeStatus:function(event, phase, direction, distance, duration, fingers) {
 							
-							$("#test3").text("Your have swiped " + distance + " px so far");
+							$("#test3").text(" Your have swiped " + distance + " px so far");
 							
 							if(distance>200) {
-							    $("#test3").text("Now swipe back 50px and release to cancel.. distance = " + distance + "px");
+							    $("#test3").text(" Now swipe back 10px and release to cancel.. distance = " + distance + "px");
 							}
 							
 							if (phase=="cancel") {
-								$("#test3").text("You cancelled the swipe");
+								$("#test3").text(" You cancelled the swipe");
 							}
 						},
 						threshold:200,
 						cancelThreshold:10
+						
 					});
 				});
 			</script>

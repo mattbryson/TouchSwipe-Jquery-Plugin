@@ -77,6 +77,8 @@
 *                   - added option method to update init options at runtime
 *
 * $version 1.6.3    - added doubletap, longtap events and longTapThreshold, doubleTapThreshold property
+* $Date: 2013-04-04 (Thurs, 04 April 2013) $
+* $version 1.6.4    - Fixed bug with cancelThreshold introduced in 1.6.3, where swipe status no longer fired start event, and stopped once swiping back.
 */
 
 /**
@@ -143,7 +145,7 @@
 	* @namespace
 	* @property {int} [fingers=1] The number of fingers to detect in a swipe. Any swipes that do not meet this requirement will NOT trigger swipe handlers.
 	* @property {int} [threshold=75] The number of pixels that the user must move their finger by before it is considered a swipe. 
-	* @property {int} [cancelThreshold=25] The number of pixels that the user must move their finger back from the original swipe direction to cancel the gesture.
+	* @property {int} [cancelThreshold=null] The number of pixels that the user must move their finger back from the original swipe direction to cancel the gesture.
 	* @property {int} [pinchThreshold=20] The number of pixels that the user must pinch their finger by before it is considered a pinch. 
 	* @property {int} [maxTimeThreshold=null] Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe. 
 	* @property {int} [fingerReleaseThreshold=250] Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release. 
@@ -175,7 +177,7 @@
 	var defaults = {
 		fingers: 1, 		
 		threshold: 75, 	
-		cancelThreshold:25,	
+		cancelThreshold:null,	
 		pinchThreshold:20,
 		maxTimeThreshold: null, 
 		fingerReleaseThreshold:250, 
@@ -722,7 +724,10 @@
 			duration = calculateDuration();
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
-			if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
+			if(didSwipeBackToCancel()) {
+			    phase = PHASE_CANCEL;
+                triggerHandler(event, phase);
+			} else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
 				phase = PHASE_END;
                 triggerHandler(event, phase);
 			}
@@ -810,10 +815,10 @@
 			// Ensure we have valid swipe (under time and over distance  and check if we are out of bound...)
 			var validTime = validateSwipeTime();
 			var validDistance = validateSwipeDistance();
-			
+			var didCancel = didSwipeBackToCancel();
 						
 			//If we have exceeded our time, then cancel	
-			if(!validTime) {
+			if(!validTime || didCancel) {
 				nextPhase = PHASE_CANCEL;
 			}
 			//Else if we are moving, and have reached distance then end
@@ -824,7 +829,6 @@
 			else if (!validDistance && currentPhase==PHASE_END && options.triggerOnTouchLeave) {
 				nextPhase = PHASE_CANCEL;
 			}
-			
 			
 			return nextPhase;
 		}
@@ -842,13 +846,13 @@
 			var ret = undefined;
 			
 			// SWIPE GESTURES
-			if(didSwipe()) {
+			if(didSwipe() || hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
 				//Trigger the swipe events...
 				ret = triggerHandlerForGesture(event, phase, SWIPE);
-			}
+			} 
 			
 			// PINCH GESTURES (if the above didnt cancel)
-			else if(didPinch() && ret!==false) {
+			else if((didPinch() || hasPinches()) && ret!==false) {
 				//Trigger the pinch events...
 				ret = triggerHandlerForGesture(event, phase, PINCH);
 			}
@@ -1121,12 +1125,22 @@
 				valid = distance >= options.threshold;
 			}
 			
-            //And we didn't swipe back to cancel...
-			if(valid && options.cancelThreshold !== null) {
-    			valid =  (getMaxDistance( direction ) - distance) < options.cancelThreshold;
+            return valid;
+		}
+		
+		/**
+		* Checks the user has swiped back to cancel.
+		* @return Boolean if <code>cancelThreshold</code> has been set, return true if the cancelThreshold was met, else false.
+		* If no cancelThreshold was set, then we return true.
+		* @inner
+		*/
+		function didSwipeBackToCancel() {
+            var cancelled = false;
+    		if(options.cancelThreshold !== null && direction !==null)  {
+    		    cancelled =  (getMaxDistance( direction ) - distance) >= options.cancelThreshold;
 			}
 			
-			return valid;
+			return cancelled;
 		}
 
 		/**
@@ -1256,13 +1270,14 @@
 		function validateSwipe() {
 			//Check validity of swipe
 			var hasValidTime = validateSwipeTime();
-			var hasValidDistance = validateSwipeDistance();		
-		    var hasCorrectFingerCount = validateFingers();
+			var hasValidDistance = validateSwipeDistance();	
+			var hasCorrectFingerCount = validateFingers();
 		    var hasEndPoint = validateEndPoint();
+		    var didCancel = didSwipeBackToCancel();	
 		    
 			// if the user swiped more than the minimum length, perform the appropriate action
 			// hasValidDistance is null when no distance is set 
-			var valid =  hasEndPoint && hasCorrectFingerCount && hasValidDistance && hasValidTime;
+			var valid =  !didCancel && hasEndPoint && hasCorrectFingerCount && hasValidDistance && hasValidTime;
 			
 			return valid;
 		}
