@@ -20,6 +20,8 @@ https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
+* **1.6.3** *2013-04-04*    
+    - added doubletap, longtap events and longTapThreshold, doubleTapThreshold property
 * **1.6.2**	*2013-03-23*
     - Added support for events binding with on / off / bind in jQ for all callback names.
     - Deprecated the 'click' handler in favour of tap.
