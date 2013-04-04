@@ -20,7 +20,9 @@ https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
-* **1.6.3** *2013-04-04*    
+* **1.6.4** *2013-04-04*
+    - Fixed bug with cancelThreshold introduced in 1.6.3, where swipe status no longer fired start event, and stopped once swiping back.    
+* **1.6.3** *2013-04-01*    
     - added doubletap, longtap events and longTapThreshold, doubleTapThreshold property
 * **1.6.2**	*2013-03-23*
     - Added support for events binding with on / off / bind in jQ for all callback names.
