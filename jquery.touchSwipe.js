@@ -198,7 +198,7 @@
 		longTap:null, 		
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
-        triggerLongTapOnTouchEnd : false,
+		triggerLongTapOnTouchEnd : false,
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
 		excludedElements:"button, input, select, textarea, a, .noSwipe"
@@ -560,14 +560,14 @@
 					ret = triggerHandler(event, phase);
 				}
 
-                if (options.longTap && options.triggerLongTapOnTouchEnd === false) {
-                    // Set a timeout to early-fire the longTap after the threshold is reached
-                    clearTimeout(longTapTimeout);
-                    longTapTimeout = setTimeout(function(){
-                        //Invoke the gesture handler directly to simulate a normal END phase
-                        triggerHandlerForGesture(event,PHASE_END,LONG_TAP);
-                    },options.longTapThreshold);
-                }
+				if (options.longTap && options.triggerLongTapOnTouchEnd === false) {
+					// Set a timeout to early-fire the longTap after the threshold is reached
+					clearTimeout(longTapTimeout);
+					longTapTimeout = setTimeout(function(){
+						//Invoke the gesture handler directly to simulate a normal END phase
+						triggerHandlerForGesture(event,PHASE_END,LONG_TAP);
+					},options.longTapThreshold);
+				}
 			}
 			else {
 				//A touch with more or less than the fingers we are looking for, so cancel
@@ -595,8 +595,8 @@
 		*/
 		function touchMove(jqEvent) {
 
-            //Always clear the long tap timeout if there is movement
-            clearTimeout(longTapTimeout);
+			//Always clear the long tap timeout if there is movement
+			clearTimeout(longTapTimeout);
 			
 			//As we use Jquery bind for events, we need to target the original event object
 			//If these events are being programatically triggered, we dont have an orignal event object, so use the Jq one.
@@ -737,10 +737,10 @@
 			//Get duration incase move was never fired
 			duration = calculateDuration();
 
-            //Clear long tap timeout only if duration was less than threshold (i.e. short tap)
-            if(duration < options.longTapThreshold) {
-                clearTimeout(longTapTimeout);
-            }
+			//Clear long tap timeout only if duration was less than threshold (i.e. short tap)
+			if(duration < options.longTapThreshold) {
+				clearTimeout(longTapTimeout);
+			}
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
 			if(didSwipeBackToCancel()) {
