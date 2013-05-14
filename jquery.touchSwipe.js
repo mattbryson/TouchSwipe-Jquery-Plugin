@@ -198,7 +198,7 @@
 		longTap:null, 		
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
-		triggerLongTapOnTouchEnd : false,
+		triggerLongTapOnTouchEnd : true,
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
 		excludedElements:"button, input, select, textarea, a, .noSwipe"
