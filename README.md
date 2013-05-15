@@ -13,7 +13,7 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 [http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)
 [http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
- 
+
 
 ### For port to XUI see:
 https://github.com/cowgp/xui-touchSwipe
