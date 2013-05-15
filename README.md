@@ -6,7 +6,7 @@ Detects single and multiple finger swipes, pinches and falls back to mouse 'drag
 Time and distance thresholds can be set to destinguish between swipe gesture and slow drag.
 
 Allows exclusion of child elements (interactive elements) as well allowing page scrolling or page zooming depending on configuration.
- 
+
 
 ### Demos, examples and docs
 
