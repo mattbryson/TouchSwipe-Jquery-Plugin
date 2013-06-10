@@ -1597,9 +1597,10 @@
 		 * @return int  The distance of the swipe
 		 * @inner
 		*/        
-        function getMaxDistance(direction) {
-            return maximumsMap[direction].distance;
-        }
+		function getMaxDistance(direction) {
+			if (maximumsMap[direction]) return maximumsMap[direction].distance;
+			return undefined;
+		}
 		
 		/**
 		 * Creats a map of directions to maximum swiped values.
