@@ -112,7 +112,7 @@ function buildCodeExample() {
   	});
   	
   	
-  	prettyPrint();
+  	//prettyPrint();
 }
 
 /**
