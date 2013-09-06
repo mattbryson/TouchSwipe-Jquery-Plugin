@@ -1401,7 +1401,7 @@
 		 * @inner
 		*/
 		function validateTap() {
-		    return ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0));
+		    return ((fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance < options.threshold));
 		}
 		
 		/**
