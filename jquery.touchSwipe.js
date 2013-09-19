@@ -131,6 +131,7 @@
 		TAP = "tap",
 		DOUBLE_TAP = "doubletap",
 		LONG_TAP = "longtap",
+		HOLD = "hold",
 		
 		HORIZONTAL = "horizontal",
 		VERTICAL = "vertical",
@@ -162,7 +163,7 @@
 	* @property {int} [maxTimeThreshold=null] Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe. 
 	* @property {int} [fingerReleaseThreshold=250] Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release. 
 	* @property {int} [longTapThreshold=500] Time in milliseconds between tap and release for a long tap
-    * @property {int} [doubleTapThreshold=200] Time in milliseconds between 2 taps to count as a double tap
+	* @property {int} [doubleTapThreshold=200] Time in milliseconds between 2 taps to count as a double tap
 	* @property {function} [swipe=null] A handler to catch all swipes. See {@link $.fn.swipe#event:swipe}
 	* @property {function} [swipeLeft=null] A handler that is triggered for "left" swipes. See {@link $.fn.swipe#event:swipeLeft}
 	* @property {function} [swipeRight=null] A handler that is triggered for "right" swipes. See {@link $.fn.swipe#event:swipeRight}
@@ -174,7 +175,8 @@
 	* @property {function} [pinchStatus=null] A handler triggered for every phase of a pinch. See {@link $.fn.swipe#event:pinchStatus}
 	* @property {function} [tap=null] A handler triggered when a user just taps on the item, rather than swipes it. If they do not move, tap is triggered, if they do move, it is not. 
 	* @property {function} [doubleTap=null] A handler triggered when a user double taps on the item. The delay between taps can be set with the doubleTapThreshold property. See {@link $.fn.swipe.defaults#doubleTapThreshold}
-	* @property {function} [longTap=null] A handler triggered when a user long taps on the item. The delay between start and end can be set with the longTapThreshold property. See {@link $.fn.swipe.defaults#doubleTapThreshold}
+	* @property {function} [longTap=null] A handler triggered when a user long taps on the item. The delay between start and end can be set with the longTapThreshold property. See {@link $.fn.swipe.defaults#longTapThreshold}
+	* @property (function) [hold=null] A handler triggered when a user reaches longTapThreshold on the item. See {@link $.fn.swipe.defaults#longTapThreshold}
 	* @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically. 
 	* @property {boolean} [triggerOnTouchLeave=false] If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers. 
 	* @property {string|undefined} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
@@ -208,6 +210,7 @@
 		tap:null,
 		doubleTap:null,
 		longTap:null, 		
+		hold:null, 
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
 		allowPageScroll: "auto", 
@@ -419,8 +422,9 @@
 			previousTouchFingerCount=0,
 			doubleTapStartTime=0;
 
-        //Timeouts
-        var singleTapTimeout=null;
+		//Timeouts
+		var singleTapTimeout=null,
+			holdTimeout=null;
         
 		// Add gestures to all swipable areas if supported
 		try {
@@ -584,6 +588,17 @@
 				return ret;
 			}
 			else {
+				if (options.hold) {
+					holdTimeout = setTimeout($.proxy(function() {
+						//Trigger the event
+						$element.trigger('hold', [event.target]);
+						//Fire the callback
+						if(options.hold) {
+							ret = options.hold.call($element, event, event.target);
+						}
+					}, this), options.longTapThreshold );
+				}
+
 				setTouchInProgress(true);
 			}
 
@@ -619,6 +634,9 @@
 			if (SUPPORTS_TOUCH) {
 				fingerCount = event.touches.length;
 			}
+
+			if (options.hold)
+				clearTimeout(holdTimeout);
 
 			phase = PHASE_MOVE;
 
@@ -891,7 +909,7 @@
 			else if(didTap() && ret!==false) {
 				//Trigger the tap event..
 				ret = triggerHandlerForGesture(event, phase, TAP);
-	    	}
+			}
 			
 			
 			
@@ -1053,6 +1071,8 @@
     			    
     			    //Cancel any existing double tap
 				    clearTimeout(singleTapTimeout);
+    			    //Cancel hold timeout
+				    clearTimeout(holdTimeout);
 				           
 					//If we are also looking for doubelTaps, wait incase this is one...
 				    if(hasDoubleTap() && !inDoubleTap()) {
@@ -1064,7 +1084,7 @@
 				        singleTapTimeout = setTimeout($.proxy(function() {
         			        doubleTapStartTime=null;
         			        //Trigger the event
-                            $element.trigger('tap', [event.target]);
+                			$element.trigger('tap', [event.target]);
 
                         
                             //Fire the callback
