@@ -155,7 +155,7 @@
 	* You can set the default values by updating any of the properties prior to instantiation.
 	* @name $.fn.swipe.defaults
 	* @namespace
-	* @property {int} [fingers=1] The number of fingers to detect in a swipe. Any swipes that do not meet this requirement will NOT trigger swipe handlers.
+	* @property {int} [fingers='all'] The number of fingers to detect in a swipe. Any swipes that do not meet this requirement will NOT trigger swipe handlers.
 	* @property {int} [threshold=75] The number of pixels that the user must move their finger by before it is considered a swipe. 
 	* @property {int} [cancelThreshold=null] The number of pixels that the user must move their finger back from the original swipe direction to cancel the gesture.
 	* @property {int} [pinchThreshold=20] The number of pixels that the user must pinch their finger by before it is considered a pinch. 
@@ -187,7 +187,7 @@
 	
 	*/
 	var defaults = {
-		fingers: 1, 		
+		fingers: ALL_FINGERS, 		
 		threshold: 75, 	
 		cancelThreshold:null,	
 		pinchThreshold:20,
