@@ -556,7 +556,7 @@
 
 			
 			// check the number of fingers is what we are looking for, or we are capturing pinches
-			if (!SUPPORTS_TOUCH || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
+			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches() ) {
 				// get the coordinates of the touch
 				createFingerData( 0, evt );
 				startTime = getTimeStamp();
@@ -646,7 +646,7 @@
 			}
 			
 			
-			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH || hasPinches() ) {
+			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches() ) {
 				
 				direction = calculateDirection(currentFinger.start, currentFinger.end);
 				
