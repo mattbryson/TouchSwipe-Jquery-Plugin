@@ -13,13 +13,15 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 [http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)
 [http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
-
+ 
 
 ### For port to XUI see:
 https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
+* **1.6.5** *2013-08-24*
+    - Merged a few pull requests fixing various bugs, added AMD support.
 * **1.6.4** *2013-04-04*
     - Fixed bug with cancelThreshold introduced in 1.6.3, where swipe status no longer fired start event, and stopped once swiping back.    
 * **1.6.3** *2013-04-01*    
