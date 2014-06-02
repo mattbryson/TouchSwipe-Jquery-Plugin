@@ -33,13 +33,13 @@
             margin: 0;
             width: 1510px;
 
-            -webkit-transition-property: -webkit-transform;
-            -webkit-transition-duration: 0.5s;
-            -webkit-transition-timing-function: ease-out;
+            transition-property: transform;
+            transition-duration: 0.5s;
+            transition-timing-function: ease-out;
 
-            /*apply a transfor to kick in the hardware acceleration.  Without this, the first
+            /*apply a transform to kick in the hardware acceleration.  Without this, the first
             time we add the transform you get odd rendering of the divs (half missing) */
-            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate(0, 0);
         }
 
         #imgs img {
@@ -48,9 +48,9 @@
             width: 500px;
             height: 340px;
 
-            /*apply a transfor to kick in the hardware acceleration.  Without this, the first
+            /*apply a transform to kick in the hardware acceleration.  Without this, the first
             time we add the transform you get odd rendering of the divs (half missing) */
-            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate(0, 0);
         }
     </style>
 
@@ -117,11 +117,11 @@
          * Manually update the position of the imgs on drag
          */
         function scrollImages(distance, duration) {
-            imgs.css("-webkit-transition-duration", (duration / 1000).toFixed(1) + "s");
+            imgs.css("transition-duration", (duration / 1000).toFixed(1) + "s");
 
             //inverse the number we set in the css
             var value = (distance < 0 ? "" : "-") + Math.abs(distance).toString();
-            imgs.css("-webkit-transform", "translate3d(" + value + "px,0,0)");
+            imgs.css("transform", "translate(" + value + "px,0)");
         }
     </script>
 </head>
