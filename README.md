@@ -20,6 +20,16 @@ https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
+* **1.6.6** *2014-06-04*
+    - Merge of pull requests.
+    - IE10 touch support 
+    - Only prevent default event handling on valid swipe
+    - Separate license/changelog comment
+    - Detect if the swipe is valid at the end of the touch event.
+    - Pass fingerdata to event handlers. 
+    - Add 'hold' gesture 
+    - Be more tolerant about the tap distance
+    - Typos and minor fixes
 * **1.6.5** *2013-08-24*
     - Merged a few pull requests fixing various bugs, added AMD support.
 * **1.6.4** *2013-04-04*

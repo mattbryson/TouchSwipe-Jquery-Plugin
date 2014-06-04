@@ -756,7 +756,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:pinchIn" href="../symbols/%24.fn.swipe.html#event:pinchIn">pinchIn</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -800,6 +800,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>zoom : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The zoom/scale level the user pinched too, 0-1.</dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -814,7 +817,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:pinchOut" href="../symbols/%24.fn.swipe.html#event:pinchOut">pinchOut</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -858,6 +861,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>zoom : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The zoom/scale level the user pinched too, 0-1.</dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -872,7 +878,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:pinchStatus" href="../symbols/%24.fn.swipe.html#event:pinchStatus">pinchStatus</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">int</span> zoom, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -916,6 +922,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>zoom : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The zoom/scale level the user pinched too, 0-1.</dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -930,7 +939,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipe" href="../symbols/%24.fn.swipe.html#event:swipe">swipe</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -971,6 +980,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -985,7 +997,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipeDown" href="../symbols/%24.fn.swipe.html#event:swipeDown">swipeDown</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -1026,6 +1038,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -1040,7 +1055,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipeLeft" href="../symbols/%24.fn.swipe.html#event:swipeLeft">swipeLeft</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -1081,6 +1096,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -1095,7 +1113,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipeRight" href="../symbols/%24.fn.swipe.html#event:swipeRight">swipeRight</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -1136,6 +1154,9 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -1150,7 +1171,7 @@ You can set the time delay for a long tap with the <a href="../symbols/%24.fn.sw
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipeStatus" href="../symbols/%24.fn.swipe.html#event:swipeStatus">swipeStatus</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">string</span> phase, <span class="jsdoc-typedesc">string</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">string</span> phase, <span class="jsdoc-typedesc">string</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -1195,6 +1216,9 @@ This is triggered regardless of swipe thresholds.
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
 														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
+														
 													</dl>
 												
 												
@@ -1209,7 +1233,7 @@ This is triggered regardless of swipe thresholds.
 									<div class="jsdoc-member-content">
 										<i class="icon-jsdoc icon-jsdoc-event"></i>
 										<b><a id="event:swipeUp" href="../symbols/%24.fn.swipe.html#event:swipeUp">swipeUp</a></b>
-										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount )</span>
+										<span class="signature">( <span class="jsdoc-typedesc">EventObject</span> event, <span class="jsdoc-typedesc">int</span> direction, <span class="jsdoc-typedesc">int</span> distance, <span class="jsdoc-typedesc">int</span> duration, <span class="jsdoc-typedesc">int</span> fingerCount, <span class="jsdoc-typedesc">object</span> fingerData )</span>
 										
 										
 										
@@ -1249,6 +1273,9 @@ This is triggered regardless of swipe thresholds.
 														
 															<dt>fingerCount : <span class="jsdoc-typedesc">int</span> </dt>
 															<dd>The number of fingers used. See <a href="../symbols/%24.fn.swipe.fingers.html">$.fn.swipe.fingers</a></dd>
+														
+															<dt>fingerData : <span class="jsdoc-typedesc">object</span> </dt>
+															<dd>The coordinates of fingers in event</dd>
 														
 													</dl>
 												
@@ -1315,7 +1342,7 @@ This is triggered regardless of swipe thresholds.
 <!-- ============================== footer ================================= -->
 	<footer class="footer">
 		
-		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Aug 24 2013 19:51:43 GMT+0100 (BST)</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Wed Jun 04 2014 12:34:10 GMT+0100 (BST)</p>
 	</footer>
 </div></body>
 </html>

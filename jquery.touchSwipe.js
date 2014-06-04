@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.5
+* @version 1.6.6
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -78,14 +78,24 @@
 *                   - Deprecated the 'click' handler in favour of tap.
 *                   - added cancelThreshold property
 *                   - added option method to update init options at runtime
-*
 * $version 1.6.3    - added doubletap, longtap events and longTapThreshold, doubleTapThreshold property
+*
 * $Date: 2013-04-04 (Thurs, 04 April 2013) $
 * $version 1.6.4    - Fixed bug with cancelThreshold introduced in 1.6.3, where swipe status no longer fired start event, and stopped once swiping back.
 *
 * $Date: 2013-08-24 (Sat, 24 Aug 2013) $
 * $version 1.6.5    - Merged a few pull requests fixing various bugs, added AMD support.
-
+*
+* $Date: 2014-06-04 (Wed, 04 June 2014) $
+* $version 1.6.6 	- Merge of pull requests.
+*    				- IE10 touch support 
+*    				- Only prevent default event handling on valid swipe
+*    				- Separate license/changelog comment
+*    				- Detect if the swipe is valid at the end of the touch event.
+*    				- Pass fingerdata to event handlers. 
+*    				- Add 'hold' gesture 
+*    				- Be more tolerant about the tap distance
+*    				- Typos and minor fixes
 */
 
 /**
@@ -149,6 +159,10 @@
 		PHASE_CANCEL = "cancel",
 
 		SUPPORTS_TOUCH = 'ontouchstart' in window,
+		
+		SUPPORTS_POINTER_IE10 = window.navigator.msPointerEnabled && !window.navigator.pointerEnabled,
+		
+		SUPPORTS_POINTER = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
 
 		PLUGIN_NS = 'TouchSwipe';
 
@@ -384,12 +398,12 @@
     * @class
 	*/
 	function TouchSwipe(element, options) {
-		var useTouchEvents = (SUPPORTS_TOUCH || !options.fallbackToMouseEvents),
-			START_EV = useTouchEvents ? 'touchstart' : 'mousedown',
-			MOVE_EV = useTouchEvents ? 'touchmove' : 'mousemove',
-			END_EV = useTouchEvents ? 'touchend' : 'mouseup',
-			LEAVE_EV = useTouchEvents ? null : 'mouseleave', //we manually detect leave on touch devices, so null event here
-			CANCEL_EV = 'touchcancel';
+        var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
+            START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
+            MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
+            END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup') : 'touchend') : 'mouseup',
+            LEAVE_EV = useTouchEvents ? null : 'mouseleave', //we manually detect leave on touch devices, so null event here
+            CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel') : 'touchcancel');
 
 
 

@@ -20,15 +20,15 @@
 			
 			<script id='code_1'>
 				$(function() {			
-					$("#test1").swipe( { swipeLeft:swipe1, swipeRight:swipe1, allowPageScroll:"auto"} );
+					$("#test1").swipe( { fingers:'all', swipeLeft:swipe1, swipeRight:swipe1, allowPageScroll:"auto"} );
 					$("#test2").swipe( { swipeLeft:swipe1, allowPageScroll:"none"} );
 					$("#test3").swipe( { swipeLeft:swipe2, swipeRight:swipe2} );
 					$("#test4").swipe( { swipeStatus:swipe2, allowPageScroll:"vertical"} );
 					$("#test5").swipe( { swipeStatus:swipe2, allowPageScroll:"horizontal" } );
 
 					//Swipe handlers.
-					function swipe1(event, direction) {
-						$(this).text( "You have swiped " + direction );
+					function swipe1(event, direction, distance, duration, fingerCount) {
+						$(this).text( "You have swiped " + direction +' with ' + fingerCount +' fingers' );
 					}
 				
 					function swipe2(event, phase, direction, distance) {
