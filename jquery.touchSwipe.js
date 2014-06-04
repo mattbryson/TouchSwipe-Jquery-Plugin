@@ -954,11 +954,11 @@
 				//Trigger status every time..
 				
 				//Trigger the event...
-				$element.trigger('swipeStatus', [phase, direction || null, distance || 0, duration || 0, fingerCount]);
+				$element.trigger('swipeStatus', [phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData]);
 				
 				//Fire the callback
 				if (options.swipeStatus) {
-					ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount);
+					ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData);
 					//If the status cancels, then dont run the subsequent event handlers..
 					if(ret===false) return false;
 				}
@@ -968,11 +968,11 @@
 				
 				if (phase == PHASE_END && validateSwipe()) {
 					//Fire the catch all event
-					$element.trigger('swipe', [direction, distance, duration, fingerCount]);
+					$element.trigger('swipe', [direction, distance, duration, fingerCount, fingerData]);
 					
 					//Fire catch all callback
 					if (options.swipe) {
-						ret = options.swipe.call($element, event, direction, distance, duration, fingerCount);
+						ret = options.swipe.call($element, event, direction, distance, duration, fingerCount, fingerData);
 						//If the status cancels, then dont run the subsequent event handlers..
 						if(ret===false) return false;
 					}
@@ -981,41 +981,41 @@
 					switch (direction) {
 						case LEFT:
 							//Trigger the event
-							$element.trigger('swipeLeft', [direction, distance, duration, fingerCount]);
+							$element.trigger('swipeLeft', [direction, distance, duration, fingerCount, fingerData]);
 					
 					        //Fire the callback
 							if (options.swipeLeft) {
-								ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount);
+								ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount, fingerData);
 							}
 							break;
 	
 						case RIGHT:
 							//Trigger the event
-					        $element.trigger('swipeRight', [direction, distance, duration, fingerCount]);
+					        $element.trigger('swipeRight', [direction, distance, duration, fingerCount, fingerData]);
 					
 					        //Fire the callback
 							if (options.swipeRight) {
-								ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount);
+								ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount, fingerData);
 							}
 							break;
 	
 						case UP:
 							//Trigger the event
-					        $element.trigger('swipeUp', [direction, distance, duration, fingerCount]);
+					        $element.trigger('swipeUp', [direction, distance, duration, fingerCount, fingerData]);
 					
 					        //Fire the callback
 							if (options.swipeUp) {
-								ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount);
+								ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount, fingerData);
 							}
 							break;
 	
 						case DOWN:
 							//Trigger the event
-					        $element.trigger('swipeDown', [direction, distance, duration, fingerCount]);
+					        $element.trigger('swipeDown', [direction, distance, duration, fingerCount, fingerData]);
 					
 					        //Fire the callback
 							if (options.swipeDown) {
-								ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount);
+								ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount, fingerData);
 							}
 							break;
 					}
@@ -1026,11 +1026,11 @@
 			//PINCHES....
 			if(gesture==PINCH) {
 				//Trigger the event
-			     $element.trigger('pinchStatus', [phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+			     $element.trigger('pinchStatus', [phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
 					
                 //Fire the callback
 				if (options.pinchStatus) {
-					ret = options.pinchStatus.call($element, event, phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
+					ret = options.pinchStatus.call($element, event, phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData);
 					//If the status cancels, then dont run the subsequent event handlers..
 					if(ret===false) return false;
 				}
@@ -1040,21 +1040,21 @@
 					switch (pinchDirection) {
 						case IN:
 							//Trigger the event
-                            $element.trigger('pinchIn', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+                            $element.trigger('pinchIn', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
                     
                             //Fire the callback
                             if (options.pinchIn) {
-								ret = options.pinchIn.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
+								ret = options.pinchIn.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData);
 							}
 							break;
 						
 						case OUT:
 							//Trigger the event
-                            $element.trigger('pinchOut', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom]);
+                            $element.trigger('pinchOut', [pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
                     
                             //Fire the callback
                             if (options.pinchOut) {
-								ret = options.pinchOut.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom);
+								ret = options.pinchOut.call($element, event, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData);
 							}
 							break;	
 					}
@@ -1845,6 +1845,7 @@
  * @param {int} distance The distance the user swiped
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
  
 
@@ -1860,6 +1861,7 @@
  * @param {int} distance The distance the user swiped
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
  
 /**
@@ -1872,6 +1874,7 @@
  * @param {int} distance The distance the user swiped
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
 
 /**
@@ -1884,6 +1887,7 @@
  * @param {int} distance The distance the user swiped
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
  
 /**
@@ -1896,6 +1900,7 @@
  * @param {int} distance The distance the user swiped
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
  
 /**
@@ -1910,6 +1915,7 @@
  * @param {int} distance The distance the user swiped. This is 0 if the user has yet to move.
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
+ * @param {object} fingerData The coordinates of fingers in event
  */
  
 /**
@@ -1923,6 +1929,7 @@
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
  * @param {int} zoom The zoom/scale level the user pinched too, 0-1.
+ * @param {object} fingerData The coordinates of fingers in event
  */
 
 /**
@@ -1936,6 +1943,7 @@
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
  * @param {int} zoom The zoom/scale level the user pinched too, 0-1.
+ * @param {object} fingerData The coordinates of fingers in event
  */ 
 
 /**
@@ -1949,6 +1957,7 @@
  * @param {int} duration The duration of the swipe in milliseconds
  * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
  * @param {int} zoom The zoom/scale level the user pinched too, 0-1.
+ * @param {object} fingerData The coordinates of fingers in event
  */
 
 /**
