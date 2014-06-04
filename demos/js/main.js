@@ -13,6 +13,7 @@ var fileList = [
 	'Stop_propegation.html',
 	'Handlers_and_events.html',
 	'Tap_vs_swipe.html',
+	'Hold.html',
 	'Excluded_children.html',
 	'Page_zoom.html',
 	'Thresholds.html',
@@ -149,7 +150,7 @@ function getPageName( file ) {
  * Writes out the page title template 
  */            
 function getTitle() {
-	var html =  "<h2><a href=\"http://labs.skinkers.com/touchSwipe/\">TouchSwipe</a> Demo</h2>";
+	var html =  "<h2><a href=\"http://labs.rampinteracitve.co.uk/touchSwipe/\">TouchSwipe</a> Demo</h2>";
         html += "<h3>to be viewed on touch based devices</h3>";
         html += "<h1>"+getPageName()+"<span class='navigation_menu pull-right'></span></h1>";
     
