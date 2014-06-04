@@ -758,7 +758,7 @@
 			duration = calculateDuration();
 			
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
-			if(didSwipeBackToCancel()) {
+			if(didSwipeBackToCancel() || !validateSwipeDistance()) {
 			    phase = PHASE_CANCEL;
                 triggerHandler(event, phase);
 			} else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
