@@ -213,7 +213,7 @@ function getNavigationMenu() {
  */
 function getNavigationList() {
 	
-	var html = "<ul id='menu'>";
+	var html = "<ul>";
 
 	for(var i=0; i<fileList.length; i++) {
 		html+="<li><a href='"+fileList[i]+"'  target='demos'>"+getPageName(fileList[i])+"</a></li>";
