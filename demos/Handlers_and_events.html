@@ -33,41 +33,45 @@
 			        
 					// Create the swipe object, and assign the callbacks
 					$("#test").swipe( {
-						click:function(event, target) {
-							log("click from callback");
+						tap:function(event, target) {
+                            log("tap from callback");
 						},
-						swipe:function(event, direction, distance, duration, fingerCount) {
+						hold:function(event, target) {
+                            log("hold from callback");
+						},
+						swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 							log("swipe from callback");
 						},
-						swipeLeft:function(event, distance, duration, fingerCount) {
+						swipeLeft:function(event, distance, duration, fingerCount, fingerData) {
 							log("swipeLeft from callback");
 						},
-						swipeRight:function(event, distance, duration, fingerCount) {
+						swipeRight:function(event, distance, duration, fingerCount, fingerData) {
 							log("swipeRight from callback");
 						},
-						swipeUp:function(event, distance, duration, fingerCount) {
+						swipeUp:function(event, distance, duration, fingerCount, fingerData) {
 							log("swipeUp from callback");
 						},
-						swipeDown:function(event, distance, duration, fingerCount) {
+						swipeDown:function(event, distance, duration, fingerCount, fingerData) {
 							log("swipeDown from callback");
 						},
-						swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData) {
     						log("swipeStatus from callback");
 						},
-						pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom, fingerData) {
 							log("pinchIn from callback");
 						},
-						pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom, fingerData) {
                             log("pinchOut from callback");
 						},
-						pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+						pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom, fingerData) {
                             log("pinchStatus from callback");
 						},
+
                         fingers:$.fn.swipe.fingers.ALL 
 					});
                     
 					//Now assign the event handlers as well
-					var events = ['tap','swipe','swipeLeft','swipeRight','swipeUp','swipeDown','swipeStatus','pinch','pinchIn','pinchOut','pinchStatus'];
+					var events = ['tap','hold', 'swipe','swipeLeft','swipeRight','swipeUp','swipeDown','swipeStatus','pinch','pinchIn','pinchOut','pinchStatus'];
 					
 					function registerEvents() {
 					    for(var i in events) {
@@ -102,7 +106,8 @@
 			</script>
 			
 			<span class='title'></span>
-			<h4>events: <code>click</code>, <code>swipe</code></h4>
+			<h4>events:  <span class='events'><code>tap</code> <code>hold</code> <code>swipe</code> <code>swipeLeft</code> <code>swipeRight</code> <code>swipeUp</code> <code>swipeDown</code> <code>swipeStatus</code> <code>pinch</code> <code>pinchIn</code> <code>pinchOut</code> <code>pinchStatus</code></span> </h4>
+			<b>See the <a href="../docs/symbols/%24.fn.swipe.html#event:click"><u>docs</u></a> for more on each event</b>
 			<p>You can either assign callback methods as part of the options object, or you can assign 
 			event handlers using the jQuery <code>on</code>/<code>off</code> event registration.</p>
 			

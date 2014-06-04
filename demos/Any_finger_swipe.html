@@ -21,8 +21,8 @@
 			<script id='code_1'>
 				$(function() {			
 					$("#test").swipe( {
-					  swipe:function(event, direction, distance, duration, fingerCount) {
-						$("#test").text("You swiped " + direction + " with " + fingerCount + " fingers");
+					  swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+					  	$("#test").text("You swiped " + direction + " with " + fingerCount + " fingers");
 					  },
 					  threshold:0,
 					  fingers:'all'
@@ -32,7 +32,8 @@
 			
 			
 			<span class='title'></span>
-			<h4>properties: <code>fingers</code></h4>
+			<h4>Events: <span class='events'><code>swipe</code></span></h4>
+			<h4>properties: <span class='properties'><code>fingers</code></span></h4>
 			<p>By setting the number of <code>fingers</code> to 'all', any number of fingers will trigger the swipe.</p>
 			
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>

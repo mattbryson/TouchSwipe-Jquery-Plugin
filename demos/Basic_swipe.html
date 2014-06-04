@@ -23,7 +23,7 @@
 					//Enable swiping...
 					$("#test").swipe( {
 						//Generic swipe handler for all directions
-						swipe:function(event, direction, distance, duration, fingerCount) {
+						swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 							$(this).text("You swiped " + direction );	
 						},
 						//Default is 75px, set to 0 for demo so any distance triggers swipe
@@ -33,7 +33,7 @@
 			</script>
 			
 			<span class='title'></span>
-		  	<h4>events: <code>swipe</code>,<code>swipeLeft</code>, <code>swipeRight</code>, <code>swipeUp</code>, <code>swipeDown</code></h4>
+		  	<h4>events: <span class='events'><code>swipe</code>,<code>swipeLeft</code>, <code>swipeRight</code>, <code>swipeUp</code>, <code>swipeDown</code></span></h4>
 			<p>By using the <code>swipe</code> handler, you can detect all 4 directions, or use the individual methods <code>swipeLeft</code>, <code>swipeRight</code>, <code>swipeUp</code>, <code>swipeDown</code></p>
 		   	
 		   	<button class='btn btn-small btn-info example_btn'>Jump to Example</button>

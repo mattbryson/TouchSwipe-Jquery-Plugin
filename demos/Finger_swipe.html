@@ -21,7 +21,7 @@
 			<script id='code_1'>
 				$(function() {
 					$("#test").swipe( {
-						swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData) {
 
 						if(phase==$.fn.swipe.phases.PHASE_START) {
 							$(this).text("moving...");
@@ -31,8 +31,8 @@
 							$(this).text("swipe cancelled (due to finger count) "  );
 						}   
 					  },
-					  swipe:function(event, direction, distance, duration, fingerCount) {
-						$(this).text("You swiped " + direction + " with " + fingerCount + " fingers");
+					  swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+					  	$(this).text("You swiped " + direction + " with " + fingerCount + " fingers");
 					  },
 					  threshold:0,
 					  fingers:2
@@ -42,7 +42,7 @@
 			
 			
 			<span class='title'></span>
-			<h4>property: <code>fingers</code></h4>
+			<h4>property:  <span class='properties'><code>fingers</code></span></h4>
 			<p>By setting the number of <code>fingers</code> to 2, you can detect ONLY 2 finger swipes, likewise for 3 fingers.</p>
 			
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>

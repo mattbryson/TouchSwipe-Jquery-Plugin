@@ -61,6 +61,18 @@ function buildNavigation() {
 	$('.example_btn').click( function() {
 		$(document).scrollTop( $("#test").offset().top );
 	});
+
+	$('.events code').click( function() {
+		location.href = '../docs/symbols/%24.fn.swipe.html#event:' + $(this).text();	
+	});
+
+	$('.properties code').click( function() {
+		location.href = '../docs/symbols/%24.fn.swipe.defaults.html#' + $(this).text();	
+	});
+
+	$('.methods code').click( function() {
+		location.href = '../docs/symbols/%24.fn.swipe.html#' + $(this).text();	
+	});
 }
 
 /**

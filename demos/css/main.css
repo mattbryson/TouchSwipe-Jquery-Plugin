@@ -101,3 +101,10 @@ p {
 .example_btn {
 	margin-bottom:10px;
 }
+
+.properties code,
+.methods code,
+.events code {
+	cursor: pointer;
+	text-decoration: underline;
+}

@@ -2012,9 +2012,20 @@
  */
  
  /**
- * A long tap handler triggered when a user long clicks or taps on an element.
+ * A long tap handler triggered once a tap has been release if the tap was longer than the longTapThreshold.
  * You can set the time delay for a long tap with the {@link $.fn.swipe.defaults#longTapThreshold} property. 
  * @name $.fn.swipe#longTap
+ * @see  $.fn.swipe.defaults#longTapThreshold
+ * @event
+ * @default null
+ * @param {EventObject} event The original event object
+ * @param {DomObject} target The element clicked on.
+ */
+
+  /**
+ * A hold tap handler triggered as soon as the longTapThreshold is reached
+ * You can set the time delay for a long tap with the {@link $.fn.swipe.defaults#longTapThreshold} property. 
+ * @name $.fn.swipe#hold
  * @see  $.fn.swipe.defaults#longTapThreshold
  * @event
  * @default null
