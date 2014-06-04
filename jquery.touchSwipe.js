@@ -10,6 +10,9 @@
 * Copyright (c) 2010 Matt Bryson
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
+*/
+
+/*
 *
 * Changelog
 * $Date: 2010-12-12 (Wed, 12 Dec 2010) $
