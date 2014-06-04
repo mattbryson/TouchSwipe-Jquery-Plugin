@@ -750,10 +750,7 @@
 			if(inMultiFingerRelease()) {	
 				fingerCount=previousTouchFingerCount;
 			}	
-				 
-			//call this on jq event so we are cross browser 
-			jqEvent.preventDefault(); 
-			
+		
 			//Set end of swipe
 			endTime = getTimeStamp();
 			
@@ -765,6 +762,8 @@
 			    phase = PHASE_CANCEL;
                 triggerHandler(event, phase);
 			} else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
+				//call this on jq event so we are cross browser 
+				jqEvent.preventDefault(); 
 				phase = PHASE_END;
                 triggerHandler(event, phase);
 			}
