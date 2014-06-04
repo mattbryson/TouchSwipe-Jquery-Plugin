@@ -1,3 +1,14 @@
+String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g,"");
+}
+String.prototype.trimLeft = function() {
+    return this.replace(/^\s+/,"");
+}
+String.prototype.trimRight = function() {
+    return this.replace(/\s+$/,"");
+}
+
+
 //Demos file list (in order of presentation)
 //THe page name is formed from the file name.
 var fileList = [
