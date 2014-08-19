@@ -747,7 +747,8 @@
 		*/
 		function touchEnd(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
-			var event = jqEvent.originalEvent;
+			//If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 				
 
 			//If we are still in a touch with another finger return
@@ -829,7 +830,8 @@
 		* @inner
 		*/
 		function touchLeave(jqEvent) {
-			var event = jqEvent.originalEvent;
+			//If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 			
 			//If we have the trigger on leave property set....
 			if(options.triggerOnTouchLeave) {
