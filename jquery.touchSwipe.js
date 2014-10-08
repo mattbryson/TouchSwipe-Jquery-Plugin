@@ -1622,11 +1622,11 @@
 		*/
 		function createAllFingerData() {
 			var fingerData=[];
-			for (var i=0; i<=5; i++) {
+			for (var i=0; i<=10; i++) {
 				fingerData.push({
 					start:{ x: 0, y: 0 },
 					end:{ x: 0, y: 0 },
-					identifier:0
+					identifier:i
 				});
 			}
 			
