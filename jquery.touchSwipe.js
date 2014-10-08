@@ -430,7 +430,7 @@
 		var fingerCount = 0; 			
 
 		//track mouse points / delta
-		var fingerData=null;
+		var fingerData = {};
 
 		//track times
 		var startTime = 0,
@@ -571,7 +571,6 @@
 			endTouchesDistance=0;
 			pinchZoom = 1;
 			pinchDistance = 0;
-			fingerData=createAllFingerData();
 			maximumsMap=createMaximumsData();
 			cancelMultiFingerRelease();
 
@@ -1567,19 +1566,16 @@
 		
 		/**
 		 * Creates the finger data for the touch/finger in the event object.
-		 * @param {int} index The index in the array to store the finger data (usually the order the fingers were pressed)
+		 * @param {int} id The id to store the finger data under (usually the order the fingers were pressed)
 		 * @param {object} evt The event object containing finger data
 		 * @return finger data object
 		 * @inner
 		*/
-		function createFingerData( index, evt ) {
-			var id = evt.identifier!==undefined ? evt.identifier : 0; 
-			
-			fingerData[index].identifier = id;
-			fingerData[index].start.x = fingerData[index].end.x = evt.pageX||evt.clientX;
-			fingerData[index].start.y = fingerData[index].end.y = evt.pageY||evt.clientY;
-			
-			return fingerData[index];
+		function createFingerData(id, evt) {
+			var f = getFingerData(id);
+			f.start.x = f.end.x = evt.pageX||evt.clientX;
+			f.start.y = f.end.y = evt.pageY||evt.clientY;
+			return f;
 		}
 		
 		/**
@@ -1589,7 +1585,6 @@
 		 * @inner
 		*/
 		function updateFingerData(evt) {
-			
 			var id = evt.identifier!==undefined ? evt.identifier : 0; 
 			var f = getFingerData( id );
 			
@@ -1607,32 +1602,13 @@
 		 * @return a finger data object.
 		 * @inner
 		*/
-		function getFingerData( id ) {
-			for(var i=0; i<fingerData.length; i++) {
-				if(fingerData[i].identifier == id) {
-					return fingerData[i];	
-				}
-			}
+		function getFingerData(id) {
+			return fingerData[id] || (fingerData[id] = {
+				start:{ x: 0, y: 0 },
+				end:{ x: 0, y: 0 }
+			});
 		}
-		
-		/**
-		 * Creats all the finger onjects and returns an array of finger data
-		 * @return Array of finger objects
-		 * @inner
-		*/
-		function createAllFingerData() {
-			var fingerData=[];
-			for (var i=0; i<=5; i++) {
-				fingerData.push({
-					start:{ x: 0, y: 0 },
-					end:{ x: 0, y: 0 },
-					identifier:0
-				});
-			}
-			
-			return fingerData;
-		}
-		
+
 		/**
 		 * Sets the maximum distance swiped in the given direction. 
 		 * If the new value is lower than the current value, the max value is not changed.
