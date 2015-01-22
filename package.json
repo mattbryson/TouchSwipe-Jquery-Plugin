@@ -32,9 +32,6 @@
       "url": "https://raw.githubusercontent.com/mattbryson/TouchSwipe-Jquery-Plugin/master/LICENCE"
     }
   ],
-  "dependencies": {
-    "jquery": ">=1.9"
-  },
   "readmeFilename": "README.md",
   "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/"
 }
