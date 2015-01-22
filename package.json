@@ -1,0 +1,40 @@
+{
+  "name": "jquery-touchswipe",
+  "title": "Touch Swipe",
+  "description": "A jquery plugin to be used on touch devices such as iPad, iPhone, android etc to react to swipe gestures",
+  "keywords": [
+    "touchSwipe",
+    "touch",
+    "swipe",
+    "gestures",
+    "tocuhevent",
+    "jquery"
+  ],
+  "main": "./jquery.touchSwipe.min.js",
+  "author": {
+    "name": "Matt Bryson"
+  },
+  "version": "1.6.7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/mattbryson/TouchSwipe-Jquery-Plugin/master/LICENCE"
+    },
+    {
+      "type": "GPL V2",
+      "url": "https://raw.githubusercontent.com/mattbryson/TouchSwipe-Jquery-Plugin/master/LICENCE"
+    }
+  ],
+  "dependencies": {
+    "jquery": "~1.9"
+  },
+  "readmeFilename": "README.md",
+  "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/"
+}
