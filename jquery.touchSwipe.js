@@ -4,10 +4,10 @@
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
-* @see http://labs.skinkers.com/touchSwipe/
+* @see http://labs.rampinteractive.co.uk/touchSwipe/
 * @see http://plugins.jquery.com/project/touchSwipe
 *
-* Copyright (c) 2010 Matt Bryson
+* Copyright (c) 2010-2015 Matt Bryson
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 */
@@ -96,6 +96,9 @@
 *    				- Add 'hold' gesture 
 *    				- Be more tolerant about the tap distance
 *    				- Typos and minor fixes
+*
+* $Date: 2015-22-01 (Thurs, 22 Jan 2015) $
+* $version 1.6.7    - Added patch from https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues/206 to fix memory leak
 */
 
 /**
@@ -485,16 +488,15 @@
 		* Destroy the swipe plugin completely. To use any swipe methods, you must re initialise the plugin.
 		* @function
 		* @name $.fn.swipe#destroy
-		* @return {DOMNode} The Dom element that was registered with TouchSwipe 
 		* @example $("#element").swipe("destroy");
 		*/
 		this.destroy = function () {
 			removeListeners();
 			$element.data(PLUGIN_NS, null);
-			return $element;
+			$element = null;
 		};
 
-
+		
         /**
          * Allows run time updating of the swipe configuration options.
          * @function
