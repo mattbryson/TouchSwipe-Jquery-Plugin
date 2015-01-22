@@ -173,7 +173,7 @@ function getPageName( file ) {
  * Writes out the page title template 
  */            
 function getTitle() {
-	var html =  "<h2><a href=\"http://labs.rampinteracitve.co.uk/touchSwipe/\">TouchSwipe</a> Demo</h2>";
+	var html =  "<h2><a href=\"http://labs.rampinteractive.co.uk/touchSwipe/\">TouchSwipe</a> Demo</h2>";
         html += "<h3>to be viewed on touch based devices</h3>";
         html += "<h1>"+getPageName()+"<span class='navigation_menu pull-right'></span></h1>";
     
@@ -227,7 +227,7 @@ function getNavigationList() {
 	var html = "<ul>";
 
 	for(var i=0; i<fileList.length; i++) {
-		html+="<li><a href='"+fileList[i]+"'  target='demos'>"+getPageName(fileList[i])+"</a></li>";
+		html+="<li><a href='"+fileList[i]+"'>"+getPageName(fileList[i])+"</a></li>";
 	}
 	
 	html += "</ul>";
