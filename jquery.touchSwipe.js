@@ -561,7 +561,7 @@
 				// get the total number of fingers touching the screen
 				fingerCount = event.touches.length;
 			}
-			//Else this is the desktop, so stop the browser from dragging the image
+			//Else this is the desktop, so stop the browser from dragging content
 			else {
 				jqEvent.preventDefault(); //call this on jq event so we are cross browser
 			}
@@ -685,6 +685,8 @@
 			}
 			
 			
+			
+
 			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH || hasPinches() ) {
 				
 				direction = calculateDirection(currentFinger.start, currentFinger.end);
@@ -901,34 +903,38 @@
 			
 			var ret = undefined;
 			
-			// SWIPE GESTURES
-			if(didSwipe() || hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
-				//Trigger the swipe events...
-				ret = triggerHandlerForGesture(event, phase, SWIPE);
-			} 
-			
-			// PINCH GESTURES (if the above didn't cancel)
-			else if((didPinch() || hasPinches()) && ret!==false) {
-				//Trigger the pinch events...
-				ret = triggerHandlerForGesture(event, phase, PINCH);
-			}
-			
-			// CLICK / TAP (if the above didn't cancel)
-			if(didDoubleTap() && ret!==false) {
-				//Trigger the tap events...
-				ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP);
-			}
-			
-			// CLICK / TAP (if the above didn't cancel)
-			else if(didLongTap() && ret!==false) {
-				//Trigger the tap events...
-				ret = triggerHandlerForGesture(event, phase, LONG_TAP);
-			}
+			//Swipes and pinches are not mutually exclusive - can happend at same time, so need to trigger 2 events potentially
+			if( (didSwipe() || hasSwipes()) || (didPinch() || hasPinches()) ) {
+				// SWIPE GESTURES
+				if(didSwipe() || hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
+					//Trigger the swipe events...
+					ret = triggerHandlerForGesture(event, phase, SWIPE);
+				}	
 
-			// CLICK / TAP (if the above didn't cancel)
-			else if(didTap() && ret!==false) {
-				//Trigger the tap event..
-				ret = triggerHandlerForGesture(event, phase, TAP);
+				// PINCH GESTURES (if the above didn't cancel)
+				if((didPinch() || hasPinches()) && ret!==false) {
+					//Trigger the pinch events...
+					ret = triggerHandlerForGesture(event, phase, PINCH);
+				}
+			} else {
+			 
+				// CLICK / TAP (if the above didn't cancel)
+				if(didDoubleTap() && ret!==false) {
+					//Trigger the tap events...
+					ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP);
+				}
+				
+				// CLICK / TAP (if the above didn't cancel)
+				else if(didLongTap() && ret!==false) {
+					//Trigger the tap events...
+					ret = triggerHandlerForGesture(event, phase, LONG_TAP);
+				}
+
+				// CLICK / TAP (if the above didn't cancel)
+				else if(didTap() && ret!==false) {
+					//Trigger the tap event..
+					ret = triggerHandlerForGesture(event, phase, TAP);
+				}
 			}
 			
 			
@@ -1249,7 +1255,12 @@
 		*/
 		function validateDefaultEvent(jqEvent, direction) {
 
-			if (options.allowPageScroll === NONE || hasPinches() || options.preventDefaultEvents === false) {
+			
+			if( options.preventDefaultEvents === false ) {
+				return;
+			}
+
+			if (options.allowPageScroll === NONE) {
 				jqEvent.preventDefault();
 			} else {
 				var auto = options.allowPageScroll === AUTO;
