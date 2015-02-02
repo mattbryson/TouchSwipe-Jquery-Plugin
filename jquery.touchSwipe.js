@@ -99,6 +99,10 @@
 *
 * $Date: 2015-22-01 (Thurs, 22 Jan 2015) $
 * $version 1.6.7    - Added patch from https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues/206 to fix memory leak
+*
+* $Date: 2015-2-2 (Mon, 2 Feb 2015) $
+* $version 1.6.7    - Added preventDefaultEvents option to proxy events regardless.
+*					- Fixed issue with swipe and pinch not triggering at the same time
 */
 
 /**
