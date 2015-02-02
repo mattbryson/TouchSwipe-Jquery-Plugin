@@ -59,6 +59,9 @@ https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
+* **1.6.8** *2015-02-02*
+    - Added preventDefaultEvents option to proxy events regardless.
+    - Fixed issue with swipe and pinch not triggering at the same time
 * **1.6.7** *2015-01-22*
     - Patch from #206 to fix memory leak
 * **1.6.6** *2014-06-04*
