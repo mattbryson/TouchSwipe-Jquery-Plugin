@@ -206,6 +206,7 @@
 										<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
 	* @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices. 
 	* @property {string} [excludedElements="button, input, select, textarea, a, .noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes all form, input, select, button, anchor and .noSwipe elements. 
+	* @property {boolean} [preventDefaultEvents=true] by default default events are cancelled, so the page doesn't move.  You can dissable this so both native events fire as well as your handlers. 
 	
 	*/
 	var defaults = {
@@ -235,7 +236,8 @@
 		triggerOnTouchLeave:false, 
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
-		excludedElements:"label, button, input, select, textarea, a, .noSwipe"
+		excludedElements:"label, button, input, select, textarea, a, .noSwipe",
+		preventDefaultEvents:true
 	};
 
 
@@ -1235,6 +1237,7 @@
 			return result;
 		}
 
+	
 
 		/**
 		* Checks direction of the swipe and the value allowPageScroll to see if we should allow or prevent the default behaviour from occurring.
@@ -1245,7 +1248,8 @@
 		* @inner
 		*/
 		function validateDefaultEvent(jqEvent, direction) {
-			if (options.allowPageScroll === NONE || hasPinches()) {
+
+			if (options.allowPageScroll === NONE || hasPinches() || options.preventDefaultEvents === false) {
 				jqEvent.preventDefault();
 			} else {
 				var auto = options.allowPageScroll === AUTO;
