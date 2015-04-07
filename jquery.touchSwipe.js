@@ -639,6 +639,8 @@
 		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchMove(jqEvent) {
+			//Always clear the long tap timeout if there is movement
+			clearTimeout(holdTimeout);
 			
 			//As we use Jquery bind for events, we need to target the original event object
 			//If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
@@ -780,7 +782,12 @@
 			
 			//Get duration incase move was never fired
 			duration = calculateDuration();
-			
+
+			//Clear long tap timeout only if duration was less than threshold (i.e. short tap)
+			if(duration < options.longTapThreshold) {
+				clearTimeout(holdTimeout);
+			}
+
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
 			if(didSwipeBackToCancel() || !validateSwipeDistance()) {
 			    phase = PHASE_CANCEL;
