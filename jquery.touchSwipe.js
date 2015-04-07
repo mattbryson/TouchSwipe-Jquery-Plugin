@@ -238,6 +238,7 @@
 		hold:null, 
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
+		triggerLongTapOnTouchEnd : true,
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
 		excludedElements:"label, button, input, select, textarea, a, .noSwipe",
@@ -599,6 +600,15 @@
 				
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
+				}
+
+				if (options.longTap && options.triggerLongTapOnTouchEnd === false) {
+					// Set a timeout to early-fire the longTap after the threshold is reached
+					clearTimeout(longTapTimeout);
+					longTapTimeout = setTimeout(function(){
+						//Invoke the gesture handler directly to simulate a normal END phase
+						triggerHandlerForGesture(event,PHASE_END,LONG_TAP);
+					},options.longTapThreshold);
 				}
 			}
 			else {
