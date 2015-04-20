@@ -7,10 +7,49 @@ Time and distance thresholds can be set to destinguish between swipe gesture and
 
 Allows exclusion of child elements (interactive elements) as well allowing page scrolling or page zooming depending on configuration.
 
+* Detects swipes in 4 directions, "up", "down", "left" and "right"
+* Detects pinches "in" and "out"
+* Supports single finger or double finger touch events
+* Supports click events both on the touchSwipe object and its child objects
+* Definable threshold / maxTimeThreshold to determin when a gesture is actually a swipe
+* Events triggered for swipe "start","move","end" and "cancel"
+* End event can be triggered either on touch release, or as soon as threshold is met
+* Allows swiping and page scrolling
+* Disables user input elements (Button, form, text etc) from triggering swipes
+			
+## Installation  
+###npm
+````bash
+npm install jquery-touchswipe --save
+````
+    
+###bower 
+````bash
+bower install jquery-touchswipe --save
+````
+###manual
+donwload the min file to your project, and link
+````html
+<script type="text/javascript" src="jquery.touchSwipe.min.js"></script>
+````
 
-### Demos, examples and docs
+##Usage
+````javascript
+$(function() {      
+      $("#test").swipe( {
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+          $(this).text("You swiped " + direction );  
+        }
+      });
+    });
+````
 
-[http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)
+For full demos, code examples and documentation, see below.
+
+## Demos, examples and docs
+
+[http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)  
 [http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
  
@@ -20,6 +59,21 @@ https://github.com/cowgp/xui-touchSwipe
 
 ### Version History
 
+* **1.6.8** *2015-02-02*
+    - Added preventDefaultEvents option to proxy events regardless.
+    - Fixed issue with swipe and pinch not triggering at the same time
+* **1.6.7** *2015-01-22*
+    - Patch from #206 to fix memory leak
+* **1.6.6** *2014-06-04*
+    - Merge of pull requests.
+    - IE10 touch support 
+    - Only prevent default event handling on valid swipe
+    - Separate license/changelog comment
+    - Detect if the swipe is valid at the end of the touch event.
+    - Pass fingerdata to event handlers. 
+    - Add 'hold' gesture 
+    - Be more tolerant about the tap distance
+    - Typos and minor fixes
 * **1.6.5** *2013-08-24*
     - Merged a few pull requests fixing various bugs, added AMD support.
 * **1.6.4** *2013-04-04*

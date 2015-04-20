@@ -5,14 +5,14 @@
     		NOTE viewport is set so user can scale 
     		-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
-       
+        <meta http-equiv="x-ua-compatible" content="IE=9">
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
         <link href="css/main.css" type="text/css" rel="stylesheet" />
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         
         <title>touchSwipe</title>
@@ -61,8 +61,8 @@
 			
 			
 			<span class='title'></span>
-			<h4>events: <code>pinchStatus</code>, <code>swipeStatus</code><h4>
-			<h4>properties: <code>pinchThreshold</code></h4>
+			<h4>events:  <span class='events'><code>pinchStatus</code>, <code>swipeStatus</code></span><h4>
+			<h4>properties: <span class='properties'><code>pinchThreshold</code></span></h4>
 			<p>You can combine both <code>pinch</code> and <code>swipe</code> events. As the user can simultaneously pinch and swipe, both events are tirggered at the same time.<br/> 
 			  The <code>pinchThreshold</code> property sets how far the user must pinch before it is considered a pinch. The default is 20px.  This is useful when trying to elimate slight pinch movement when the user is actually swiping.
 			</p>

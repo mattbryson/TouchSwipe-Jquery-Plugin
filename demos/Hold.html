@@ -12,6 +12,9 @@
         <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         
+        <!-- use the jquery.ui.ipad.js plugin to translate touch events to mouse events -->
+		<script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
+		
         <title>touchSwipe</title>
     </head>
     <body>
@@ -19,30 +22,40 @@
 		<div class="container">
 			
 			<script id='code_1'>
-				$(function() {			
+				$(function() {	
 					//Enable swiping...
 					$("#test").swipe( {
-						//Generic swipe handler for all directions
-						swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-							$(this).text("You swiped " + direction );	
+						hold:function(event, target) {
+							
+							$("#textText").html("You held the tap until the longTapthreshold was reached" );
 						},
-						//Default is 75px, set to 0 for demo so any distance triggers swipe
-					   threshold:0
+						
+						threshold:50
 					});
+					
+					
 				});
 			</script>
 			
 			<span class='title'></span>
-		  	<h4>events: <span class='events'><code>swipe</code>,<code>swipeLeft</code>, <code>swipeRight</code>, <code>swipeUp</code>, <code>swipeDown</code></span></h4>
-			<p>By using the <code>swipe</code> handler, you can detect all 4 directions, or use the individual methods <code>swipeLeft</code>, <code>swipeRight</code>, <code>swipeUp</code>, <code>swipeDown</code></p>
-		   	
-		   	<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
-		   	<pre class="prettyprint" data-src='code_1'></pre>
+			<h4>events:  <span class='events'><code>tap</code>, <code>hold</code></span></h4>
+			<h4>properties:  <span class='properties'><code>longTapThreshold</code></span></h4>
+			<p>You can also detect if the user holds their finger down until the longTapthreshold is met<br/>
+				The <code>hold</code> handler is passed the original event object and the target that was clicked.
+				<br/></p>
+				<p class="muted">If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
+				standard jQuery mouse events on children of the touchSwipe object.</p>
+				
+				
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src='code_1'></pre>
 			<span class='navigation'></span>
 			
-			<div id="test" class="box">Swipe me</div>
+			<div id="test" class="box">
+				<div id="textText">Hold me :)</div><br/>
+			</div>
 			
 			<span class='navigation'></span>
-		</div>		
+		</div>
    </body>
 </html>

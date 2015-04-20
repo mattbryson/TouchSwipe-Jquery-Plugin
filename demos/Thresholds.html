@@ -2,7 +2,7 @@
 <html>
     <head>  
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        
+        <meta http-equiv="x-ua-compatible" content="IE=9">
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
         <link href="css/main.css" type="text/css" rel="stylesheet" />
@@ -79,7 +79,7 @@
 			</script>
 			
 			<span class='title'></span>
-			<h4>property: <code>threshold</code></h4>
+			<h4>property: <span class='properties'><code>threshold</code></span></h4>
 			<p>By setting the <code>threshold</code> you can set how far the user must swipe before it is considered a swipe. <br/>Swipe at least 200px</p>
 			
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
@@ -88,14 +88,14 @@
 			
 			<div id="test" class="box">Swipe me for at least 200 px</div>
 			
-			<h4>property: <code>cancelThreshold</code><h4>
+			<h4>property: <span class='properties'><code>cancelThreshold</code></span><h4>
 			<p>By setting the <code>cancelThreshold</code> you can set the minimum distance in px that the user needs to swipe back to cancel the current swipe, even if they have passed the main <code>threshold</code></p>
 			
 
 			<pre class="prettyprint lang-js" data-src="code_3"></pre>			
 			<div id="test3" class='box'>Swipe me for at least 200 px, then back 10px to cancel</div>
 			
-			<h4>property: <code>maxTimeThreshold</code><h4>
+			<h4>property: <span class='properties'><code>maxTimeThreshold</code></span><h4>
 			<p>By setting the <code>maxTimeThreshold</code> you can set the maximum time the user has to complete the swipe. A swipe LONGER than this is cancelled. This can be useful for ignoring long slow swipes. <br/>Swipe in under 500ms</p>
 			
 
