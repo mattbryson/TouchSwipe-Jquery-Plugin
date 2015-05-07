@@ -908,15 +908,15 @@
 			var ret = undefined;
 			
 			//Swipes and pinches are not mutually exclusive - can happend at same time, so need to trigger 2 events potentially
-			if( (didSwipe() || hasSwipes()) || (didPinch() || hasPinches()) ) {
+			if( (didSwipe() && hasSwipes()) || (didPinch() && hasPinches()) ) {
 				// SWIPE GESTURES
-				if(didSwipe() || hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
+				if(didSwipe() && hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
 					//Trigger the swipe events...
 					ret = triggerHandlerForGesture(event, phase, SWIPE);
 				}	
 
 				// PINCH GESTURES (if the above didn't cancel)
-				if((didPinch() || hasPinches()) && ret!==false) {
+				if((didPinch() && hasPinches()) && ret!==false) {
 					//Trigger the pinch events...
 					ret = triggerHandlerForGesture(event, phase, PINCH);
 				}
