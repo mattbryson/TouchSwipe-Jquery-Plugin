@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.6
+* @version 1.6.9
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -101,8 +101,15 @@
 * $version 1.6.7    - Added patch from https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues/206 to fix memory leak
 *
 * $Date: 2015-2-2 (Mon, 2 Feb 2015) $
-* $version 1.6.7    - Added preventDefaultEvents option to proxy events regardless.
+* $version 1.6.8    - Added preventDefaultEvents option to proxy events regardless.
 *					- Fixed issue with swipe and pinch not triggering at the same time
+*
+* $Date: 2015-9-6 (Tues, 9 June 2015) $
+* $version 1.6.9    - Added PR from jdalton/hybrid to fix pointer events
+*					- Added scrolling demo
+*					- Added version property to plugin
+*
+*
 */
 
 /**
@@ -136,7 +143,8 @@
 	"use strict";
 
 	//Constants
-	var LEFT = "left",
+	var VERSION = "1.6.9",
+		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
 		DOWN = "down",
@@ -277,6 +285,14 @@
 
 		return $this;
 	};
+	
+	/**
+	 * The version of the plugin
+	 * @readonly
+	 */
+	$.fn.swipe.version = VERSION;
+
+
 
 	//Expose our defaults so a user could override the plugin defaults
 	$.fn.swipe.defaults = defaults;
