@@ -9,7 +9,7 @@
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         
         <title>touchSwipe</title>
@@ -25,6 +25,7 @@
 					$("#test3").swipe( { swipeLeft:swipe2, swipeRight:swipe2} );
 					$("#test4").swipe( { swipeStatus:swipe2, allowPageScroll:"vertical"} );
 					$("#test5").swipe( { swipeStatus:swipe2, allowPageScroll:"horizontal" } );
+					$("#test6").swipe( { pinchStatus:pinch, allowPageScroll:"vertical" } );
 
 					//Swipe handlers.
 					function swipe1(event, direction, distance, duration, fingerCount) {
@@ -33,6 +34,10 @@
 				
 					function swipe2(event, phase, direction, distance) {
 						$(this).text( phase +" you have swiped " + distance + "px in direction:" + direction );
+					}
+
+					function pinch(event, phase, direction, distance) {
+						$(this).text( phase +" you have pinched " + distance + "px in direction:" + direction );
 					}
 				});
 			</script>
@@ -85,12 +90,17 @@
 			<div class="box" id="test4" >Swipe me</div>
 			
 			<br><br>
-			<b>allowPageScroll = "vertical" or $.fn.swipe.pageScroll.HORIZONTAL</b>
+			<b>allowPageScroll = "horizontal" or $.fn.swipe.pageScroll.HORIZONTAL</b>
 			<br/>
-			<b>Vertical, but WITH the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
-			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "vertical" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
-			<br>Note how the vertical swipe is hit and miss. As soon as the page starts scrolling, the user is no longer swiping across the object.
+			<b>Horizontal, but WITH the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
+			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "horizontal" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
 			<div class="box" id="test5" >Swipe me</div>
+
+			<br><br>
+			<b>Pinch and allowPageScroll = "vertical" or $.fn.swipe.pageScroll.VERTICAL</b>
+			<br/>
+			<b>Vertical, but WITH  <code>pinch</code> handlers</b>
+			<div class="box" id="test6" >Pinch me</div>
 			
 			<span class='navigation'></span>
 	

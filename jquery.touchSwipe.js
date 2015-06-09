@@ -1259,8 +1259,11 @@
 		*/
 		function validateDefaultEvent(jqEvent, direction) {
 
-			
-			if( options.preventDefaultEvents === false ) {
+			//If we have no pinches, then do this
+			//If we have a pinch, and we we have 2 fingers or more down, then dont allow page scroll.
+
+			//If the option is set, allways allow the event to bubble up (let user handle wiredness)
+			if( options.preventDefaultEvents === false) {
 				return;
 			}
 
