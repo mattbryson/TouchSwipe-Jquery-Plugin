@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.9
+* @version 1.6.10
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -109,7 +109,8 @@
 *					- Added scrolling demo
 *					- Added version property to plugin
 *
-*
+* $Date: 2015-1-10 (Wed, 1 October 2015) $
+* $version 1.6.10    - Added PR from beatspace to fix tap events
 */
 
 /**
@@ -143,7 +144,7 @@
 	"use strict";
 
 	//Constants
-	var VERSION = "1.6.9",
+	var VERSION = "1.6.10",
 		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
