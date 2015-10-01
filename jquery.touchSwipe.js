@@ -584,7 +584,7 @@
 				fingerCount = touches.length;
 			}
 			//Else this is the desktop, so stop the browser from dragging content
-			else {
+			else if(options.preventDefaultEvents !== false) {
 				jqEvent.preventDefault(); //call this on jq event so we are cross browser
 			}
 
@@ -807,7 +807,9 @@
                 triggerHandler(event, phase);
 			} else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
 				//call this on jq event so we are cross browser 
-				jqEvent.preventDefault(); 
+				if(options.preventDefaultEvents !== false) {
+					jqEvent.preventDefault(); 
+				}
 				phase = PHASE_END;
                 triggerHandler(event, phase);
 			}
