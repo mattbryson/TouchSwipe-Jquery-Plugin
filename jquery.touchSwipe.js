@@ -146,7 +146,7 @@
 	"use strict";
 
 	//Constants
-	var VERSION = "1.6.10",
+	var VERSION = "1.6.11",
 		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
