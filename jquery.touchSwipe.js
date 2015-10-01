@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.11
+* @version 1.6.12
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -113,6 +113,7 @@
 * $version 1.6.10    - Added PR from beatspace to fix tap events
 * $version 1.6.11    - Added PRs from indri-indri ( Doc tidyup), kkirsche ( Bower tidy up ), UziTech (preventDefaultEvents fixes )
 *					 - Allowed setting multiple options via .swipe("options", options_hash) and more simply .swipe(options_hash) or exisitng instances 				
+* $version 1.6.12    - Fixed bug with multi finger releases above 2 not triggering events
 */
 
 /**
@@ -146,7 +147,7 @@
 	"use strict";
 
 	//Constants
-	var VERSION = "1.6.11",
+	var VERSION = "1.6.12",
 		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
@@ -479,7 +480,7 @@
 		var startTime = 0,
 			endTime = 0,
 			previousTouchEndTime=0,
-			previousTouchFingerCount=0,
+			fingerCountAtRelease=0,
 			doubleTapStartTime=0;
 
 		//Timeouts
@@ -796,6 +797,7 @@
 
 
 
+
 		/**
 		* Event handler for a touch end event. 
 		* Calculate the direction and trigger events
@@ -808,21 +810,23 @@
 			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent,
 			    touches = event.touches;
 
-			//If we are still in a touch with another finger return
-			//This allows us to wait a fraction and see if the other finger comes up, if it does within the threshold, then we treat it as a multi release, not a single release.
+			//If we are still in a touch with the device wait a fraction and see if the other finger comes up
+			//if it does within the threshold, then we treat it as a multi release, not a single release and end the touch / swipe
 			if (touches) {
-				if(touches.length) {
+				if(touches.length && !inMultiFingerRelease()) {
 					startMultiFingerRelease();
+					return true;
+				} else if (touches.length && inMultiFingerRelease()) {
 					return true;
 				}
 			}
-			
+
 			//If a previous finger has been released, check how long ago, if within the threshold, then assume it was a multifinger release.
 			//This is used to allow 2 fingers to release fractionally after each other, whilst maintainig the event as containg 2 fingers, not 1
 			if(inMultiFingerRelease()) {	
-				fingerCount=previousTouchFingerCount;
+				fingerCount=fingerCountAtRelease;
 			}	
-		
+
 			//Set end of swipe
 			endTime = getTimeStamp();
 			
@@ -972,7 +976,8 @@
 					//Trigger the pinch events...
 					ret = triggerHandlerForGesture(event, phase, PINCH);
 				}
-			} else {
+			} 
+			else {
 			 
 				// CLICK / TAP (if the above didn't cancel)
 				if(didDoubleTap() && ret!==false) {
@@ -993,10 +998,15 @@
 				}
 			}
 			
-			
-			
 			// If we are cancelling the gesture, then manually trigger the reset handler
 			if (phase === PHASE_CANCEL) {
+				if(hasSwipes() ) {
+					ret = triggerHandlerForGesture(event, phase, SWIPE);
+				}
+			
+				if(hasPinches()) {
+					ret = triggerHandlerForGesture(event, phase, PINCH);
+				}
 				touchCancel(event);
 			}
 			
@@ -1567,7 +1577,7 @@
 		*/
 		function startMultiFingerRelease() {
 			previousTouchEndTime = getTimeStamp();
-			previousTouchFingerCount = event.touches.length+1;
+			fingerCountAtRelease = event.touches.length+1;
 		}
 		
 		/**
@@ -1576,7 +1586,7 @@
 		*/
 		function cancelMultiFingerRelease() {
 			previousTouchEndTime = 0;
-			previousTouchFingerCount = 0;
+			fingerCountAtRelease = 0;
 		}
 		
 		/**
@@ -1620,12 +1630,13 @@
 			if(val===true) {
 				$element.bind(MOVE_EV, touchMove);
 				$element.bind(END_EV, touchEnd);
-				
+
 				//we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
 				if(LEAVE_EV) { 
 					$element.bind(LEAVE_EV, touchLeave);
 				}
 			} else {
+
 				$element.unbind(MOVE_EV, touchMove, false);
 				$element.unbind(END_EV, touchEnd, false);
 			
