@@ -112,6 +112,7 @@
 * $Date: 2015-1-10 (Wed, 1 October 2015) $
 * $version 1.6.10    - Added PR from beatspace to fix tap events
 * $version 1.6.11    - Added PRs from indri-indri ( Doc tidyup), kkirsche ( Bower tidy up ), UziTech (preventDefaultEvents fixes )
+*					 - Allowed setting multiple options via .swipe("options", options_hash) and more simply .swipe(options_hash) or exisitng instances 				
 */
 
 /**
@@ -260,6 +261,7 @@
 	* Applies TouchSwipe behaviour to one or more jQuery objects.
 	* The TouchSwipe plugin can be instantiated via this method, or methods within 
 	* TouchSwipe can be executed via this method as per jQuery plugin architecture.
+	* An existing plugin can have its options changed simply by re calling .swipe(options)
 	* @see TouchSwipe
 	* @class
 	* @param {Mixed} method If the current DOMNode is a TouchSwipe object, and <code>method</code> is a TouchSwipe method, then
@@ -280,10 +282,16 @@
 				$.error('Method ' + method + ' does not exist on jQuery.swipe');
 			}
 		}
+
+		//Else update existing plugin with new options hash
+		else if (plugin && typeof method === 'object') {
+			plugin['option'].apply(this, arguments);
+		}
+
 		//Else not instantiated and trying to pass init object (or nothing)
 		else if (!plugin && (typeof method === 'object' || !method)) {
 			return init.apply(this, arguments);
-		}
+		} 
 
 		return $this;
 	};
@@ -363,14 +371,18 @@
 	* @readonly
 	* @see $.fn.swipe.defaults#fingers
 	* @property {string} ONE Constant indicating 1 finger is to be detected / was detected. Value is <code>1</code>.
-	* @property {string} TWO Constant indicating 2 fingers are to be detected / were detected. Value is <code>1</code>.
-	* @property {string} THREE Constant indicating 3 finger are to be detected / were detected. Value is <code>1</code>.
+	* @property {string} TWO Constant indicating 2 fingers are to be detected / were detected. Value is <code>2</code>.
+	* @property {string} THREE Constant indicating 3 finger are to be detected / were detected. Value is <code>3</code>.
+	* @property {string} FOUR Constant indicating 4 finger are to be detected / were detected. Not all devices support this. Value is <code>4</code>.
+	* @property {string} FIVE Constant indicating 5 finger are to be detected / were detected. Not all devices support this. Value is <code>5</code>.
 	* @property {string} ALL Constant indicating any combination of finger are to be detected.  Value is <code>"all"</code>.
 	*/
 	$.fn.swipe.fingers = {
 		ONE: 1,
 		TWO: 2,
 		THREE: 3,
+		FOUR: 4,
+		FIVE: 5,
 		ALL: ALL_FINGERS
 	};
 
@@ -425,7 +437,11 @@
     * @class
 	*/
 	function TouchSwipe(element, options) {
-        var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
+
+		//take a local/instacne level copy of the options - should make it this.options really...
+		var options = $.extend({}, options);
+
+		var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
             START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
             MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
             END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup') : 'touchend') : 'mouseup',
@@ -525,27 +541,37 @@
          * Allows run time updating of the swipe configuration options.
          * @function
     	 * @name $.fn.swipe#option
-    	 * @param {String} property The option property to get or set
+    	 * @param {String} property The option property to get or set, or a has of multiple options to set
          * @param {Object} [value] The value to set the property to
-		 * @return {Object} If only a property name is passed, then that property value is returned.
+		 * @return {Object} If only a property name is passed, then that property value is returned. If nothing is passed the current options hash is returned.
 		 * @example $("#element").swipe("option", "threshold"); // return the threshold
          * @example $("#element").swipe("option", "threshold", 100); // set the threshold after init
+         * @example $("#element").swipe("option", {threshold:100, fingers:3} ); // set multiple properties after init
+         * @example $("#element").swipe({threshold:100, fingers:3} ); // set multiple properties after init - the "option" method is optional!
+         * @example $("#element").swipe("option"); // Return the current options hash
          * @see $.fn.swipe.defaults
          *
          */
         this.option = function (property, value) {
-            if(options[property]!==undefined) {
+			
+			if(typeof property === 'object') {
+        		options = $.extend(options, property);
+        	} else if(options[property]!==undefined) {
                 if(value===undefined) {
                     return options[property];
                 } else {
                     options[property] = value;
                 }
+            } else if (!property) {
+            	return options;   
             } else {
                 $.error('Option ' + property + ' does not exist on jQuery.swipe.options');
             }
 
             return null;
         }
+
+       
 
 		//
 		// Private methods
@@ -561,6 +587,7 @@
 		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchStart(jqEvent) {
+
 			//If we already in a touch event (a finger already in use) then ignore subsequent ones..
 			if( getTouchInProgress() )
 				return;
@@ -601,11 +628,12 @@
 			maximumsMap=createMaximumsData();
 			cancelMultiFingerRelease();
 
-			
+			//Create the default finger data
+			createFingerData( 0, evt );
+
 			// check the number of fingers is what we are looking for, or we are capturing pinches
 			if (!touches || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
 				// get the coordinates of the touch
-				createFingerData( 0, evt );
 				startTime = getTimeStamp();
 				
 				if(fingerCount==2) {
