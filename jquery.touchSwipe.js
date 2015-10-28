@@ -250,6 +250,7 @@
 		hold:null, 
 		triggerOnTouchEnd: true, 
 		triggerOnTouchLeave:false, 
+		triggerLongTapOnTouchEnd : true,
 		allowPageScroll: "auto", 
 		fallbackToMouseEvents: true,	
 		excludedElements:"label, button, input, select, textarea, a, .noSwipe",
@@ -647,6 +648,15 @@
 				if (options.swipeStatus || options.pinchStatus) {
 					ret = triggerHandler(event, phase);
 				}
+
+				if (options.longTap && options.triggerLongTapOnTouchEnd === false) {
+					// Set a timeout to early-fire the longTap after the threshold is reached
+					clearTimeout(longTapTimeout);
+					longTapTimeout = setTimeout(function(){
+						//Invoke the gesture handler directly to simulate a normal END phase
+						triggerHandlerForGesture(event,PHASE_END,LONG_TAP);
+					},options.longTapThreshold);
+				}
 			}
 			else {
 				//A touch with more or less than the fingers we are looking for, so cancel
@@ -686,6 +696,8 @@
 		* @param {object} jqEvent The normalised jQuery event object.
 		*/
 		function touchMove(jqEvent) {
+			//Always clear the long tap timeout if there is movement
+			clearTimeout(holdTimeout);
 			
 			//As we use Jquery bind for events, we need to target the original event object
 			//If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
@@ -832,7 +844,12 @@
 			
 			//Get duration incase move was never fired
 			duration = calculateDuration();
-			
+
+			//Clear long tap timeout only if duration was less than threshold (i.e. short tap)
+			if(duration < options.longTapThreshold) {
+				clearTimeout(holdTimeout);
+			}
+
 			//If we trigger handlers at end of swipe OR, we trigger during, but they didnt trigger and we are still in the move phase
 			if(didSwipeBackToCancel() || !validateSwipeDistance()) {
 			    phase = PHASE_CANCEL;
