@@ -1,6 +1,5 @@
 {
   "name": "jquery-touchswipe",
-  "version": "1.6.8",
   "main": "./jquery.touchSwipe.js",
   "repository": {
     "type": "git",

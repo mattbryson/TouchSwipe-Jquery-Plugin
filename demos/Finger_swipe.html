@@ -20,7 +20,7 @@
 			
 			<script id='code_1'>
 				$(function() {
-					$("#test").swipe( {
+					$("#test, #test_2").swipe( {
 						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData) {
 
 						if(phase==$.fn.swipe.phases.PHASE_START) {
@@ -37,6 +37,8 @@
 					  threshold:0,
 					  fingers:2
 					});
+
+                    $("#test_2").swipe({ fingers:3 } );
 				});
 			</script>
 			
@@ -50,6 +52,8 @@
 			<span class='navigation'></span>
 			
 			<div id="test" class="box">Swipe me with 2 fingers</div>
+
+            <div id="test_2" class="box">Swipe me with 3 fingers</div>
 			
 			<span class='navigation'></span>
 		</div>
