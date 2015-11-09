@@ -25,7 +25,7 @@
 
 					//Enable swiping...
 					$("#test").swipe( {
-						//Generic swipe handler for all directions
+						//Single swipe handler for left swipes
 						swipeLeft:function(event, direction, distance, duration, fingerCount) {
 							$(this).text("You swiped " + direction + " " + ++count + " times " );	
 						},
