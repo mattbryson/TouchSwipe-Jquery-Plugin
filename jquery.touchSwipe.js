@@ -1204,6 +1204,8 @@
 				if(phase === PHASE_CANCEL || phase === PHASE_END) {
 					//Cancel any pending singletap 
 				    clearTimeout(singleTapTimeout);
+    			    //Cancel hold timeout
+				    clearTimeout(holdTimeout);
 				    doubleTapStartTime=null;
 				        
                     //Trigger the event
