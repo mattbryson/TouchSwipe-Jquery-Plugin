@@ -461,6 +461,7 @@
     //touch properties
     var distance = 0,
       direction = null,
+      currentDirection = null,
       duration = 0,
       startTouchesDistance = 0,
       endTouchesDistance = 0,
@@ -626,6 +627,7 @@
       //clear vars..
       distance = 0;
       direction = null;
+      currentDirection=null;
       pinchDirection = null;
       duration = 0;
       startTouchesDistance = 0;
@@ -691,6 +693,7 @@
      */
     function touchMove(jqEvent) {
 
+
       //As we use Jquery bind for events, we need to target the original event object
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
@@ -749,7 +752,7 @@
         direction = calculateDirection(currentFinger.start, currentFinger.end);
 
         //The immediate direction of the swipe, direction between the last movement and this one.
-        var currentDirection = calculateDirection(currentFinger.last, currentFinger.end);
+        currentDirection = calculateDirection(currentFinger.last, currentFinger.end);
 
         //Check if we need to prevent default event (page scroll / pinch zoom) or not
         validateDefaultEvent(jqEvent, currentDirection);
@@ -967,19 +970,14 @@
       var ret,
         touches = event.touches;
 
-      //Swipes and pinches are not mutually exclusive - can happend at same time, so need to trigger 2 events potentially
-      if ((didSwipe() && hasSwipes()) || (didPinch() && hasPinches())) {
-        // SWIPE GESTURES
-        if (didSwipe() && hasSwipes()) { //hasSwipes as status needs to fire even if swipe is invalid
-          //Trigger the swipe events...
+      // SWIPE GESTURES
+      if (didSwipe() || hasSwipes()) {
           ret = triggerHandlerForGesture(event, phase, SWIPE);
-        }
+      }
 
-        // PINCH GESTURES (if the above didn't cancel)
-        if ((didPinch() && hasPinches()) && ret !== false) {
-          //Trigger the pinch events...
+      // PINCH GESTURES (if the above didn't cancel)
+      if ((didPinch() || hasPinches()) && ret !== false) {
           ret = triggerHandlerForGesture(event, phase, PINCH);
-        }
       }
 
       // CLICK / TAP (if the above didn't cancel)
@@ -999,7 +997,6 @@
         //Trigger the tap event..
         ret = triggerHandlerForGesture(event, phase, TAP);
       }
-
 
       // If we are cancelling the gesture, then manually trigger the reset handler
       if (phase === PHASE_CANCEL) {
@@ -1046,20 +1043,20 @@
       //SWIPES....
       if (gesture == SWIPE) {
         //Trigger status every time..
-        $element.trigger('swipeStatus', [phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData]);
+        $element.trigger('swipeStatus', [phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData, currentDirection]);
 
         if (options.swipeStatus) {
-          ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData);
+          ret = options.swipeStatus.call($element, event, phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData, currentDirection);
           //If the status cancels, then dont run the subsequent event handlers..
           if (ret === false) return false;
         }
 
 
         if (phase == PHASE_END && validateSwipe()) {
-          $element.trigger('swipe', [direction, distance, duration, fingerCount, fingerData]);
+          $element.trigger('swipe', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
           if (options.swipe) {
-            ret = options.swipe.call($element, event, direction, distance, duration, fingerCount, fingerData);
+            ret = options.swipe.call($element, event, direction, distance, duration, fingerCount, fingerData, currentDirection);
             //If the status cancels, then dont run the subsequent event handlers..
             if (ret === false) return false;
           }
@@ -1067,34 +1064,34 @@
           //trigger direction specific event handlers
           switch (direction) {
             case LEFT:
-              $element.trigger('swipeLeft', [direction, distance, duration, fingerCount, fingerData]);
+              $element.trigger('swipeLeft', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
               if (options.swipeLeft) {
-                ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount, fingerData);
+                ret = options.swipeLeft.call($element, event, direction, distance, duration, fingerCount, fingerData, currentDirection);
               }
               break;
 
             case RIGHT:
-              $element.trigger('swipeRight', [direction, distance, duration, fingerCount, fingerData]);
+              $element.trigger('swipeRight', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
               if (options.swipeRight) {
-                ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount, fingerData);
+                ret = options.swipeRight.call($element, event, direction, distance, duration, fingerCount, fingerData, currentDirection);
               }
               break;
 
             case UP:
-              $element.trigger('swipeUp', [direction, distance, duration, fingerCount, fingerData]);
+              $element.trigger('swipeUp', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
               if (options.swipeUp) {
-                ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount, fingerData);
+                ret = options.swipeUp.call($element, event, direction, distance, duration, fingerCount, fingerData, currentDirection);
               }
               break;
 
             case DOWN:
-              $element.trigger('swipeDown', [direction, distance, duration, fingerCount, fingerData]);
+              $element.trigger('swipeDown', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
               if (options.swipeDown) {
-                ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount, fingerData);
+                ret = options.swipeDown.call($element, event, direction, distance, duration, fingerCount, fingerData, currentDirection);
               }
               break;
           }
@@ -1891,6 +1888,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
 
@@ -1907,6 +1905,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
   /**
@@ -1920,6 +1919,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
   /**
@@ -1933,6 +1933,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
   /**
@@ -1946,6 +1947,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
   /**
@@ -1961,6 +1963,7 @@
    * @param {int} duration The duration of the swipe in milliseconds
    * @param {int} fingerCount The number of fingers used. See {@link $.fn.swipe.fingers}
    * @param {object} fingerData The coordinates of fingers in event
+   * @param {string} currentDirection The current direction the user is swiping.
    */
 
   /**
