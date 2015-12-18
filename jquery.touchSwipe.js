@@ -814,7 +814,7 @@
 			//if it does within the threshold, then we treat it as a multi release, not a single release and end the touch / swipe
 			if (touches) {
 				if(touches.length && !inMultiFingerRelease()) {
-					startMultiFingerRelease();
+					startMultiFingerRelease(event);
 					return true;
 				} else if (touches.length && inMultiFingerRelease()) {
 					return true;
@@ -822,7 +822,7 @@
 			}
 
 			//If a previous finger has been released, check how long ago, if within the threshold, then assume it was a multifinger release.
-			//This is used to allow 2 fingers to release fractionally after each other, whilst maintainig the event as containg 2 fingers, not 1
+			//This is used to allow 2 fingers to release fractionally after each other, whilst maintaining the event as containing 2 fingers, not 1
 			if(inMultiFingerRelease()) {	
 				fingerCount=fingerCountAtRelease;
 			}	
@@ -1577,7 +1577,7 @@
 		 * Starts tracking the time between 2 finger releases, and keeps track of how many fingers we initially had up
 		 * @inner
 		*/
-		function startMultiFingerRelease() {
+		function startMultiFingerRelease(event) {
 			previousTouchEndTime = getTimeStamp();
 			fingerCountAtRelease = event.touches.length+1;
 		}
