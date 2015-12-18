@@ -985,26 +985,25 @@
 					ret = triggerHandlerForGesture(event, phase, PINCH);
 				}
 			}
-			else {
 
-				// CLICK / TAP (if the above didn't cancel)
-				if(didDoubleTap() && ret!==false) {
-					//Trigger the tap events...
-					ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP);
-				}
-
-				// CLICK / TAP (if the above didn't cancel)
-				else if(didLongTap() && ret!==false) {
-					//Trigger the tap events...
-					ret = triggerHandlerForGesture(event, phase, LONG_TAP);
-				}
-
-				// CLICK / TAP (if the above didn't cancel)
-				else if(didTap() && ret!==false) {
-					//Trigger the tap event..
-					ret = triggerHandlerForGesture(event, phase, TAP);
-				}
+			// CLICK / TAP (if the above didn't cancel)
+			if(didDoubleTap() && ret!==false) {
+				//Trigger the tap events...
+				ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP);
 			}
+
+			// CLICK / TAP (if the above didn't cancel)
+			else if(didLongTap() && ret!==false) {
+				//Trigger the tap events...
+				ret = triggerHandlerForGesture(event, phase, LONG_TAP);
+			}
+
+			// CLICK / TAP (if the above didn't cancel)
+			else if(didTap() && ret!==false) {
+				//Trigger the tap event..
+				ret = triggerHandlerForGesture(event, phase, TAP);
+			}
+
 
 			// If we are cancelling the gesture, then manually trigger the reset handler
 			if (phase === PHASE_CANCEL) {
