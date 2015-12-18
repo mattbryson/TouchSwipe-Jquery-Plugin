@@ -1570,6 +1570,9 @@
      */
     function setTouchInProgress(val) {
 
+      //If destroy is called in an event handler, we have no el, and we have already cleaned up, so return.
+      if(!$element) { return; }
+
       //Add or remove event listeners depending on touch status
       if (val === true) {
         $element.bind(MOVE_EV, touchMove);
