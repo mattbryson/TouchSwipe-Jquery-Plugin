@@ -114,6 +114,10 @@
 * $version 1.6.11    - Added PRs from indri-indri ( Doc tidyup), kkirsche ( Bower tidy up ), UziTech (preventDefaultEvents fixes )
 *					 - Allowed setting multiple options via .swipe("options", options_hash) and more simply .swipe(options_hash) or exisitng instances
 * $version 1.6.12    - Fixed bug with multi finger releases above 2 not triggering events
+*
+* $Date: 2015-12-18 (Fri, 18 December 2015) $
+* $version 1.6.13    - Added PRs
+*                    - Fixed #267 allowPageScroll not working correctly
 */
 
 /**
@@ -134,7 +138,6 @@
  */
 
 
-
 (function (factory) {
     if (typeof define === 'function' && define.amd && define.amd.jQuery) {
         // AMD. Register as anonymous module.
@@ -147,7 +150,7 @@
 	"use strict";
 
 	//Constants
-	var VERSION = "1.6.12",
+	var VERSION = "1.6.13",
 		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
