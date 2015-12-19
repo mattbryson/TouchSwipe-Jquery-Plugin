@@ -1,28 +1,28 @@
 <!DOCTYPE HTML>
 <html>
-    <head>  
+    <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta http-equiv="x-ua-compatible" content="IE=9">
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
         <link href="css/main.css" type="text/css" rel="stylesheet" />
-        
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
         <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        
+
         <!-- use the jquery.ui.ipad.js plugin to translate touch events to mouse events -->
 		<script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
-		
+
         <title>touchSwipe</title>
     </head>
     <body>
 		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
 		<div class="container">
-			
+
 			<script id='code_1'>
-				$(function() {	
+				$(function() {
 					$("#register_btn").click(function() {
                         if($(this).text() == "Register Events") {
 			                registerEvents();
@@ -30,7 +30,7 @@
 			                deRegisterEvents();
 			            }
 			        });
-			        
+
 					// Create the swipe object, and assign the callbacks
 					$("#test").swipe( {
 						tap:function(event, target) {
@@ -39,22 +39,22 @@
 						hold:function(event, target) {
                             log("hold from callback");
 						},
-						swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						swipe:function(event, direction, distance, duration, fingerCount, fingerData, currentDirection) {
 							log("swipe from callback");
 						},
-						swipeLeft:function(event, distance, duration, fingerCount, fingerData) {
+						swipeLeft:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
 							log("swipeLeft from callback");
 						},
-						swipeRight:function(event, distance, duration, fingerCount, fingerData) {
+						swipeRight:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
 							log("swipeRight from callback");
 						},
-						swipeUp:function(event, distance, duration, fingerCount, fingerData) {
+						swipeUp:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
 							log("swipeUp from callback");
 						},
-						swipeDown:function(event, distance, duration, fingerCount, fingerData) {
+						swipeDown:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
 							log("swipeDown from callback");
 						},
-						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData) {
+						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData, currentDirection) {
     						log("swipeStatus from callback");
 						},
 						pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom, fingerData) {
@@ -67,12 +67,12 @@
                             log("pinchStatus from callback");
 						},
 
-                        fingers:$.fn.swipe.fingers.ALL 
+                        fingers:$.fn.swipe.fingers.ALL
 					});
-                    
+
 					//Now assign the event handlers as well
 					var events = ['tap','hold', 'swipe','swipeLeft','swipeRight','swipeUp','swipeDown','swipeStatus','pinch','pinchIn','pinchOut','pinchStatus'];
-					
+
 					function registerEvents() {
 					    for(var i in events) {
 					        $("#test").on( events[i], logEvent);
@@ -86,42 +86,42 @@
 					    }
 					     $("#register_btn").text("Register Events").removeClass('btn-danger').addClass('btn-success');
 					}
-										
+
 					function logEvent(event) {
 					    log("<b>" + event.type + " from event handler</b>");
 					}
-					
+
 					function log(msg) {
 					    $("#test").html( msg + "<br />" + $("#test").html() );
 					}
-					
+
 					registerEvents();
 				});
 			</script>
-			
+
 			<script>
-			    $(function() {	
-			        
+			    $(function() {
+
     			});
 			</script>
-			
+
 			<span class='title'></span>
 			<h4>events:  <span class='events'><code>tap</code> <code>hold</code> <code>swipe</code> <code>swipeLeft</code> <code>swipeRight</code> <code>swipeUp</code> <code>swipeDown</code> <code>swipeStatus</code> <code>pinch</code> <code>pinchIn</code> <code>pinchOut</code> <code>pinchStatus</code></span> </h4>
 			<b>See the <a href="../docs/symbols/%24.fn.swipe.html#event:click"><u>docs</u></a> for more on each event</b>
-			<p>You can either assign callback methods as part of the options object, or you can assign 
+			<p>You can either assign callback methods as part of the options object, or you can assign
 			event handlers using the jQuery <code>on</code>/<code>off</code> event registration.</p>
-			
-			<p>The example below logs both from the callback and the event handlers. The Remove Events button will remove the 
+
+			<p>The example below logs both from the callback and the event handlers. The Remove Events button will remove the
 			event bindings, and then only the callbacks will be logged. Event logs are bold, callbacks are normal.</p>
-			
+
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
 			<pre class="prettyprint lang-js" data-src='code_1'></pre>
 			<span class='navigation'></span>
-			
+
 			<br/>
 			<button class='btn btn-danger' id="register_btn"></button>
 			<div id="test" class="box" style="font-size:10px;"></div>
-			
+
 			<span class='navigation'></span>
 		</div>
    </body>

@@ -119,6 +119,7 @@
  * $version 1.6.13    - Added PRs
  *                    - Fixed #267 allowPageScroll not working correctly
  * $version 1.6.14    - Fixed #220 / #248 doubletap not firing with swipes, #223 commonJS compatible
+ * $version 1.6.15    - More bug fixes
  */
 
 /**
@@ -154,7 +155,7 @@
   "use strict";
 
   //Constants
-  var VERSION = "1.6.14",
+  var VERSION = "1.6.15",
     LEFT = "left",
     RIGHT = "right",
     UP = "up",
@@ -597,12 +598,14 @@
     function touchStart(jqEvent) {
 
       //If we already in a touch event (a finger already in use) then ignore subsequent ones..
-      if (getTouchInProgress())
+      if (getTouchInProgress()) {
         return;
+      }
 
       //Check if this element matches any in the excluded elements selectors,  or its parent is excluded, if so, DON'T swipe
-      if ($(jqEvent.target).closest(options.excludedElements, $element).length > 0)
+      if ($(jqEvent.target).closest(options.excludedElements, $element).length > 0) {
         return;
+      }
 
       //As we use Jquery bind for events, we need to target the original event object
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
@@ -693,7 +696,6 @@
      */
     function touchMove(jqEvent) {
 
-
       //As we use Jquery bind for events, we need to target the original event object
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
@@ -738,13 +740,9 @@
           pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);
         }
 
-
         pinchZoom = calculatePinchZoom(startTouchesDistance, endTouchesDistance);
         pinchDistance = Math.abs(startTouchesDistance - endTouchesDistance);
       }
-
-
-
 
       if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !touches || hasPinches()) {
 
@@ -764,9 +762,9 @@
         //Cache the maximum distance we made in this direction
         setMaxDistance(direction, distance);
 
-        if (options.swipeStatus || options.pinchStatus) {
-          ret = triggerHandler(event, phase);
-        }
+        //Trigger status handler
+        ret = triggerHandler(event, phase);
+
 
         //If we trigger end events when threshold are met, or trigger events when touch leaves element
         if (!options.triggerOnTouchEnd || options.triggerOnTouchLeave) {
@@ -967,6 +965,8 @@
      */
     function triggerHandler(event, phase) {
 
+
+
       var ret,
         touches = event.touches;
 
@@ -1050,7 +1050,6 @@
           //If the status cancels, then dont run the subsequent event handlers..
           if (ret === false) return false;
         }
-
 
         if (phase == PHASE_END && validateSwipe()) {
 
