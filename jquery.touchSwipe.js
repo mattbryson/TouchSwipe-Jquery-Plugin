@@ -1053,6 +1053,11 @@
 
 
         if (phase == PHASE_END && validateSwipe()) {
+
+          //Cancel any taps that were in progress...
+          clearTimeout(singleTapTimeout);
+          clearTimeout(holdTimeout);
+
           $element.trigger('swipe', [direction, distance, duration, fingerCount, fingerData, currentDirection]);
 
           if (options.swipe) {
