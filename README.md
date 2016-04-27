@@ -54,5 +54,26 @@ For full demos, code examples and documentation, see below.
 [http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)  
 [http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
+## Development
+Install dependencies
+````bash
+npm install
+````
+
+To minify
+````bash
+npm run minify
+````
+
+To build docs
+````bash
+npm run docs
+````
+
+To do both
+````bash
+npm run build
+ ````
+
 ### For port to XUI see:
 https://github.com/cowgp/xui-touchSwipe
