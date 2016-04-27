@@ -1,0 +1,22 @@
+{
+  "Basic_swipe" : {"title":"Basic swipe"},
+  "Single_swipe" : {"title":"Single swipe"},
+  "Any_finger_swipe" : {"title":"Any finger swipe"},
+  "Finger_swipe" : {"title":"Finger swipe"},
+  "Swipe_status" : {"title":"Swipe status"},
+  "Pinch" : {"title":"Pinch"},
+  "Pinch_status" : {"title":"Pinch status"},
+  "Pinch_and_Swipe" : {"title":"Pinch and Swipe"},
+  "Trigger_handlers" : {"title":"Trigger handlers"},
+  "Stop_propegation" : {"title":"Stop propegation"},
+  "Handlers_and_events" : {"title":"Handlers and events"},
+  "Tap_vs_swipe" : {"title":"Tap vs swipe"},
+  "Hold" : {"title":"Hold"},
+  "Excluded_children" : {"title":"Excluded children"},
+  "Page_zoom" : {"title":"Page zoom"},
+  "Thresholds" : {"title":"Thresholds"},
+  "Enable_and_destroy" : {"title":"Enable and destroy"},
+  "Page_scrolling" : {"title":"Page scrolling"},
+  "Options" : {"title":"Options"},
+  "Image_gallery_example" : {"title":"Image gallery example"}
+}

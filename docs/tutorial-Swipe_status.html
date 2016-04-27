@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>$ - Documentation</title>
+    <title>Tutorial: Swipe status - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,156 +28,111 @@
 
 <div id="main">
     
-    <h1 class="page-title">$</h1>
+    <h1 class="page-title">Tutorial: Swipe status</h1>
     
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
     
-        <h2>
-        $
-        </h2>
-        
-            <div class="class-description">See the jQuery Library  (http://jquery.com/) for full details.  This just
-documents the function and classes that are added to jQuery by this plug-in.</div>
-        
-    
+
+    <h2>Swipe status</h2>
 </header>
 
 <article>
-    <div class="container-overview">
-    
-        
+    <!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="IE=9">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
 
-    
-    <h2>Constructor</h2>
-    
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
 
-    <h4 class="name" id="$"><span class="type-signature"></span>new $<span class="signature">()</span><span class="type-signature"></span></h4>
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
 
-    
+			<script id='code_1'>
+				$(function() {
+					//Enable swiping...
+					$("#test").swipe( {
+						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData, currentDirection)
+						{
+							var str = "<h4>Swipe Phase : " + phase + "<br/>";
+              str += "Current direction: " + currentDirection + "<br/>";
+							str += "Direction from inital touch: " + direction + "<br/>";
+							str += "Distance from inital touch: " + distance + "<br/>";
+							str += "Duration of swipe: " + duration + "<br/>";
+							str += "Fingers used: " + fingers + "<br/></h4>";
 
+							//Here we can check the:
+							//phase : 'start', 'move', 'end', 'cancel'
+							//direction : 'left', 'right', 'up', 'down'
+							//distance : Distance finger is from initial touch point in px
+							//duration : Length of swipe in MS
+							//fingerCount : the number of fingers used
 
+							if (phase!="cancel" && phase!="end") {
+								if (duration<5000)
+									str +="Under maxTimeThreshold.<h3>Swipe handler will be triggered if you release at this point.</h3>"
+								else
+									str +="Over maxTimeThreshold. <h3>Swipe handler will be canceled if you release at this point.</h3>"
 
+								if (distance<200)
+									str +="Not yet reached threshold.  <h3>Swipe will be canceled if you release at this point.</h3>"
+								else
+									str +="Threshold reached <h3>Swipe handler will be triggered if you release at this point.</h3>"
+							}
 
-<dl class="details">
+							if (phase=="cancel")
+								str +="<br/>Handler not triggered. <br/> One or both of the thresholds was not met "
+							if (phase=="end")
+								str +="<br/>Handler was triggered."
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="jquery.touchSwipe.js.html">jquery.touchSwipe.js</a>, <a href="jquery.touchSwipe.js.html#line125">line 125</a>
-    </li></ul></dd>
-    
+							$("#test").html(str);
+						},
+						threshold:200,
+						maxTimeThreshold:5000,
+						fingers:'all'
+					});
+				});
+			</script>
 
-    
+			<span class='title'></span>
+			<h4>event:  <span class='events'><code>swipeStatus</code></span></h4>
+			<p>You can also get the current status of the swipe, which can be used in place of all other methods. The status reports <code>phase</code>, <code>direction</code>, <code>distance</code>, <code>duration</code>, <code>fingerCount</code>, <code>fingerData</code> and <code>currentDirection</code>
+			Below has a 200px threshold and a 5 second time limit
+			</p>
 
-    
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>
+			<span class='navigation'></span>
 
-    
+			<div id="test" class="box">Swipe me</div>
 
-    
+			<span class='navigation'></span>
+		</div>
+   </body>
+</html>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    See (http://jquery.com/).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="$.fn.html">fn</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
 </article>
 
 </section>
-
-
-
 
 </div>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:55 GMT+0100 (BST) using the docdash theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:56 GMT+0100 (BST) using the docdash theme.
 </footer>
 
 <script>prettyPrint();</script>

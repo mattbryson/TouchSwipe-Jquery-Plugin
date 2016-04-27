@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Trigger handlers - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$.html">$</a></li><li><a href="$.fn.html">fn</a></li><li><a href="$.fn.swipe.html">swipe</a><ul class='methods'><li data-type='method'><a href="$.fn.swipe.html#destroy">destroy</a></li><li data-type='method'><a href="$.fn.swipe.html#disable">disable</a></li><li data-type='method'><a href="$.fn.swipe.html#enable">enable</a></li><li data-type='method'><a href="$.fn.swipe.html#option">option</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="$.fn.swipe.html#event:click">click</a></li><li><a href="$.fn.swipe.html#event:doubleTap">doubleTap</a></li><li><a href="$.fn.swipe.html#event:hold">hold</a></li><li><a href="$.fn.swipe.html#event:longTap">longTap</a></li><li><a href="$.fn.swipe.html#event:pinchIn">pinchIn</a></li><li><a href="$.fn.swipe.html#event:pinchOut">pinchOut</a></li><li><a href="$.fn.swipe.html#event:pinchStatus">pinchStatus</a></li><li><a href="$.fn.swipe.html#event:swipe">swipe</a></li><li><a href="$.fn.swipe.html#event:swipeDown">swipeDown</a></li><li><a href="$.fn.swipe.html#event:swipeLeft">swipeLeft</a></li><li><a href="$.fn.swipe.html#event:swipeRight">swipeRight</a></li><li><a href="$.fn.swipe.html#event:swipeStatus">swipeStatus</a></li><li><a href="$.fn.swipe.html#event:swipeUp">swipeUp</a></li><li><a href="$.fn.swipe.html#event:tap">tap</a></li></ul><h3>Namespaces</h3><ul><li><a href="$.fn.swipe.defaults.html">defaults</a></li><li><a href="$.fn.swipe.directions.html">directions</a></li><li><a href="$.fn.swipe.fingers.html">fingers</a></li><li><a href="$.fn.swipe.pageScroll.html">pageScroll</a></li><li><a href="$.fn.swipe.phases.html">phases</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Any_finger_swipe.html">Any finger swipe</a></li><li><a href="tutorial-Basic_swipe.html">Basic swipe</a></li><li><a href="tutorial-Enable_and_destroy.html">Enable and destroy</a></li><li><a href="tutorial-Excluded_children.html">Excluded children</a></li><li><a href="tutorial-Finger_swipe.html">Finger swipe</a></li><li><a href="tutorial-Handlers_and_events.html">Handlers and events</a></li><li><a href="tutorial-Hold.html">Hold</a></li><li><a href="tutorial-Image_gallery_example.html">Image gallery example</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-Page_scrolling.html">Page scrolling</a></li><li><a href="tutorial-Page_zoom.html">Page zoom</a></li><li><a href="tutorial-Pinch.html">Pinch</a></li><li><a href="tutorial-Pinch_and_Swipe.html">Pinch and Swipe</a></li><li><a href="tutorial-Pinch_status.html">Pinch status</a></li><li><a href="tutorial-Single_swipe.html">Single swipe</a></li><li><a href="tutorial-Stop_propegation.html">Stop propegation</a></li><li><a href="tutorial-Swipe_status.html">Swipe status</a></li><li><a href="tutorial-Tap_vs_swipe.html">Tap vs swipe</a></li><li><a href="tutorial-Thresholds.html">Thresholds</a></li><li><a href="tutorial-Trigger_handlers.html">Trigger handlers</a></li><li><a href="tutorial-index_.html">index</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Trigger handlers</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Trigger handlers</h2>
+</header>
+
+<article>
+    <!DOCTYPE HTML>
+<html>
+    <head>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="IE=9">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function() {			
+					//Enable swiping...
+					$("#test").swipe( {
+						swipeStatus:function(event, phase, direction, distance)
+						{
+							var str = "";
+
+							if (phase=="move")
+								str="You have moved " + distance +" pixels, past 200 and the handler will fire";
+
+							if (phase=="end")
+								str="Handler fired, you swiped " + direction;
+
+							$(this).text(str);
+						},
+						triggerOnTouchEnd:false,
+						threshold:200
+					});
+				});
+			</script>
+			
+			<script id='code_2'>
+				$(function() {			
+					$("#test2").swipe( {
+						swipeStatus:function(event, phase, direction, distance, duration)
+						{
+							var str = "";
+
+							if (phase=="move")
+								str="You have moved for " + duration +" ms, If you go over 5000 the swipe will cancel";
+
+							if (phase=="cancel")
+								str="You took to long and the swipe was canceled";
+
+							if (phase=="end")
+								str="Handler fired, you swiped " + direction;
+
+							$(this).text(str);
+						},
+						triggerOnTouchEnd:false,
+						maxTimeThreshold:5000,
+						threshold:null
+					});
+				});
+			</script>
+			
+			<script id='code_3'>
+				$(function() {			
+					$("#test3").swipe( {
+						swipeStatus:function(event, phase, direction, distance, duration)
+						{
+							var str = "";
+
+							if (phase=="move")
+								str="You have moved " + distance +" px, If you leave the swipe object, the swipe will end";
+
+							if (phase=="end")
+								str="The swipe has ended"
+
+							$(this).text(str);
+						},
+						triggerOnTouchLeave:true,
+						threshold:null
+					});
+				});
+			</script>
+			
+			<script id='code_4'>
+				$(function() {			
+					$("#test4").swipe( {
+						swipeStatus:function(event, phase, direction, distance, duration)
+						{
+							var str = "";
+
+							if (phase=="move") {
+								str="You have moved " + distance +" pixels, past 200 and the handler will fire <br/>";
+								str+="You have moved for " + duration +" ms, If you go over 5000 the swipe will cancel <br/>";
+								str+="If you leave the swipe object, and have made the distance, the swipe will end <br/>";
+								str+="If you leave the swipe object, and have NOT made the distance, the swipe will cancel ";
+							}
+							
+							if (phase=="end") {
+								str="Handler fired, you met the thresholds:<br/>";
+								str+=distance+"px (over 500px required) <br/>";								
+								str+=duration+"ms (under 5000ms required) <br/>";	
+							}
+
+							if (phase=="cancel") {
+								str="You didn't meet the thresholds, cancel was fired:<br/>";
+								str+=distance+"px (over 500px required) <br/>";								
+								str+=duration+"ms (under 5000ms required) <br/>";	
+							}
+							
+							$(this).html(str);
+
+							
+						},
+						triggerOnTouchEnd:false,
+						triggerOnTouchLeave:true,
+						maxTimeThreshold:5000,
+						threshold:500
+					});
+				});
+			</script>
+	
+			<span class='title'></span>
+			<h4>properties: <span class='properties'><code>triggerOnTouchEnd</code>, <code>triggerOnTouchLeave</code></span></h4>
+			<p>With <code>triggerOnTouchEnd</code> you can trigger the <code>swipe</code> end handler either when the user releases (default) or when the user has swiped the distance / time of the thresholds (but is still swiping).</p>
+			<p>With <code>triggerOnTouchLeave</code> you can end the event if the user swipes off the element</p>
+			
+			
+			<p>Swipe below, and the swipeEnd handler will trigger when you have swiped 200 px.</p>
+			
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>		
+			<script>getNavigation();</script>
+			<div id="test" class="box">Swipe over 200px and the swipe event will fire</div>
+			
+			<pre class="prettyprint lang-js" data-src="code_2"></pre>
+			<span class='navigation'></span>
+					
+			<div id="test2" class="box">Swipe in under 5000ms and the swipe event will fire</div>
+			
+			<pre class="prettyprint lang-js" data-src="code_3"></pre>
+			<span class='navigation'></span>
+			
+			<div id="test3" class="box">Swipe out of this box and the swipe event will end</div>
+			
+			<pre class="prettyprint lang-js" data-src="code_4"></pre>
+			<span class='navigation'></span>
+			
+			<div id="test4" class="box">Time, distance and trigger on END and trigger on Leave set..</div>
+			
+			<span class='navigation'></span>
+		</div>
+   </body>
+</html>
+
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:56 GMT+0100 (BST) using the docdash theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

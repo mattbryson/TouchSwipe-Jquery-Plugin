@@ -17,6 +17,12 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 * Allows swiping and page scrolling
 * Disables user input elements (Button, form, text etc) from triggering swipes
 
+## Demos, examples and docs
+
+[http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)  
+[http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
+
+
 ## Installation  
 ### NPM
 ````bash
@@ -49,10 +55,6 @@ $(function() {
 
 For full demos, code examples and documentation, see below.
 
-## Demos, examples and docs
-
-[http://labs.rampinteractive.co.uk/touchSwipe](http://labs.rampinteractive.co.uk/touchSwipe)  
-[http://labs.rampinteractive.co.uk/touchSwipe/docs](http://labs.rampinteractive.co.uk/touchSwipe/docs)
 
 ## Development
 Install dependencies

@@ -40,8 +40,7 @@
     "uglify-js": "^2.6.2"
   },
   "scripts": {
-    "jsdoc":"jsdoc",
-    "docs": "jsdoc jquery.touchSwipe.js --readme README.md --destination ./docs --template node_modules/docdash",
+    "docs": "jsdoc jquery.touchSwipe.js --readme README.md --destination ./docs --template node_modules/docdash --tutorials ./demos ",
     "minify": "uglifyjs jquery.touchSwipe.js --output jquery.touchSwipe.min.js --compress  --comments",
     "build": "npm run docs && npm run minify"
   }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Thresholds - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$.html">$</a></li><li><a href="$.fn.html">fn</a></li><li><a href="$.fn.swipe.html">swipe</a><ul class='methods'><li data-type='method'><a href="$.fn.swipe.html#destroy">destroy</a></li><li data-type='method'><a href="$.fn.swipe.html#disable">disable</a></li><li data-type='method'><a href="$.fn.swipe.html#enable">enable</a></li><li data-type='method'><a href="$.fn.swipe.html#option">option</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="$.fn.swipe.html#event:click">click</a></li><li><a href="$.fn.swipe.html#event:doubleTap">doubleTap</a></li><li><a href="$.fn.swipe.html#event:hold">hold</a></li><li><a href="$.fn.swipe.html#event:longTap">longTap</a></li><li><a href="$.fn.swipe.html#event:pinchIn">pinchIn</a></li><li><a href="$.fn.swipe.html#event:pinchOut">pinchOut</a></li><li><a href="$.fn.swipe.html#event:pinchStatus">pinchStatus</a></li><li><a href="$.fn.swipe.html#event:swipe">swipe</a></li><li><a href="$.fn.swipe.html#event:swipeDown">swipeDown</a></li><li><a href="$.fn.swipe.html#event:swipeLeft">swipeLeft</a></li><li><a href="$.fn.swipe.html#event:swipeRight">swipeRight</a></li><li><a href="$.fn.swipe.html#event:swipeStatus">swipeStatus</a></li><li><a href="$.fn.swipe.html#event:swipeUp">swipeUp</a></li><li><a href="$.fn.swipe.html#event:tap">tap</a></li></ul><h3>Namespaces</h3><ul><li><a href="$.fn.swipe.defaults.html">defaults</a></li><li><a href="$.fn.swipe.directions.html">directions</a></li><li><a href="$.fn.swipe.fingers.html">fingers</a></li><li><a href="$.fn.swipe.pageScroll.html">pageScroll</a></li><li><a href="$.fn.swipe.phases.html">phases</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Any_finger_swipe.html">Any finger swipe</a></li><li><a href="tutorial-Basic_swipe.html">Basic swipe</a></li><li><a href="tutorial-Enable_and_destroy.html">Enable and destroy</a></li><li><a href="tutorial-Excluded_children.html">Excluded children</a></li><li><a href="tutorial-Finger_swipe.html">Finger swipe</a></li><li><a href="tutorial-Handlers_and_events.html">Handlers and events</a></li><li><a href="tutorial-Hold.html">Hold</a></li><li><a href="tutorial-Image_gallery_example.html">Image gallery example</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-Page_scrolling.html">Page scrolling</a></li><li><a href="tutorial-Page_zoom.html">Page zoom</a></li><li><a href="tutorial-Pinch.html">Pinch</a></li><li><a href="tutorial-Pinch_and_Swipe.html">Pinch and Swipe</a></li><li><a href="tutorial-Pinch_status.html">Pinch status</a></li><li><a href="tutorial-Single_swipe.html">Single swipe</a></li><li><a href="tutorial-Stop_propegation.html">Stop propegation</a></li><li><a href="tutorial-Swipe_status.html">Swipe status</a></li><li><a href="tutorial-Tap_vs_swipe.html">Tap vs swipe</a></li><li><a href="tutorial-Thresholds.html">Thresholds</a></li><li><a href="tutorial-Trigger_handlers.html">Trigger handlers</a></li><li><a href="tutorial-index_.html">index</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Thresholds</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Thresholds</h2>
+</header>
+
+<article>
+    <!DOCTYPE HTML>
+<html>
+    <head>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="IE=9">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function() {			
+					$("#test").swipe( {
+						swipe:function(event, direction) {
+							$(this).text("You swiped " + direction);
+						},
+						swipeStatus:function(event, phase) {
+							if (phase=="cancel") {
+								$(this).text("You didnt swipe far enough ");
+							}
+						},
+						threshold:200
+					 });
+				});
+			</script>
+				
+			<script id='code_2'>		
+				$(function() {				
+					$("#test2").swipe( {
+						swipe:function(event, direction) {
+							$(this).text("You swiped " + direction );
+						},
+						swipeStatus:function(event, phase) {
+							if (phase=="cancel") {
+								$("#test2").text("Your swipe was too slow ");
+							}
+						},
+						maxTimeThreshold:1000,
+						threshold:null,
+						triggerOnTouchEnd:false
+					});
+				});
+			</script>
+			
+			
+			<script id='code_3'>		
+				$(function() {				
+					$("#test3").swipe( {
+						swipe:function(event, direction) {
+							$(this).text("You swiped " + direction );
+						},
+						swipeStatus:function(event, phase, direction, distance, duration, fingers) {
+							
+							$("#test3").text(" Your have swiped " + distance + " px so far");
+							
+							if(distance>200) {
+							    $("#test3").text(" Now swipe back 10px and release to cancel.. distance = " + distance + "px");
+							}
+							
+							if (phase=="cancel") {
+								$("#test3").text(" You cancelled the swipe");
+							}
+						},
+						threshold:200,
+						cancelThreshold:10
+						
+					});
+				});
+			</script>
+			
+			<span class='title'></span>
+			<h4>property: <span class='properties'><code>threshold</code></span></h4>
+			<p>By setting the <code>threshold</code> you can set how far the user must swipe before it is considered a swipe. <br/>Swipe at least 200px</p>
+			
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>
+			<span class='navigation'></span>
+			
+			<div id="test" class="box">Swipe me for at least 200 px</div>
+			
+			<h4>property: <span class='properties'><code>cancelThreshold</code></span><h4>
+			<p>By setting the <code>cancelThreshold</code> you can set the minimum distance in px that the user needs to swipe back to cancel the current swipe, even if they have passed the main <code>threshold</code></p>
+			
+
+			<pre class="prettyprint lang-js" data-src="code_3"></pre>			
+			<div id="test3" class='box'>Swipe me for at least 200 px, then back 10px to cancel</div>
+			
+			<h4>property: <span class='properties'><code>maxTimeThreshold</code></span><h4>
+			<p>By setting the <code>maxTimeThreshold</code> you can set the maximum time the user has to complete the swipe. A swipe LONGER than this is cancelled. This can be useful for ignoring long slow swipes. <br/>Swipe in under 500ms</p>
+			
+
+			<pre class="prettyprint lang-js" data-src="code_2"></pre>			
+			<div id="test2" class='box'>Swipe me within 1000 ms</div>
+			
+
+			<span class='navigation'></span>
+		</div>
+   </body>
+</html>
+
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:56 GMT+0100 (BST) using the docdash theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

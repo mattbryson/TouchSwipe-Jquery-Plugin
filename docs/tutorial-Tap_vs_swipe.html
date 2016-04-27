@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Tap vs swipe - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$.html">$</a></li><li><a href="$.fn.html">fn</a></li><li><a href="$.fn.swipe.html">swipe</a><ul class='methods'><li data-type='method'><a href="$.fn.swipe.html#destroy">destroy</a></li><li data-type='method'><a href="$.fn.swipe.html#disable">disable</a></li><li data-type='method'><a href="$.fn.swipe.html#enable">enable</a></li><li data-type='method'><a href="$.fn.swipe.html#option">option</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="$.fn.swipe.html#event:click">click</a></li><li><a href="$.fn.swipe.html#event:doubleTap">doubleTap</a></li><li><a href="$.fn.swipe.html#event:hold">hold</a></li><li><a href="$.fn.swipe.html#event:longTap">longTap</a></li><li><a href="$.fn.swipe.html#event:pinchIn">pinchIn</a></li><li><a href="$.fn.swipe.html#event:pinchOut">pinchOut</a></li><li><a href="$.fn.swipe.html#event:pinchStatus">pinchStatus</a></li><li><a href="$.fn.swipe.html#event:swipe">swipe</a></li><li><a href="$.fn.swipe.html#event:swipeDown">swipeDown</a></li><li><a href="$.fn.swipe.html#event:swipeLeft">swipeLeft</a></li><li><a href="$.fn.swipe.html#event:swipeRight">swipeRight</a></li><li><a href="$.fn.swipe.html#event:swipeStatus">swipeStatus</a></li><li><a href="$.fn.swipe.html#event:swipeUp">swipeUp</a></li><li><a href="$.fn.swipe.html#event:tap">tap</a></li></ul><h3>Namespaces</h3><ul><li><a href="$.fn.swipe.defaults.html">defaults</a></li><li><a href="$.fn.swipe.directions.html">directions</a></li><li><a href="$.fn.swipe.fingers.html">fingers</a></li><li><a href="$.fn.swipe.pageScroll.html">pageScroll</a></li><li><a href="$.fn.swipe.phases.html">phases</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Any_finger_swipe.html">Any finger swipe</a></li><li><a href="tutorial-Basic_swipe.html">Basic swipe</a></li><li><a href="tutorial-Enable_and_destroy.html">Enable and destroy</a></li><li><a href="tutorial-Excluded_children.html">Excluded children</a></li><li><a href="tutorial-Finger_swipe.html">Finger swipe</a></li><li><a href="tutorial-Handlers_and_events.html">Handlers and events</a></li><li><a href="tutorial-Hold.html">Hold</a></li><li><a href="tutorial-Image_gallery_example.html">Image gallery example</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-Page_scrolling.html">Page scrolling</a></li><li><a href="tutorial-Page_zoom.html">Page zoom</a></li><li><a href="tutorial-Pinch.html">Pinch</a></li><li><a href="tutorial-Pinch_and_Swipe.html">Pinch and Swipe</a></li><li><a href="tutorial-Pinch_status.html">Pinch status</a></li><li><a href="tutorial-Single_swipe.html">Single swipe</a></li><li><a href="tutorial-Stop_propegation.html">Stop propegation</a></li><li><a href="tutorial-Swipe_status.html">Swipe status</a></li><li><a href="tutorial-Tap_vs_swipe.html">Tap vs swipe</a></li><li><a href="tutorial-Thresholds.html">Thresholds</a></li><li><a href="tutorial-Trigger_handlers.html">Trigger handlers</a></li><li><a href="tutorial-index_.html">index</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Tap vs swipe</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Tap vs swipe</h2>
+</header>
+
+<article>
+    <!DOCTYPE HTML>
+<html>
+    <head>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="IE=9">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <!-- use the jquery.ui.ipad.js plugin to translate touch events to mouse events -->
+		<script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
+		
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+			
+			<script id='code_1'>
+				$(function() {	
+					var tapCount=0;
+					var doubleTapCount=0;
+					var longTapCount=0;
+					var swipeCount=0;
+					var blackCount=0;
+
+					//Enable swiping...
+					$("#test").swipe( {
+						tap:function(event, target) {
+							tapCount++;
+							msg(target);
+						},
+						doubleTap:function(event, target) {
+							doubleTapCount++;
+							msg(target);
+						},
+						longTap:function(event, target) {
+							longTapCount++;
+							msg(target);
+						},
+						swipe:function() {
+							swipeCount++;
+							$("#textText").html("You swiped " + swipeCount + " times");
+						},
+						threshold:50
+					});
+					
+					//Assign a click handler to a child of the touchSwipe object
+					//This will require the jquery.ui.ipad.js to be picked up correctly.
+					$("#another_div").click( function(){
+						blackCount++;
+						$("#another_div").html("<h3 id='div text'>jQuery click handler fired on the black div : you clicked the black div "+ 
+						blackCount + " times</h3>");
+					});
+					
+					function msg(target) {
+					    $("#textText").html("You tapped " + tapCount +", double tapped " +  doubleTapCount + " and long tapped " +  longTapCount + " times on " +  $(target).attr("id"));
+					}
+				});
+			</script>
+			
+			<span class='title'></span>
+			<h4>events:  <span class='events'><code>tap</code>, <code>doubleTap</code>, <code>longTap</code>, <code>swipe</code></span></h4>
+			<h4>properties: <span class='properties'><code>longTapThreshold</code>, <code>doubleTapThreshold</code></span></h4>
+			<p>You can also detect if the user simply taps and does not swipe with the <code>tap</code> handler<br/><br/>
+				The <code>tap</code>, <code>doubleTap</code> and <code>longTap</code> handler are passed the original event object and the target that was clicked.
+				<br/><br/>
+				<b>See also the <a href="Hold.html"><code>hold</code></a> event for when a long tap reaches the <code>longTapThreshold</code></b>
+				<br/>
+				</p>
+				<p class="muted">If you use the jquery.ui.ipad.js plugin (http://code.google.com/p/jquery-ui-for-ipad-and-iphone/) you can then also pickup
+				standard jQuery mouse events on children of the touchSwipe object.</p>
+				
+				<p>You can set the delay between taps which defines a double tap, and the length of a long tap with the <code>doubleTapThreshold</code> and <code>longTapThreshold</code> properties.</p>
+				
+				<p>Note: If you assign both tap and double tap, you tap events will be delayed by the length of <code>doubleTapThreshold</code> as it waits to see if its a double before trigger the event</p>				
+				
+				<p class="muted"><code>tap</code> replaces the old <code>click</code> handler for naming consistency. Since the introduction of event 
+				triggering as well as callbacks, the plugin cannot trigger a <code>click</code> event as it clashes with the jQ click event, 
+				so both the event and callback are called <code>tap</code>. For backwards compatibility, the <code>click</code> callback will still work
+				but there is no click event. You must use the <code>tap</code> event when binding with <code>on</code> or <code>bind</code></p>
+				
+			
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src='code_1'></pre>
+			<span class='navigation'></span>
+			
+			<div id="test" class="box">
+				<div id="textText">Swipe, Tap, Double Tap or Long Tap me</div><br/>
+				<div id="a_div" class="box" style="width:150px;height:50px;background:#666"><h3 id='a_div_text'>Im just a child div</h3></div>
+				<div id="another_div" class="box" style="width:200px;height:100px;background:#000"><h3>Im a child div with my own jQuery click handler</h3></div>
+			</div>
+			
+			<span class='navigation'></span>
+		</div>
+   </body>
+</html>
+
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:56 GMT+0100 (BST) using the docdash theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

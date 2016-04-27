@@ -1,0 +1,110 @@
+.pagination
+{
+	width:100%;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.clear
+{
+	clear:both;
+}
+
+.pagination a
+{
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.container
+{
+	max-width:768px;
+	margin-bottom:20px;
+}
+
+.box
+{
+	margin-top:20px;
+	margin-bottom:20px;
+	max-width:768px;
+	height:300px;
+	
+	padding: 10px;
+	background-color: #EEE;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	
+	text-align:center;
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 36px;
+	
+	overflow:hidden;
+}
+
+body
+{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	line-height: 18px;
+	color: #333;
+}
+
+h1
+{
+	margin-top:36px;
+	margin-bottom:5px;
+}
+
+h2
+{
+	font-size: 30px;
+	line-height: 36px;
+	font-weight: 300;
+	margin-bottom:0px;
+
+}
+
+h3
+{
+	margin-top:0px;
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: 300;
+	color:#999;
+}
+
+h4
+{
+	margin-top:0px;
+	font-size: 12px;
+	line-height: 24px;
+	font-weight: 300;
+	color:#333;
+}
+
+a
+{
+	text-decoration:none;
+	color:#333;	
+}
+
+p {
+	margin-top:10px;
+}
+
+.prettyprint {
+	font-size:10px;
+}
+
+.example_btn {
+	margin-bottom:10px;
+}
+
+.properties code,
+.methods code,
+.events code {
+	cursor: pointer;
+	text-decoration: underline;
+}

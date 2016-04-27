@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Page scrolling - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$.html">$</a></li><li><a href="$.fn.html">fn</a></li><li><a href="$.fn.swipe.html">swipe</a><ul class='methods'><li data-type='method'><a href="$.fn.swipe.html#destroy">destroy</a></li><li data-type='method'><a href="$.fn.swipe.html#disable">disable</a></li><li data-type='method'><a href="$.fn.swipe.html#enable">enable</a></li><li data-type='method'><a href="$.fn.swipe.html#option">option</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="$.fn.swipe.html#event:click">click</a></li><li><a href="$.fn.swipe.html#event:doubleTap">doubleTap</a></li><li><a href="$.fn.swipe.html#event:hold">hold</a></li><li><a href="$.fn.swipe.html#event:longTap">longTap</a></li><li><a href="$.fn.swipe.html#event:pinchIn">pinchIn</a></li><li><a href="$.fn.swipe.html#event:pinchOut">pinchOut</a></li><li><a href="$.fn.swipe.html#event:pinchStatus">pinchStatus</a></li><li><a href="$.fn.swipe.html#event:swipe">swipe</a></li><li><a href="$.fn.swipe.html#event:swipeDown">swipeDown</a></li><li><a href="$.fn.swipe.html#event:swipeLeft">swipeLeft</a></li><li><a href="$.fn.swipe.html#event:swipeRight">swipeRight</a></li><li><a href="$.fn.swipe.html#event:swipeStatus">swipeStatus</a></li><li><a href="$.fn.swipe.html#event:swipeUp">swipeUp</a></li><li><a href="$.fn.swipe.html#event:tap">tap</a></li></ul><h3>Namespaces</h3><ul><li><a href="$.fn.swipe.defaults.html">defaults</a></li><li><a href="$.fn.swipe.directions.html">directions</a></li><li><a href="$.fn.swipe.fingers.html">fingers</a></li><li><a href="$.fn.swipe.pageScroll.html">pageScroll</a></li><li><a href="$.fn.swipe.phases.html">phases</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Any_finger_swipe.html">Any finger swipe</a></li><li><a href="tutorial-Basic_swipe.html">Basic swipe</a></li><li><a href="tutorial-Enable_and_destroy.html">Enable and destroy</a></li><li><a href="tutorial-Excluded_children.html">Excluded children</a></li><li><a href="tutorial-Finger_swipe.html">Finger swipe</a></li><li><a href="tutorial-Handlers_and_events.html">Handlers and events</a></li><li><a href="tutorial-Hold.html">Hold</a></li><li><a href="tutorial-Image_gallery_example.html">Image gallery example</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-Page_scrolling.html">Page scrolling</a></li><li><a href="tutorial-Page_zoom.html">Page zoom</a></li><li><a href="tutorial-Pinch.html">Pinch</a></li><li><a href="tutorial-Pinch_and_Swipe.html">Pinch and Swipe</a></li><li><a href="tutorial-Pinch_status.html">Pinch status</a></li><li><a href="tutorial-Single_swipe.html">Single swipe</a></li><li><a href="tutorial-Stop_propegation.html">Stop propegation</a></li><li><a href="tutorial-Swipe_status.html">Swipe status</a></li><li><a href="tutorial-Tap_vs_swipe.html">Tap vs swipe</a></li><li><a href="tutorial-Thresholds.html">Thresholds</a></li><li><a href="tutorial-Trigger_handlers.html">Trigger handlers</a></li><li><a href="tutorial-index_.html">index</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Page scrolling</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Page scrolling</h2>
+</header>
+
+<article>
+    <!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="IE=9">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        <link href="css/main.css" type="text/css" rel="stylesheet" />
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+
+        <title>touchSwipe</title>
+    </head>
+    <body>
+		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+		<div class="container">
+
+			<script id='code_1'>
+				$(function() {
+					$("#test1").swipe( { fingers:'all', swipeLeft:swipe1, swipeRight:swipe1, allowPageScroll:"auto"} );
+					$("#test2").swipe( { swipeLeft:swipe1, allowPageScroll:"none"} );
+					$("#test3").swipe( { swipeLeft:swipe2, swipeRight:swipe2} );
+					$("#test4").swipe( { swipeStatus:swipe2, allowPageScroll:"vertical"} );
+					$("#test5").swipe( { swipeStatus:swipe2, allowPageScroll:"horizontal" } );
+					$("#test6").swipe( { pinchStatus:pinch, allowPageScroll:"vertical" } );
+
+					//Swipe handlers.
+					function swipe1(event, direction, distance, duration, fingerCount) {
+						$(this).text( "You have swiped " + direction +' with ' + fingerCount +' fingers' );
+					}
+
+					function swipe2(event, phase, direction, distance) {
+						$(this).text( phase +" you have swiped " + distance + "px in direction:" + direction );
+					}
+
+					function pinch(event, phase, direction, distance) {
+						$(this).text( phase +" you have pinched " + distance + "px in direction:" + direction );
+					}
+				});
+			</script>
+
+
+
+			<span class='title'></span>
+			<h4>property: <span class='properties'><code>allowPageScroll</code></span></h4>
+			<p>You can set how page scrolling is handled by the browser when the user is interacting with a touchSwipe object.
+				<br/>There are 4 possible settings for the <code>allowPageScroll</code> option. These can be strings, or use the plugin constants in </code>$.fn.swipe.pageScroll</code>
+					<ul>
+						<li><code>auto</code> or <code>$.fn.swipe.pageScroll.AUTO</code> <br/>scrolling will only occur if a user swipes in a direction for which you have NOT defined a swipe handler. E.g If only <i>swipeLeft</i> is defined, then a RIGHT, UP or DOWN swipe would cause the page to scroll.</li>
+						<li><code>none</code> or <code>$.fn.swipe.pageScroll.NONE</code> <br/>scrolling will never occur.</li>
+						<li><code>horizontal</code> or <code>$.fn.swipe.pageScroll.HORIZONTAL</code> <br/>horizontal swipes will cause the page to scroll.</li>
+						<li><code>vertical</code> or <code>$.fn.swipe.pageScroll.VERTICAL</code> <br/>vertical swipes will cause the page to scroll.</li>
+					</ul>
+
+				<br>
+					NOTE: if the general <code>swipe</code> or <code>swipeStatus</code> handlers are specificed, then <code>allowPageScroll</code> will be dissabled by default, as they detect swipes in all directions.
+					To use scrolling AND the <code>swipe</code> handler, set <code>allowPageScroll</code> to the direction you want the user to be able to scroll.
+			</p>
+
+			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>
+			<span class='navigation'></span>
+
+			<br><br>
+			<b>allowPageScroll = "auto" or $.fn.swipe.pageScroll.AUTO</b>
+			<br><b>Swipe Left or Right </b>The swipe will trigger but the page will NOT scroll.
+			<br><b>Swipe Up or Down </b>The page will scroll as there is no up or down swipe handler.<br>
+			<div class="box" id="test1">Swipe me</div>
+
+			<br><br>
+			<b>allowPageScroll = "none" or $.fn.swipe.pageScroll.NONE</b>
+			<br><b>Swipe Left </b>The swipe will trigger but the page will NOT scroll.
+			<br><b>Swipe right, Up or Down </b>No swipe handler is defined, so nothihng happens and the page will NOT scroll.<br>
+			<div class="box" id="test2">Swipe me</div>
+
+			<br><br>
+			<b>allowPageScroll = "horizontal" or $.fn.swipe.pageScroll.HORIZONTAL</b>
+			<br>Swipe left and right are triggered<br>
+			<div class="box" id="test3">Swipe me</div>
+
+			<br><br>
+			<b>allowPageScroll = "vertical" or $.fn.swipe.pageScroll.VERTICAL</b>
+			<br/>
+			<b>With the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
+			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "vertical" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
+			<br>Note how the vertical swipe is hit and miss. As soon as the page starts scrolling, the user is no longer swiping across the object.
+			<div class="box" id="test4" >Swipe me</div>
+
+			<br><br>
+			<b>allowPageScroll = "horizontal" or $.fn.swipe.pageScroll.HORIZONTAL</b>
+			<br/>
+			<b>Horizontal, but WITH the general <code>swipe</code> or <code>swipeStatus</code> handlers</b>
+			<br>These enable all 4 directions, but here we have set <code>allowPageScroll</code> to "horizontal" so the user can scroll up and down, and swipe left and right with the general <code>swipe</code> handler.<br>
+			<div class="box" id="test5" >Swipe me</div>
+
+			<br><br>
+			<b>Pinch and allowPageScroll = "vertical" or $.fn.swipe.pageScroll.VERTICAL</b>
+			<br/>
+			<b>Vertical, but WITH  <code>pinch</code> handlers</b>
+			<div class="box" id="test6" >Pinch me</div>
+
+			<span class='navigation'></span>
+
+		</div>
+   </body>
+</html>
+
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:55 GMT+0100 (BST) using the docdash theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
