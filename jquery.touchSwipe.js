@@ -1263,7 +1263,6 @@
     }
 
 
-
     /**
      * Checks direction of the swipe and the value allowPageScroll to see if we should allow or prevent the default behaviour from occurring.
      * This will essentially allow page scrolling or not when the user is swiping on a touchSwipe object.
@@ -1308,9 +1307,12 @@
               jqEvent.preventDefault();
             }
             break;
+
+          case NONE:
+
+            break;
         }
       }
-
     }
 
 
@@ -1677,6 +1679,7 @@
      * @inner
      */
     function setMaxDistance(direction, distance) {
+      if(direction==NONE) return;
       distance = Math.max(distance, getMaxDistance(direction));
       maximumsMap[direction].distance = distance;
     }
@@ -1818,6 +1821,11 @@
      * @inner
      */
     function calculateDirection(startPoint, endPoint) {
+
+      if( comparePoints(startPoint, endPoint) ) {
+        return NONE;
+      }
+
       var angle = calculateAngle(startPoint, endPoint);
 
       if ((angle <= 45) && (angle >= 0)) {
@@ -1879,6 +1887,16 @@
     function isInBounds(point, bounds) {
       return (point.x > bounds.left && point.x < bounds.right && point.y > bounds.top && point.y < bounds.bottom);
     };
+
+    /**
+     * Checks if the two points are equal
+     * @param {object} point A point object.
+     * @param {object} point B point object.
+     * @return true of the points match
+     */
+    function comparePoints(pointA, pointB) {
+      return (pointA.x == pointB.x && pointA.y == pointB.y);
+    }
 
 
   }
