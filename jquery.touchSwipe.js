@@ -6,7 +6,7 @@
  * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
  * @see http://labs.rampinteractive.co.uk/touchSwipe/
  * @see http://plugins.jquery.com/project/touchSwipe
- *
+ * @license
  * Copyright (c) 2010-2015 Matt Bryson
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
@@ -846,7 +846,7 @@
       if (didSwipeBackToCancel() || !validateSwipeDistance()) {
         phase = PHASE_CANCEL;
         triggerHandler(event, phase);
-      } else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd == false && phase === PHASE_MOVE)) {
+      } else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
         //call this on jq event so we are cross browser
         if (options.preventDefaultEvents !== false) {
           jqEvent.preventDefault();

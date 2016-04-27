@@ -1,4 +1,4 @@
-#TouchSwipe 1.6
+# TouchSwipe 1.6
 A jQuery plugin to be used on touch devices such as iPad, iPhone, Android etc.
 
 Detects single and multiple finger swipes, pinches and falls back to mouse 'drags' on the desktop.
@@ -18,21 +18,21 @@ Allows exclusion of child elements (interactive elements) as well allowing page 
 * Disables user input elements (Button, form, text etc) from triggering swipes
 
 ## Installation  
-###NPM
+### NPM
 ````bash
 npm install jquery-touchswipe --save
 ````
-###Bower
+### Bower
 ````bash
 bower install jquery-touchswipe --save
 ````
-###Manual
+### Manual
 Include the minified file in your project.
 ````html
 <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
 ````
 
-##Usage
+## Usage
 ````javascript
 $(function() {
   $("#test").swipe( {
@@ -56,5 +56,3 @@ For full demos, code examples and documentation, see below.
 
 ### For port to XUI see:
 https://github.com/cowgp/xui-touchSwipe
-
-

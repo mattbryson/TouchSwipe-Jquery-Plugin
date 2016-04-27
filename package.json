@@ -33,5 +33,16 @@
     }
   ],
   "readmeFilename": "README.md",
-  "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/"
+  "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/",
+  "devDependencies": {
+    "docdash": "^0.3.0",
+    "jsdoc": "^3.4.0",
+    "uglify-js": "^2.6.2"
+  },
+  "scripts": {
+    "jsdoc":"jsdoc",
+    "docs": "jsdoc jquery.touchSwipe.js --readme README.md --destination ./docs --template node_modules/docdash",
+    "minify": "uglifyjs jquery.touchSwipe.js --output jquery.touchSwipe.min.js --compress  --comments",
+    "build": "npm run docs && npm run minify"
+  }
 }
