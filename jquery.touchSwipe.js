@@ -1000,13 +1000,7 @@
 
       // If we are cancelling the gesture, then manually trigger the reset handler
       if (phase === PHASE_CANCEL) {
-        if (hasSwipes()) {
-          ret = triggerHandlerForGesture(event, phase, SWIPE);
-        }
 
-        if (hasPinches()) {
-          ret = triggerHandlerForGesture(event, phase, PINCH);
-        }
         touchCancel(event);
       }
 
