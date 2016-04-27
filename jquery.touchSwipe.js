@@ -516,6 +516,8 @@
      * @example $("#element").swipe("enable");
      */
     this.enable = function() {
+      //Incase we are already enabled, clean up...
+      this.disable();
       $element.bind(START_EV, touchStart);
       $element.bind(CANCEL_EV, touchCancel);
       return $element;
@@ -717,8 +719,9 @@
         fingerCount = touches.length;
       }
 
-      if (options.hold)
+      if (options.hold) {
         clearTimeout(holdTimeout);
+      }
 
       phase = PHASE_MOVE;
 
@@ -998,11 +1001,16 @@
         ret = triggerHandlerForGesture(event, phase, TAP);
       }
 
+
+
       // If we are cancelling the gesture, then manually trigger the reset handler
       if (phase === PHASE_CANCEL) {
 
         touchCancel(event);
       }
+
+
+
 
       // If we are ending the gesture, then manually trigger the reset handler IF all fingers are off
       if (phase === PHASE_END) {
