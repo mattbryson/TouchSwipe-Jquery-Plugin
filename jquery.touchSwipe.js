@@ -1,4 +1,4 @@
-/*
+/*!
  * @fileOverview TouchSwipe - jQuery Plugin
  * @version 1.6.15
  *
