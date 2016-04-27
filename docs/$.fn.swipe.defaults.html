@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>defaults - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$.html">$</a></li><li><a href="$.fn.html">fn</a></li><li><a href="$.fn.swipe.html">swipe</a><ul class='methods'><li data-type='method'><a href="$.fn.swipe.html#destroy">destroy</a></li><li data-type='method'><a href="$.fn.swipe.html#disable">disable</a></li><li data-type='method'><a href="$.fn.swipe.html#enable">enable</a></li><li data-type='method'><a href="$.fn.swipe.html#option">option</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="$.fn.swipe.html#event:click">click</a></li><li><a href="$.fn.swipe.html#event:doubleTap">doubleTap</a></li><li><a href="$.fn.swipe.html#event:hold">hold</a></li><li><a href="$.fn.swipe.html#event:longTap">longTap</a></li><li><a href="$.fn.swipe.html#event:pinchIn">pinchIn</a></li><li><a href="$.fn.swipe.html#event:pinchOut">pinchOut</a></li><li><a href="$.fn.swipe.html#event:pinchStatus">pinchStatus</a></li><li><a href="$.fn.swipe.html#event:swipe">swipe</a></li><li><a href="$.fn.swipe.html#event:swipeDown">swipeDown</a></li><li><a href="$.fn.swipe.html#event:swipeLeft">swipeLeft</a></li><li><a href="$.fn.swipe.html#event:swipeRight">swipeRight</a></li><li><a href="$.fn.swipe.html#event:swipeStatus">swipeStatus</a></li><li><a href="$.fn.swipe.html#event:swipeUp">swipeUp</a></li><li><a href="$.fn.swipe.html#event:tap">tap</a></li></ul><h3>Namespaces</h3><ul><li><a href="$.fn.swipe.defaults.html">defaults</a></li><li><a href="$.fn.swipe.directions.html">directions</a></li><li><a href="$.fn.swipe.fingers.html">fingers</a></li><li><a href="$.fn.swipe.pageScroll.html">pageScroll</a></li><li><a href="$.fn.swipe.phases.html">phases</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">defaults</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="$.html">$</a><a href="$.fn.html">.fn</a><a href="$.fn.swipe.html">.swipe</a>.</span>
+        
+        defaults
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="jquery.touchSwipe.js.html">jquery.touchSwipe.js</a>, <a href="jquery.touchSwipe.js.html#line198">line 198</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fingers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>1</code>
+                
+                </td>
+            
+
+            <td class="description last">The number of fingers to detect in a swipe. Any swipes that do not meet this requirement will NOT trigger swipe handlers.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>75</code>
+                
+                </td>
+            
+
+            <td class="description last">The number of pixels that the user must move their finger by before it is considered a swipe.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cancelThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">The number of pixels that the user must move their finger back from the original swipe direction to cancel the gesture.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinchThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>20</code>
+                
+                </td>
+            
+
+            <td class="description last">The number of pixels that the user must pinch their finger by before it is considered a pinch.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxTimeThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">Time, in milliseconds, between touchStart and touchEnd must NOT exceed in order to be considered a swipe.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fingerReleaseThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>250</code>
+                
+                </td>
+            
+
+            <td class="description last">Time in milliseconds between releasing multiple fingers.  If 2 fingers are down, and are released one after the other, if they are within this threshold, it counts as a simultaneous release.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>longTapThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>500</code>
+                
+                </td>
+            
+
+            <td class="description last">Time in milliseconds between tap and release for a long tap</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>doubleTapThreshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>200</code>
+                
+                </td>
+            
+
+            <td class="description last">Time in milliseconds between 2 taps to count as a double tap</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipe</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler to catch all swipes. See <a href="$.fn.swipe.html#event:swipe">$.fn.swipe#event:swipe</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipeLeft</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler that is triggered for "left" swipes. See <a href="$.fn.swipe.html#event:swipeLeft">$.fn.swipe#event:swipeLeft</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipeRight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler that is triggered for "right" swipes. See <a href="$.fn.swipe.html#event:swipeRight">$.fn.swipe#event:swipeRight</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipeUp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler that is triggered for "up" swipes. See <a href="$.fn.swipe.html#event:swipeUp">$.fn.swipe#event:swipeUp</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipeDown</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler that is triggered for "down" swipes. See <a href="$.fn.swipe.html#event:swipeDown">$.fn.swipe#event:swipeDown</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>swipeStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered for every phase of the swipe. See <a href="$.fn.swipe.html#event:swipeStatus">$.fn.swipe#event:swipeStatus</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinchIn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered for pinch in events. See <a href="$.fn.swipe.html#event:pinchIn">$.fn.swipe#event:pinchIn</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinchOut</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered for pinch out events. See <a href="$.fn.swipe.html#event:pinchOut">$.fn.swipe#event:pinchOut</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinchStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered for every phase of a pinch. See <a href="$.fn.swipe.html#event:pinchStatus">$.fn.swipe#event:pinchStatus</a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tap</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered when a user just taps on the item, rather than swipes it. If they do not move, tap is triggered, if they do move, it is not.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>doubleTap</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered when a user double taps on the item. The delay between taps can be set with the doubleTapThreshold property. See $.fn.swipe.defaults#doubleTapThreshold</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>longTap</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>null</code>
+                
+                </td>
+            
+
+            <td class="description last">A handler triggered when a user long taps on the item. The delay between start and end can be set with the longTapThreshold property. See $.fn.swipe.defaults#longTapThreshold</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>(function)</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">[hold=null] A handler triggered when a user reaches longTapThreshold on the item. See $.fn.swipe.defaults#longTapThreshold</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>triggerOnTouchEnd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last">If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>triggerOnTouchLeave</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>allowPageScroll</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>'auto'</code>
+                
+                </td>
+            
+
+            <td class="description last">How the browser handles page scrolls when the user is swiping on a touchSwipe object. See <a href="$.fn.swipe.pageScroll.html">$.fn.swipe.pageScroll</a>.  <br/><br/>
+  									<code>"auto"</code> : all undefined swipes will cause the page to scroll in that direction. <br/>
+  									<code>"none"</code> : the page will not scroll when user swipes. <br/>
+  									<code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
+  									<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fallbackToMouseEvents</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last">If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>excludedElements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"button, input, select, textarea, a, .noSwipe"</code>
+                
+                </td>
+            
+
+            <td class="description last">A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes all form, input, select, button, anchor and .noSwipe elements.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preventDefaultEvents</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last">by default default events are cancelled, so the page doesn't move.  You can dissable this so both native events fire as well as your handlers.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+        
+            <div class="description">The default configuration, and available options to configure touch swipe with.
+You can set the default values by updating any of the properties prior to instantiation.</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 12:32:05 GMT+0100 (BST) using the docdash theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
