@@ -42,26 +42,26 @@
 <article>
     <!DOCTYPE HTML>
 <html>
-    <head>  
+    <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta http-equiv="x-ua-compatible" content="IE=9">
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
         <link href="css/main.css" type="text/css" rel="stylesheet" />
-        
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        
+
        <title>touchSwipe</title>
     </head>
     <body>
 		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
 		<div class="container">
-				
+
 			<script id='code_1'>
-				$(function() {	
+				$(function() {
 					var swipeCount1=0;
 					var swipeCount2=0;
 
@@ -69,9 +69,8 @@
 						swipe:function() {
 							swipeCount1++;
 							$("#textText1").html("You swiped " + swipeCount1 + " times");
-						},
-						threshold:0
-						//By default, these are all excluded :  button, input, select, textarea, a, .noSwipe
+						}
+						//By default any element with a class .noSwipe is not swipeable
 					});
 
 					//Enable swiping...
@@ -80,50 +79,45 @@
 							swipeCount2++;
 							$("#textText2").html("You swiped " + swipeCount2 + " times");
 						},
-						threshold:0,
-						//By default the value of $.fn.swipe.defaults.excludedElements is "button, input, select, textarea, a, .noSwipe, "
+						//By default the value of $.fn.swipe.defaults.excludedElements is ".noSwipe"
 						//To replace or clear the list, re set the excludedElements array.
 						//To append to it, do the following (dont forget the proceeding comma) ...
 						excludedElements:$.fn.swipe.defaults.excludedElements+", #some_other_div"
 					});
 				});
 			</script>
-			
+
 			<span class='title'></span>
 			<h4>property: <span class='properties'><code>excludedElements</code></span></h4>
 			<p>If you want to exclude certain child elements from triggering swipes, you can simply add a <code>.noSwipe</code> class to the element.  Then the element and any of its children will no longer trigger the swipe.
-			<p>Also, a jQuery selector is used to exclude input elements as well as the <code>.noSwipe</code> elements.  By default all <code>button</code>, <code>input</code>, <code>select</code>, <code>textarea</code> and <code>a</code> elements are excluded.		
-			So either add a <code>.noSwipe</code> class the element, or set your own selector in the excludedElements property.
+			<p>Also, a jQuery selector is used to exclude input elements as well as the <code>.noSwipe</code> elements.
+			So either add a <code>.noSwipe</code> class the element, or set your own selector in the excludedElements property. Setting your own selector will remove the .noSwipe selector.
 			</p>
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
 			<pre class="prettyprint lang-js" data-src='code_1'></pre>
-	
+
 			<span class='navigation'></span>
-			
+
 			<div id="test" class="box">
+
 				<div id="textText1">Swipe me, the child elements will not trigger swipes by default</div><br/>
+        <small></smal><a href="http://www.google.com" target="new" >I open a new tab if clicked, but im swipeable</a></small>
 				<form>
-					<input type="text" value="Im not swipeable" />
-					<input type="button" value="Im not swipeable" />
-					<textarea>Im not swipeable</textarea>
-				</form> 
-				
+					<input type="text" value="I am clickable and swipeable" />
+					<input type="button" value="I am clickable and swipeable" />
+					<textarea>I am clickable and swipeable</textarea>
+				</form>
+
 				<div id="another_div" class="box noSwipe" style="width:400px;height:100px;background:#000"><h3>Im am NOT swipeable because my class is .noSwipe</h3></div>
-				
+
 			</div>
-			
-			
+
+
 			<div id="test2" class="box">
 				<div id="textText2">Swipe me, the child elements will not trigger swipes as they have been explicitly excluded</div><br/>
-				<form>
-					<input type="text" value="Im not swipeable" />
-					<input type="button" value="Im not swipeable" />
-					<textarea>Im not swipeable</textarea>
-				</form> 
-				
 				<div id="some_other_div" class="box" style="width:400px;height:100px;background:#000"><h3>Im am NOT swipeable because my im added to the excludedElements array</h3></div>
 			</div>
-			
+
 			<span class='navigation'></span>
 		</div>
    </body>
@@ -138,7 +132,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 27 2016 13:29:55 GMT+0100 (BST) using the docdash theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Apr 29 2016 17:53:20 GMT+0100 (BST) using the docdash theme.
 </footer>
 
 <script>prettyPrint();</script>

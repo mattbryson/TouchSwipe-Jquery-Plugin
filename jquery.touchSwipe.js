@@ -1,6 +1,6 @@
 /*!
  * @fileOverview TouchSwipe - jQuery Plugin
- * @version 1.6.15
+ * @version 1.6.16
  *
  * @author Matt Bryson http://www.github.com/mattbryson
  * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -61,7 +61,7 @@
  * $version: 1.4.0	- Added pinch support, pinchIn and pinchOut
  *
  * $Date: 2012-11-10 (Thurs, 11 Oct 2012) $
- * $version: 1.5.0	- Added excludedElements, a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is one select that removes all form, input select, button and anchor elements.
+ * $version: 1.5.0	- Added excludedElements, a jquery selector that specifies child elements that do NOT trigger swipes. By default, this is .noSwipe
  *
  * $Date: 2012-22-10 (Mon, 22 Oct 2012) $
  * $version: 1.5.1	- Fixed bug with jQuery 1.8 and trailing comma in excludedElements
@@ -120,6 +120,10 @@
  *                    - Fixed #267 allowPageScroll not working correctly
  * $version 1.6.14    - Fixed #220 / #248 doubletap not firing with swipes, #223 commonJS compatible
  * $version 1.6.15    - More bug fixes
+ *
+ * $Date: 2016-04-29 (Fri, 29 April 2016) $
+ * $version 1.6.16    - Swipes with 0 distance now allow default events to trigger.  So tapping any form elements or A tags will allow default interaction, but swiping will trigger a swipe.
+                        Removed the a, input, select etc from the excluded Children list as the 0 distance tap solves that issue.
  */
 
 /**
@@ -229,7 +233,7 @@
   									<code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
   									<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
   * @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices.
-  * @property {string} [excludedElements="button, input, select, textarea, a, .noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes all form, input, select, button, anchor and .noSwipe elements.
+  * @property {string} [excludedElements=".noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes elements with the class .noSwipe .
   * @property {boolean} [preventDefaultEvents=true] by default default events are cancelled, so the page doesn't move.  You can dissable this so both native events fire as well as your handlers.
 
   */
@@ -260,7 +264,7 @@
     triggerOnTouchLeave: false,
     allowPageScroll: "auto",
     fallbackToMouseEvents: true,
-    excludedElements: "label, button, input, select, textarea, a, .noSwipe",
+    excludedElements: ".noSwipe",
     preventDefaultEvents: true
   };
 
