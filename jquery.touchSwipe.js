@@ -1,6 +1,6 @@
 /*!
  * @fileOverview TouchSwipe - jQuery Plugin
- * @version 1.6.17
+ * @version 1.6.18
  *
  * @author Matt Bryson http://www.github.com/mattbryson
  * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -125,8 +125,8 @@
  * $version 1.6.16    - Swipes with 0 distance now allow default events to trigger.  So tapping any form elements or A tags will allow default interaction, but swiping will trigger a swipe.
                         Removed the a, input, select etc from the excluded Children list as the 0 distance tap solves that issue.
 * $Date: 2016-05-19  (Fri, 29 April 2016) $
-* $version 1.6.17
-                      - Fixed context issue when calling instance methods via $("selector").swipe("method");
+* $version 1.6.17     - Fixed context issue when calling instance methods via $("selector").swipe("method");
+* $version 1.6.18     - now honors fallbackToMouseEvents=false for MS Pointer events when a Mouse is used.
 
  */
 
@@ -163,7 +163,7 @@
   "use strict";
 
   //Constants
-  var VERSION = "1.6.17",
+  var VERSION = "1.6.18",
     LEFT = "left",
     RIGHT = "right",
     UP = "up",
