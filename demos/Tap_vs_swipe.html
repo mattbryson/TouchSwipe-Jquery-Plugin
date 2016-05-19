@@ -36,9 +36,11 @@
 							tapCount++;
 							msg(target);
 						},
+
 						doubleTap:function(event, target) {
 							doubleTapCount++;
 							msg(target);
+              return true;
 						},
 						longTap:function(event, target) {
 							longTapCount++;
@@ -52,6 +54,10 @@
 
             excludedElements:"",
 						threshold:50
+          });
+
+          $("#test_btn").click(function() {
+            window.open("http://www.google.com");
           });
 
 					//Assign a click handler to a child of the touchSwipe object
@@ -95,9 +101,10 @@
 			<span class='navigation'></span>
 
 			<div id="test" class="box">
-        <a href="http://google.com" target="new">google</a>
-				<div id="textText">Swipe, Tap, Double Tap or Long Tap me</div><br/>
-				<div id="a_div" class="box" style="width:150px;height:50px;background:#666"><h3 id='a_div_text'>Im just a child div</h3></div>
+        <div id="textText">Swipe, Tap, Double Tap or Long Tap me</div><br/>
+        <small><a href="http://google.com" target="new">Open Google</a></small>
+        <button id="test_btn">Open Google From a button</button>
+        <div id="a_div" class="box" style="width:150px;height:50px;background:#666"><h3 id='a_div_text'>Im just a child div</h3></div>
 				<div id="another_div" class="box" style="width:200px;height:100px;background:#000"><h3>Im a child div with my own jQuery click handler</h3></div>
 			</div>
 
