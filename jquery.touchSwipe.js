@@ -621,6 +621,12 @@
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 
+
+      //If we have a pointer event, whoes type is 'mouse' and we have said NO mouse events, then dont do anything.
+      if(event.pointerType && event.pointerType=="mouse" && options.fallbackToMouseEvents==false) {
+        return;
+      };
+
       var ret,
         touches = event.touches,
         evt = touches ? touches[0] : event;
