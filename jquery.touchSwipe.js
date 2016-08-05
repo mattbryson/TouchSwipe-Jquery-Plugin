@@ -236,7 +236,7 @@
   									<code>"none"</code> : the page will not scroll when user swipes. <br/>
   									<code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
   									<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
-  * @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non tocuh devices.
+  * @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non touch devices.
   * @property {string} [excludedElements=".noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes elements with the class .noSwipe .
   * @property {boolean} [preventDefaultEvents=true] by default default events are cancelled, so the page doesn't move.  You can dissable this so both native events fire as well as your handlers.
 
