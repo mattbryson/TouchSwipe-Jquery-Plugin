@@ -660,7 +660,7 @@
       createFingerData(0, evt);
 
       // check the number of fingers is what we are looking for, or we are capturing pinches
-      if (!touches || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
+      if (!touches || (fingerCount === options.fingers || options.fingers === ALL_FINGERS)) {
         // get the coordinates of the touch
         startTime = getTimeStamp();
 
@@ -671,9 +671,9 @@
           startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
         }
 
-        if (options.swipeStatus || options.pinchStatus) {
-          ret = triggerHandler(event, phase);
-        }
+        // trigger for swipeStatus and pinchStatus events
+        ret = triggerHandler(event, phase);
+
       } else {
         //A touch with more or less than the fingers we are looking for, so cancel
         ret = false;
@@ -761,7 +761,7 @@
         pinchDistance = Math.abs(startTouchesDistance - endTouchesDistance);
       }
 
-      if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !touches || hasPinches()) {
+      if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !touches) {
 
         //The overall direction of the swipe. From start to now.
         direction = calculateDirection(currentFinger.start, currentFinger.end);
@@ -988,12 +988,12 @@
         touches = event.touches;
 
       // SWIPE GESTURES
-      if (didSwipe() || hasSwipes()) {
+      if (didSwipe()) {
           ret = triggerHandlerForGesture(event, phase, SWIPE);
       }
 
       // PINCH GESTURES (if the above didn't cancel)
-      if ((didPinch() || hasPinches()) && ret !== false) {
+      if (didPinch() && ret !== false) {
           ret = triggerHandlerForGesture(event, phase, PINCH);
       }
 
@@ -1361,7 +1361,7 @@
      */
     function didPinch() {
       //Enure we dont return 0 or null for false values
-      return !!(validatePinch() && hasPinches());
+      return !!validatePinch();
     }
 
 
@@ -1406,7 +1406,7 @@
      */
     function didSwipe() {
       //Enure we dont return 0 or null for false values
-      return !!(validateSwipe() && hasSwipes());
+      return !!validateSwipe();
     }
 
     /**
@@ -1457,7 +1457,7 @@
      */
     function hasLongTap() {
       //Enure we dont return 0 or null for false values
-      return !!(options.longTap);
+      return !!options.longTap;
     }
 
     /**
@@ -1509,7 +1509,7 @@
      */
     function didTap() {
       //Enure we dont return 0 or null for false values
-      return !!(validateTap() && hasTap());
+      return !!validateTap();
     }
 
 
@@ -1520,7 +1520,7 @@
      */
     function didDoubleTap() {
       //Enure we dont return 0 or null for false values
-      return !!(validateDoubleTap() && hasDoubleTap());
+      return !!validateDoubleTap();
     }
 
     /**
@@ -1530,7 +1530,7 @@
      */
     function didLongTap() {
       //Enure we dont return 0 or null for false values
-      return !!(validateLongTap() && hasLongTap());
+      return !!validateLongTap();
     }
 
 
