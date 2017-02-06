@@ -862,7 +862,7 @@
         triggerHandler(event, phase);
       } else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
         //call this on jq event so we are cross browser
-        if (options.preventDefaultEvents !== false) {
+        if (options.preventDefaultEvents !== false && jqEvent.cancelable !== false) {
           jqEvent.preventDefault();
         }
         phase = PHASE_END;
