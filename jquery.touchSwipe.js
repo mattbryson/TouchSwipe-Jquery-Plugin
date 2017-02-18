@@ -504,6 +504,8 @@
     var singleTapTimeout = null,
       holdTimeout = null;
 
+    var self = this;
+
     // Add gestures to all swipable areas if supported
     try {
       $element.bind(START_EV, touchStart);
@@ -525,7 +527,7 @@
      */
     this.enable = function() {
       //Incase we are already enabled, clean up...
-      this.disable();
+      self.disable();
       $element.bind(START_EV, touchStart);
       $element.bind(CANCEL_EV, touchCancel);
       return $element;
