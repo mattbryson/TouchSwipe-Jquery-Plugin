@@ -1,0 +1,8 @@
+title: Touchswipe-jquery-plugin
+description: "TouchSwipe is a jquery plugin to be used with jQuery on touch input devices such as iPad, iPhone etc. "
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-tactile
+
+gems:
+  - jekyll-mentions
