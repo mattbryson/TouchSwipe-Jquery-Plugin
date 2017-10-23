@@ -1194,8 +1194,11 @@
 
 
     function trigger(eventName, args) {
-      //console.log('trigger ', eventName);
-      $element.trigger(eventName+options.eventNamespace, args);
+
+      //remove the JQ internal event
+      var jqEvent = args.shift();
+      var evnt = $.Event( eventName+options.eventNamespace,  {parentEvent:jqEvent});
+      $element.trigger(evnt, args);
     }
 
 
