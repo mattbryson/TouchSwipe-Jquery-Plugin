@@ -42,26 +42,26 @@
 <article>
     <!DOCTYPE HTML>
 <html>
-    <head>  
+    <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta http-equiv="x-ua-compatible" content="IE=9">
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://cdn.rawgit.com/google/code-prettify/master/src/prettify.css" rel="stylesheet" />
         <link href="css/main.css" type="text/css" rel="stylesheet" />
-        
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        
+
         <title>touchSwipe</title>
     </head>
     <body>
 		<a href="https://github.com/mattbryson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
 		<div class="container">
-			
+
 			<script id='code_1'>
-				$(function() {			
+				$(function() {
 					//Enable swiping...
 					$("#test").swipe( {
 						swipeStatus:function(event, phase, direction, distance)
@@ -81,9 +81,9 @@
 					});
 				});
 			</script>
-			
+
 			<script id='code_2'>
-				$(function() {			
+				$(function() {
 					$("#test2").swipe( {
 						swipeStatus:function(event, phase, direction, distance, duration)
 						{
@@ -106,9 +106,9 @@
 					});
 				});
 			</script>
-			
+
 			<script id='code_3'>
-				$(function() {			
+				$(function() {
 					$("#test3").swipe( {
 						swipeStatus:function(event, phase, direction, distance, duration)
 						{
@@ -127,9 +127,9 @@
 					});
 				});
 			</script>
-			
+
 			<script id='code_4'>
-				$(function() {			
+				$(function() {
 					$("#test4").swipe( {
 						swipeStatus:function(event, phase, direction, distance, duration)
 						{
@@ -141,22 +141,22 @@
 								str+="If you leave the swipe object, and have made the distance, the swipe will end <br/>";
 								str+="If you leave the swipe object, and have NOT made the distance, the swipe will cancel ";
 							}
-							
+
 							if (phase=="end") {
 								str="Handler fired, you met the thresholds:<br/>";
-								str+=distance+"px (over 500px required) <br/>";								
-								str+=duration+"ms (under 5000ms required) <br/>";	
+								str+=distance+"px (over 500px required) <br/>";
+								str+=duration+"ms (under 5000ms required) <br/>";
 							}
 
 							if (phase=="cancel") {
 								str="You didn't meet the thresholds, cancel was fired:<br/>";
-								str+=distance+"px (over 500px required) <br/>";								
-								str+=duration+"ms (under 5000ms required) <br/>";	
+								str+=distance+"px (over 500px required) <br/>";
+								str+=duration+"ms (under 5000ms required) <br/>";
 							}
-							
+
 							$(this).html(str);
 
-							
+
 						},
 						triggerOnTouchEnd:false,
 						triggerOnTouchLeave:true,
@@ -165,35 +165,35 @@
 					});
 				});
 			</script>
-	
+
 			<span class='title'></span>
 			<h4>properties: <span class='properties'><code>triggerOnTouchEnd</code>, <code>triggerOnTouchLeave</code></span></h4>
 			<p>With <code>triggerOnTouchEnd</code> you can trigger the <code>swipe</code> end handler either when the user releases (default) or when the user has swiped the distance / time of the thresholds (but is still swiping).</p>
 			<p>With <code>triggerOnTouchLeave</code> you can end the event if the user swipes off the element</p>
-			
-			
+
+
 			<p>Swipe below, and the swipeEnd handler will trigger when you have swiped 200 px.</p>
-			
+
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
-			<pre class="prettyprint lang-js" data-src="code_1"></pre>		
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>
 			<script>getNavigation();</script>
 			<div id="test" class="box">Swipe over 200px and the swipe event will fire</div>
-			
+
 			<pre class="prettyprint lang-js" data-src="code_2"></pre>
 			<span class='navigation'></span>
-					
+
 			<div id="test2" class="box">Swipe in under 5000ms and the swipe event will fire</div>
-			
+
 			<pre class="prettyprint lang-js" data-src="code_3"></pre>
 			<span class='navigation'></span>
-			
+
 			<div id="test3" class="box">Swipe out of this box and the swipe event will end</div>
-			
+
 			<pre class="prettyprint lang-js" data-src="code_4"></pre>
 			<span class='navigation'></span>
-			
+
 			<div id="test4" class="box">Time, distance and trigger on END and trigger on Leave set..</div>
-			
+
 			<span class='navigation'></span>
 		</div>
    </body>
@@ -208,7 +208,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 23 2017 15:31:24 GMT+0100 (BST) using the docdash theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 23 2017 18:06:26 GMT+0100 (BST) using the docdash theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -51,7 +51,7 @@
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-        <script type="text/javascript" src="../jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="../jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
 
         <!-- use the jquery.ui.ipad.js plugin to translate touch events to mouse events -->
@@ -65,104 +65,133 @@
 
 			<script id='code_1'>
 				$(function() {
-					$("#register_btn").click(function() {
-                        if($(this).text() == "Register Events") {
-			                registerEvents();
-                        } else {
-			                deRegisterEvents();
-			            }
-			        });
 
 					// Create the swipe object, and assign the callbacks
 					$("#test").swipe( {
 						tap:function(event, target) {
-                            log("tap from callback");
-						},
-						hold:function(event, target) {
-                            log("hold from callback");
+              log("`tap` options callback");
 						},
 						swipe:function(event, direction, distance, duration, fingerCount, fingerData, currentDirection) {
-							log("swipe from callback");
+							log("`swipe` options callback");
 						},
-						swipeLeft:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
-							log("swipeLeft from callback");
-						},
-						swipeRight:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
-							log("swipeRight from callback");
-						},
-						swipeUp:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
-							log("swipeUp from callback");
-						},
-						swipeDown:function(event, distance, duration, fingerCount, fingerData, currentDirection) {
-							log("swipeDown from callback");
-						},
-						swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData, currentDirection) {
-    						log("swipeStatus from callback");
-						},
-						pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom, fingerData) {
-							log("pinchIn from callback");
-						},
-						pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom, fingerData) {
-                            log("pinchOut from callback");
-						},
-						pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom, fingerData) {
-                            log("pinchStatus from callback");
-						},
-
-                        fingers:$.fn.swipe.fingers.ALL
+						fingers:$.fn.swipe.fingers.ALL
 					});
 
-					//Now assign the event handlers as well
-					var events = ['tap.ts','hold.ts', 'swipe.ts','swipeLeft.ts','swipeRight.ts','swipeUp.ts','swipeDown.ts','swipeStatus.ts','pinch.ts','pinchIn.ts','pinchOut.ts','pinchStatus.ts'];
+        });
 
-					function registerEvents() {
-					    for(var i in events) {
-					        $("#test").on( events[i], logEvent);
-					    }
-					     $("#register_btn").text("Remove Events").removeClass('btn-success').addClass('btn-danger');
-					}
 
-					function deRegisterEvents() {
-					    for(var i in events) {
-					        $("#test").off( events[i], logEvent);
-					    }
-					     $("#register_btn").text("Register Events").removeClass('btn-danger').addClass('btn-success');
-					}
+        var events = ['tap.ts', 'swipe.ts'];
 
-					function logEvent(event) {
-					    log("<b>" + event.type + " from event handler</b>");
-					}
+        function registerEvents() {
+          for(var i in events) {
+            $("#test").on( events[i], logEvent);
+          }
+        }
 
-					function log(msg) {
-					    $("#test").html( msg + "<br />" + $("#test").html() );
-					}
+        function deRegisterEvents() {
+          for(var i in events) {
+            $("#test").off( events[i], logEvent);
+          }
+        }
 
-					registerEvents();
-				});
+        function deRegisterOptionsEvents() {
+          var initOptions = $("#test").swipe('option');
+          for(var i in events) {
+              var name = events[i].split('.')[0]; //remove the namespace
+              $("#test").off( events[i], initOptions[name] );
+          }
+        }
+
+        function registerOptionsEvents() {
+          var initOptions = $("#test").swipe('option');
+          for(var i in events) {
+            var name = events[i].split('.')[0]; //remove the namespace
+            $("#test").on( events[i], initOptions[name]);
+          }
+        }
+
 			</script>
 
 			<script>
 			    $(function() {
 
-    			});
-			</script>
+            $("#register_opts_btn").click(function() {
+              if($(this).hasClass('btn-success')) {
+                registerOptionsEvents();
+                $("#register_opts_btn").text("Remove options handlers").removeClass('btn-success').addClass('btn-danger');
+                $("#test").html("options handlers added")
+              } else {
+                deRegisterOptionsEvents();
+                $("#register_opts_btn").text("Attach options handlers").removeClass('btn-danger').addClass('btn-success');
+                $("#test").html("options handlers removed")
+              }
+            });
+
+            $("#register_btn").click(function() {
+              if($(this).hasClass('btn-success')) {
+                registerEvents();
+                $("#register_btn").text("Remove Event listeners").removeClass('btn-success').addClass('btn-danger');
+                $("#test").html("Event listeners added")
+              } else {
+                deRegisterEvents();
+                $("#register_btn").text("Attach Event listeners").removeClass('btn-danger').addClass('btn-success');
+                $("#test").html("Events listeners removed")
+              }
+            });
+
+          });
+
+          function logEvent(event) {
+              log("<b>`" + event.type + "` from event listener</b>");
+          }
+
+          var logged = false;
+          function log(msg) {
+
+              //if we havent logged yet, then clear the text
+              if(!logged) {
+                $("#test").html("");
+                logged=true;
+              }
+
+              $("#test").html( msg + "<br />" + $("#test").html() );
+          }
+
+      </script>
 
 			<span class='title'></span>
-			<h4>events:  <span class='events'><code>tap</code> <code>hold</code> <code>swipe</code> <code>swipeLeft</code> <code>swipeRight</code> <code>swipeUp</code> <code>swipeDown</code> <code>swipeStatus</code> <code>pinch</code> <code>pinchIn</code> <code>pinchOut</code> <code>pinchStatus</code></span> </h4>
+			<h4>events:  <span class='events'><code>*</code></h4>
 			<b>See the <a href="../docs/%24.fn.swipe.html#event:click"><u>docs</u></a> for more on each event</b>
-			<p>You can either assign callback methods as part of the options object, or you can assign
-			event handlers using the jQuery <code>on</code>/<code>off</code> event registration.</p>
+			<p>You can assign event handlers in two ways; as callback handlers in the  options object, or as
+			event listeners using the jQuery <code>$.on</code>/<code>$.off</code> event registration.</p>
+      <p>
+        Both methods are exactly the same, and can be removed / added again with <code>$.on</code>/<code>$.off</code>
+      </p>
 
-			<p>The example below logs both from the callback and the event handlers. The Remove Events button will remove the
-			event bindings, and then only the callbacks will be logged. Event logs are bold, callbacks are normal.</p>
+			<p>The example below logs both approaches whilst you swipe.
+        <ul>
+          <li>The box is initialised with options callback handlers.</li>
+          <li>Press `Remove Options handlers` to remove them.</li>
+          <li>Press `Attach Event listeners` to add listeners after initialization.</li>
+        </ul>
+
+      Event listeners attached with <code>$.on</code>/<code>$.off</code> are logged in bold.</p>
 
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
 			<pre class="prettyprint lang-js" data-src='code_1'></pre>
 			<span class='navigation'></span>
 
 			<br/>
-			<button class='btn btn-danger' id="register_btn"></button>
-			<div id="test" class="box" style="font-size:10px;"></div>
+			<div id="test" class="box">
+        I have all the options handlers enabled<br/>
+        Swipe me first!
+      </div>
+
+      <button class='btn btn-success' id="register_btn">Attach Event listeners</button>
+      <br/>
+      <button class='btn btn-danger' id="register_opts_btn">Remove Options handlers</button>
+
+
 
 			<span class='navigation'></span>
 		</div>
@@ -178,7 +207,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 23 2017 15:31:24 GMT+0100 (BST) using the docdash theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 23 2017 18:06:26 GMT+0100 (BST) using the docdash theme.
 </footer>
 
 <script>prettyPrint();</script>
