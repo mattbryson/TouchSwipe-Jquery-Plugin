@@ -21,7 +21,7 @@ var fileList = [
 	'Pinch_status.html',
 	'Pinch_and_Swipe.html',
 	'Trigger_handlers.html',
-	'Stop_propegation.html',
+	'Stop_propagation.html',
 	'Handlers_and_events.html',
 	'Tap_vs_swipe.html',
 	'Hold.html',
