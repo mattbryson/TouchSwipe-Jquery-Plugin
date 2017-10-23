@@ -241,7 +241,7 @@
   * @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non touch devices.
   * @property {string} [excludedElements=".noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes elements with the class .noSwipe .
   * @property {boolean} [preventDefaultEvents=true] by default default events are cancelled, so the page doesn't move.  You can dissable this so both native events fire as well as your handlers.
-  * @property {boolean} [eventNamespace=true] The namespace added to the touch swipe events.
+  * @property {boolean} [eventNamespace='.ts'] The namespace added to the touch swipe events.
 
   */
   var defaults = {
@@ -363,7 +363,8 @@
     UP: UP,
     DOWN: DOWN,
     IN: IN,
-    OUT: OUT
+    OUT: OUT,
+    NONE: NONE
   };
 
   /**
@@ -473,14 +474,14 @@
 
     //touch properties
     var distance = 0,
-      direction = null,
-      currentDirection = null,
+      direction = NONE,
+      currentDirection = NONE,
       duration = 0,
       startTouchesDistance = 0,
       endTouchesDistance = 0,
       pinchZoom = 1,
       pinchDistance = 0,
-      pinchDirection = 0,
+      pinchDirection = NONE,
       maximumsMap = null;
 
 
@@ -591,9 +592,9 @@
           return options[property];
         } else if(isEvent(property)){
           //If this is an event  / callback then unregister it and add the new one
-          $(this).off( property+options.eventNamespace, options[property]);
+          $element.off( property+options.eventNamespace, options[property]);
           options[property] = value;
-          $(this).on( property+options.eventNamespace, options[property]);
+          $element.on( property+options.eventNamespace, options[property]);
         } else {
           options[property] = value;
         }
@@ -619,17 +620,22 @@
     function removeCallbackEvents() {
       if(!options) { return };
       for(var i in EVENTS) {
-        if(options[i]) {
-          $(this).off( events[i]+options.eventNamespace, options[i]);
+        var name = EVENTS[i];
+        var handler = options[name];
+        if(handler) {
+          $element.off( name+options.eventNamespace, handler);
         }
       }
     };
 
     function addCallbacksEvents() {
       if(!options) { return };
+
       for(var i in EVENTS) {
-        if(options[i]) {
-          $(this).on( events[i]+options.eventNamespace, options[i]);
+        var name = EVENTS[i];
+        var handler = options[name];
+        if(handler) {
+          $element.on( name+options.eventNamespace, handler);
         }
       }
     };
@@ -681,16 +687,21 @@
         // get the total number of fingers touching the screen
         fingerCount = touches.length;
       }
+
+
+      //TODO : shouldnt we prevent default whatever?
       //Else this is the desktop, so stop the browser from dragging content
-      else if (options.preventDefaultEvents !== false) {
-        jqEvent.preventDefault(); //call this on jq event so we are cross browser
+      if (options.preventDefaultEvents !== false) {
+        jqEvent.preventDefault();
       }
+
+
 
       //clear vars..
       distance = 0;
-      direction = null;
-      currentDirection=null;
-      pinchDirection = null;
+      direction = NONE;
+      currentDirection = NONE;
+      pinchDirection = NONE;
       duration = 0;
       startTouchesDistance = 0;
       endTouchesDistance = 0;
@@ -896,10 +907,15 @@
         phase = PHASE_CANCEL;
         triggerHandler(jqEvent, phase);
       } else if (options.triggerOnTouchEnd || (options.triggerOnTouchEnd === false && phase === PHASE_MOVE)) {
+
+        //TODO: do we need this?
+
         //call this on jq event so we are cross browser
         if (options.preventDefaultEvents !== false && jqEvent.cancelable !== false) {
           jqEvent.preventDefault();
         }
+
+
         phase = PHASE_END;
         triggerHandler(jqEvent, phase);
       }
@@ -1005,7 +1021,10 @@
     }
 
     function eventWasStopped(jqEvent) {
-      return jqEvent.isDefaultPrevented() || jqEvent.isImmediatePropagationStopped() || jqEvent.isPropagationStopped();
+      var immediatePropStoped = jqEvent.isImmediatePropagationStopped();
+      var propStoped = jqEvent.isPropagationStopped();
+
+      return immediatePropStoped || propStoped;
     }
 
 
@@ -1175,18 +1194,7 @@
 
 
     function trigger(eventName, args) {
-
-      console.log('trigger ', eventName);
-      if(options[eventName]) {
-        var result = options[eventName].apply($element, args);
-
-        if(!result) {
-          var jqEvent = args[0];
-          jqEvent.preventDefault();
-          jqEvent.stopPropagation();
-        }
-      }
-
+      //console.log('trigger ', eventName);
       $element.trigger(eventName+options.eventNamespace, args);
     }
 

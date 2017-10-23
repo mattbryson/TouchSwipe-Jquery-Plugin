@@ -22,24 +22,28 @@
 	margin-bottom:20px;
 }
 
+.box.log {
+	line-height: 20px;	
+}
+
 .box
 {
 	margin-top:20px;
 	margin-bottom:20px;
 	max-width:768px;
 	height:300px;
-	
+
 	padding: 10px;
 	background-color: #EEE;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
-	
+
 	text-align:center;
 	font-weight: 300;
 	font-size: 20px;
 	line-height: 36px;
-	
+
 	overflow:hidden;
 }
 
@@ -87,7 +91,7 @@ h4
 a
 {
 	text-decoration:none;
-	color:#333;	
+	color:#333;
 }
 
 p {
