@@ -10,6 +10,7 @@
   "Trigger_handlers" : {"title":"Trigger handlers"},
   "Stop_propagation" : {"title":"Stop propagation"},
   "Handlers_and_events" : {"title":"Handlers and events"},
+  "Dynamic_swipe_areas" : {"title":"Dynamic swipe areas"},
   "Tap_vs_swipe" : {"title":"Tap vs swipe"},
   "Hold" : {"title":"Hold"},
   "Excluded_children" : {"title":"Excluded children"},

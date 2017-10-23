@@ -23,6 +23,7 @@ var fileList = [
 	'Trigger_handlers.html',
 	'Stop_propagation.html',
 	'Handlers_and_events.html',
+  'Dynamic_swipe_areas.html',
 	'Tap_vs_swipe.html',
 	'Hold.html',
 	'Excluded_children.html',
