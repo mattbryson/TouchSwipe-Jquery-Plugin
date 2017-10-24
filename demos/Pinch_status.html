@@ -24,8 +24,8 @@
 			<script id='code_1'>
 				$(function() {
 					$("#test").swipe( {
-						pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom, fingerData) {
-							$(this).html("Pinch zoom " + pinchZoom + "  <br/>Distance pinched " + distance +" <br/>Direction " + direction);
+						pinchStatus:function(event) {
+							$(this).html("Current zoom " + event.detail.currentZoom + "  <br/>Current distance " + event.detail.distance +" <br/>Current direction " + event.detail.direction);
 						},
 						fingers:2,
 						threshold:0	,
@@ -37,7 +37,7 @@
 
 			<span class='title'></span>
 			<h4>events:  <span class='events'><code>pinchStatus</code></span></h4>
-			<p>You can also get the current status of a <code>pinch</code>, which can be used in place of the other pinch methods. The <code>pinchStatus</code> reports <code>phase</code>, <code>direction</code>, <code>distance</code>, <code>duration</code>, <code>fingerCount</code> and <code>pinchZoom</code>.</p>
+			<p>You can also get the current status of a <code>pinch</code>, which can be used in place of the other pinch methods. The <code>event.detail</code> object contains various information about the status of the pinch, such as <code>phase</code>, <code>currentDirection</code>, <code>distance</code>, <code>duration</code>, <code>fingerCount</code>, <code>zoom</code>, <code>currentZoom</code> etc.</p>
 
 			<button class='btn btn-small btn-info example_btn'>Jump to Example</button>
 			<pre class="prettyprint" data-src='code_1'></pre>

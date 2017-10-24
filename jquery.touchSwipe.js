@@ -339,10 +339,10 @@
    * @property {string} PHASE_CANCEL Constant indicating the cancel phase of the touch event. Value is <code>"cancel"</code>.
    */
   $.fn.swipe.phases = {
-    PHASE_START: PHASE_START,
-    PHASE_MOVE: PHASE_MOVE,
-    PHASE_END: PHASE_END,
-    PHASE_CANCEL: PHASE_CANCEL
+    START: PHASE_START,
+    MOVE: PHASE_MOVE,
+    END: PHASE_END,
+    CANCEL: PHASE_CANCEL
   };
 
   /**
@@ -479,9 +479,13 @@
       duration = 0,
       startTouchesDistance = 0,
       endTouchesDistance = 0,
+      lastTouchesDistance = 0,
       pinchZoom = 1,
+      currentPinchZoom = 1,
       pinchDistance = 0,
       pinchDirection = NONE,
+      currentPinchDirection = NONE,
+      currentPinchDirection = NONE,
       maximumsMap = null;
 
 
@@ -513,6 +517,14 @@
     try {
       $element.bind(START_EV, touchStart);
       $element.bind(CANCEL_EV, touchCancel);
+
+      //a general cancel event that the user can triger with
+      //$element.trigger('cancel.ts');
+      $element.bind('cancel'+options.eventNamespace, function(evt) {
+        phase = PHASE_CANCEL;
+        touchCancel(evt, phase);
+      });
+
     } catch (e) {
       $.error('events not supported ' + START_EV + ',' + CANCEL_EV + ' on jQuery.swipe');
     }
@@ -677,6 +689,12 @@
         return;
       };
 
+      //TODO : shouldnt we prevent default whatever?
+      //Else this is the desktop, so stop the browser from dragging content
+      if (options.preventDefaultEvents !== false) {
+        jqEvent.preventDefault();
+      }
+
       var touches = event.touches;
       var touchEvent = touches ? touches[0] : event;
 
@@ -688,15 +706,6 @@
         fingerCount = touches.length;
       }
 
-
-      //TODO : shouldnt we prevent default whatever?
-      //Else this is the desktop, so stop the browser from dragging content
-      if (options.preventDefaultEvents !== false) {
-        jqEvent.preventDefault();
-      }
-
-
-
       //clear vars..
       distance = 0;
       direction = NONE;
@@ -705,6 +714,7 @@
       duration = 0;
       startTouchesDistance = 0;
       endTouchesDistance = 0;
+      lastTouchesDistance = 0;
       pinchZoom = 1;
       pinchDistance = 0;
       maximumsMap = createMaximumsData();
@@ -722,7 +732,7 @@
           //Keep track of the initial pinch distance, so we can calculate the diff later
           //Store second finger data as start
           createFingerData(1, touches[1]);
-          startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
+          startTouchesDistance = endTouchesDistance = lastTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
         }
 
         // trigger for swipeStatus and pinchStatus events
@@ -739,6 +749,9 @@
         triggerHandler(jqEvent, phase);
         return false;
       } else {
+
+        //TODO : re work this for the new event stuff
+
         if (options.hold) {
           holdTimeout = setTimeout($.proxy(function() {
             //Trigger the event
@@ -749,7 +762,6 @@
         setTouchInProgress(true);
       }
 
-      return null;
     };
 
 
@@ -773,7 +785,7 @@
 
 
       //Update the  finger data
-      var currentFinger = updateFingerData(touchEvent);
+      var currentFinger = updateFingerData(0, touchEvent);
       endTime = getTimeStamp();
 
       if (touches) {
@@ -795,17 +807,24 @@
           //Create second finger if this is the first time...
           createFingerData(1, touches[1]);
 
-          startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
+          startTouchesDistance = endTouchesDistance = lastTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
         } else {
           //Else just update the second finger
-          updateFingerData(touches[1]);
+          updateFingerData(1, touches[1]);
 
           endTouchesDistance = calculateTouchesDistance(fingerData[0].end, fingerData[1].end);
-          pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);
+          lastTouchesDistance = calculateTouchesDistance(fingerData[0].last, fingerData[1].last)
         }
 
+
+
         pinchZoom = calculatePinchZoom(startTouchesDistance, endTouchesDistance);
+        pinchDirection = calculatePinchDirection(pinchZoom);
         pinchDistance = Math.abs(startTouchesDistance - endTouchesDistance);
+
+        currentPinchZoom = calculatePinchZoom(lastTouchesDistance, endTouchesDistance);
+        currentPinchDirection = calculatePinchDirection(currentPinchZoom);
+
       }
 
       if ((fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !touches) {
@@ -950,7 +969,13 @@
       startTime = 0;
       startTouchesDistance = 0;
       endTouchesDistance = 0;
+      lastTouchesDistance = 0;
       pinchZoom = 1;
+      currentPinchZoom = 1;
+      direction = $.fn.swipe.directions.NONE;
+      currentDirection = $.fn.swipe.directions.NONE;
+      currentPinchDirection = $.fn.swipe.directions.NONE;
+      pinchDirection = $.fn.swipe.directions.NONE;
 
       //If we were in progress of tracking a possible multi touch end, then re set it.
       cancelMultiFingerRelease();
@@ -1020,9 +1045,16 @@
       return nextPhase;
     }
 
+
+    /**
+     * Check if the event has been cancelled
+     * @param  {Event} jqEvent The event to check
+     * @return {Boolean} true if the event has been canclled
+     */
     function eventWasStopped(jqEvent) {
-      var immediatePropStoped = jqEvent.isImmediatePropagationStopped();
-      var propStoped = jqEvent.isPropagationStopped();
+      var evnt =  jqEvent.childEvent ? jqEvent.childEvent : jqEvent;
+      var immediatePropStoped = evnt.isImmediatePropagationStopped();
+      var propStoped = evnt.isPropagationStopped();
 
       return immediatePropStoped || propStoped;
     }
@@ -1041,8 +1073,8 @@
       var touches = event.touches;
 
       //Trigger status every time..
-      trigger('swipeStatus', [jqEvent, phase, direction || null, distance || 0, duration || 0, fingerCount, fingerData, currentDirection]);
-      trigger('pinchStatus', [jqEvent, phase, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
+      trigger('swipeStatus', jqEvent);
+      trigger('pinchStatus', jqEvent);
 
 
       // SWIPE GESTURES
@@ -1070,13 +1102,16 @@
         triggerHandlerForGesture(jqEvent, phase, TAP);
       }
 
+
+
       // If we are cancelling the gesture, then manually trigger the reset handler
-      if (phase === PHASE_CANCEL) {
+      if (phase === PHASE_CANCEL || eventWasStopped(jqEvent)) {
+        phase = PHASE_CANCEL;
         touchCancel(jqEvent);
       }
 
       // If we are ending the gesture, then manually trigger the reset handler IF all fingers are off
-      if (phase === PHASE_END) {
+      else if (phase === PHASE_END) {
         //If we support touch, then check that all fingers are off before we cancel
         if (touches) {
           if (!touches.length) {
@@ -1086,8 +1121,6 @@
           touchCancel(jqEvent);
         }
       }
-
-      return !eventWasStopped(jqEvent);
     }
 
 
@@ -1105,30 +1138,30 @@
       //SWIPES....
       if (gesture == SWIPE) {
 
-        if (phase == PHASE_END && validateSwipe()) {
+        if (!eventWasStopped(jqEvent) && phase == PHASE_END && validateSwipe()) {
 
           //Cancel any taps that were in progress...
           clearTimeout(singleTapTimeout);
           clearTimeout(holdTimeout);
 
-          trigger('swipe', [jqEvent, direction, distance, duration, fingerCount, fingerData, currentDirection]);
+          trigger('swipe', jqEvent);
 
           //trigger direction specific event handlers
           switch (direction) {
             case LEFT:
-              trigger('swipeLeft', [jqEvent, direction, distance, duration, fingerCount, fingerData, currentDirection]);
+              trigger('swipeLeft', jqEvent);
               break;
 
             case RIGHT:
-              trigger('swipeRight', [jqEvent, direction, distance, duration, fingerCount, fingerData, currentDirection]);
+              trigger('swipeRight', jqEvent);
               break;
 
             case UP:
-              trigger('swipeUp', [jqEvent, direction, distance, duration, fingerCount, fingerData, currentDirection]);
+              trigger('swipeUp', jqEvent);
               break;
 
             case DOWN:
-              trigger('swipeDown', [jqEvent, direction, distance, duration, fingerCount, fingerData, currentDirection]);
+              trigger('swipeDown', jqEvent);
               break;
           }
         }
@@ -1141,11 +1174,11 @@
 
           switch (pinchDirection) {
             case IN:
-              trigger('pinchIn', [jqEvent, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
+              trigger('pinchIn', jqEvent);
               break;
 
             case OUT:
-              trigger('pinchOut', [jqEvent, pinchDirection || null, pinchDistance || 0, duration || 0, fingerCount, pinchZoom, fingerData]);
+              trigger('pinchOut', jqEvent);
               break;
           }
         }
@@ -1165,12 +1198,12 @@
             //if its not cancelled by a double tap
             singleTapTimeout = setTimeout($.proxy(function() {
               doubleTapStartTime = null;
-              trigger('tap', [jqEvent, jqEvent.target]);
+              trigger('tap', jqEvent);
             }, this), options.doubleTapThreshold);
 
           } else {
             doubleTapStartTime = null;
-            trigger('tap', [jqEvent, jqEvent.target]);
+            trigger('tap', jqEvent);
           }
         }
       } else if (!eventWasStopped(jqEvent) && gesture == DOUBLE_TAP) {
@@ -1178,14 +1211,14 @@
           clearTimeout(singleTapTimeout);
           clearTimeout(holdTimeout);
           doubleTapStartTime = null;
-          trigger('doubletap', [jqEvent, jqEvent.target]);
+          trigger('doubletap', jqEvent);
         }
       } else if (!eventWasStopped(jqEvent) && gesture == LONG_TAP) {
         if (phase === PHASE_CANCEL || phase === PHASE_END) {
           clearTimeout(singleTapTimeout);
           doubleTapStartTime = null;
 
-          trigger('longtap', [jqEvent, jqEvent.target]);
+          trigger('longtap', jqEvent);
         }
       }
 
@@ -1193,13 +1226,68 @@
     }
 
 
-    function trigger(eventName, args) {
+    //TODO : move all references to event properties into a data object?
 
-      //remove the JQ internal event
-      var jqEvent = args.shift();
-      var evnt = $.Event( eventName+options.eventNamespace,  {parentEvent:jqEvent});
+    function getSwipeData() {
+      return  {
+        phase:phase,
+        direction:direction,
+        distance:distance,
+        duration:duration,
+        fingerCount:fingerCount,
+        fingerData:fingerData,
+        currentDirection:currentDirection
+      }
+    }
+
+    function getPinchData() {
+      return {
+        phase:phase,
+        direction:pinchDirection,
+        distance:pinchDistance,
+        duration:duration,
+        fingerCount:fingerCount,
+        zoom:pinchZoom,
+        currentDirection: currentPinchDirection,
+        currentZoom:currentPinchZoom,
+        fingerData:fingerData
+      }
+    }
+
+    function getTapData(jqEvent) {
+      return {
+        phase:phase,
+        target:jqEvent.target
+      }
+    }
+
+
+    function trigger(eventName, jqEvent, data) {
+
+      //build data object for the event, and an args list for backwars compatibility
+      var data={};
+      var args=[];
+
+      if(eventName.indexOf('swipe')>-1) {
+        data = getSwipeData();
+        args = [data.phase, data.direction, data.distance, data.duration, data.fingerCount, data.fingerData, data.currentDirection]
+      } else if (eventName.indexOf('pinch')>-1) {
+        data = getPinchData();
+        args = [data.phase, data.direction, data.distance, data.duration, data.fingerCount, data.zoom, data.fingerData]
+      } else if (eventName.indexOf('tap')>-1) {
+        data = getTapData(jqEvent)
+        args = [data.target]
+      }
+
+      var evnt = $.Event( eventName+options.eventNamespace,  {parentEvent:jqEvent, detail:data});
+      //keep a reference in the parent back to the child so we can tell if the user cancels the child event
+      jqEvent.childEvent = evnt;
+
+
       $element.trigger(evnt, args);
     }
+
+
 
 
     //
@@ -1384,6 +1472,9 @@
 
       return valid;
     }
+
+
+    //TODO : do we need the has stuff now?  if we do we need to check iof there are event listeners registered - NOT options
 
     /**
      * Returns true if any Swipe events have been registered
@@ -1580,7 +1671,8 @@
      */
     function getTouchInProgress() {
       //strict equality to ensure only true and false are returned
-      return !!($element.data(PLUGIN_NS + '_intouch') === true);
+      var inProgress = !!($element.data(PLUGIN_NS + '_intouch') === true);
+      return inProgress;
     }
 
     /**
@@ -1603,7 +1695,6 @@
           $element.bind(LEAVE_EV, touchLeave);
         }
       } else {
-
         $element.unbind(MOVE_EV, touchMove, false);
         $element.unbind(END_EV, touchEnd, false);
 
@@ -1629,6 +1720,7 @@
     function createFingerData(id, jqEvent) {
       var event = getOriginalEvent(jqEvent);
       var f = {
+        identifier:undefined,
         start: {
           x: 0,
           y: 0
@@ -1644,6 +1736,7 @@
       };
       f.start.x = f.last.x = f.end.x = event.pageX || event.clientX;
       f.start.y = f.last.y = f.end.y = event.pageY || event.clientY;
+      f.identifier = event.identifier !== undefined ? event.identifier : 0;
       fingerData[id] = f;
       return f;
     }
@@ -1654,9 +1747,8 @@
      * @return a finger data object.
      * @inner
      */
-    function updateFingerData(jqEvent) {
+    function updateFingerData(id, jqEvent) {
       var event = getOriginalEvent(jqEvent);
-      var id = event.identifier !== undefined ? event.identifier : 0;
       var f = getFingerData(id);
 
       if (f === null) {
@@ -1673,10 +1765,8 @@
     }
 
     /**
-     * Returns a finger data object by its event ID.
-     * Each touch event has an identifier property, which is used
-     * to track repeat touches
-     * @param {int} id The unique id of the finger in the sequence of touch events.
+     * Returns a finger data object by finger id. This is NOT by touch identifier.
+     * @param {int} id The internal ID of the finger we are tracking
      * @return a finger data object.
      * @inner
      */
@@ -1780,12 +1870,13 @@
 
     /**
      * Returns the pinch direction, either IN or OUT for the given points
+     * @param {int} zoom The zoom scale of the pinch
      * @return string Either {@link $.fn.swipe.directions.IN} or {@link $.fn.swipe.directions.OUT}
      * @see $.fn.swipe.directions
      * @inner
      */
-    function calculatePinchDirection() {
-      if (pinchZoom < 1) {
+    function calculatePinchDirection(zoom) {
+      if (zoom < 1) {
         return OUT;
       } else {
         return IN;

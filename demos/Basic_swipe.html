@@ -23,9 +23,8 @@
 					//Enable swiping...
 					$("#test").swipe( {
 						//Generic swipe handler for all directions
-						swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-              console.log(arguments);
-							$(this).text("You swiped " + direction );
+						swipe:function(event) {
+              $(this).text("You swiped " + event.detail.direction );
 						},
 						//Default is 75px, set to 0 for demo so any distance triggers swipe
 					   threshold:0

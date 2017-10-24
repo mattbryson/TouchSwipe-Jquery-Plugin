@@ -22,15 +22,17 @@
 				$(function() {
 					//Enable swiping...
 					$("#test").swipe( {
-						swipeStatus:function(event, phase, direction, distance)
+						swipeStatus:function(event)
 						{
 							var str = "";
 
-							if (phase=="move")
-								str="You have moved " + distance +" pixels, past 200 and the handler will fire";
+							if (event.detail.phase==$.fn.swipe.phases.MOVE) {
+								str="You have moved " + event.detail.distance +" pixels, past 200 and the handler will fire";
+              }
 
-							if (phase=="end")
-								str="Handler fired, you swiped " + direction;
+							if (event.detail.phase==$.fn.swipe.phases.END) {
+								str="Handler fired, you swiped " + event.detail.direction;
+              }
 
 							$(this).text(str);
 						},
@@ -43,18 +45,18 @@
 			<script id='code_2'>
 				$(function() {
 					$("#test2").swipe( {
-						swipeStatus:function(event, phase, direction, distance, duration)
+						swipeStatus:function(event)
 						{
 							var str = "";
 
-							if (phase=="move")
-								str="You have moved for " + duration +" ms, If you go over 5000 the swipe will cancel";
+							if (event.detail.phase==$.fn.swipe.phases.MOVE)
+								str="You have moved for " + event.detail.duration +" ms, If you go over 5000 the swipe will cancel";
 
-							if (phase=="cancel")
+							if (event.detail.phase==$.fn.swipe.phases.CANCEL)
 								str="You took to long and the swipe was canceled";
 
-							if (phase=="end")
-								str="Handler fired, you swiped " + direction;
+							if (event.detail.phase==$.fn.swipe.phases.END)
+								str="Handler fired, you swiped " + event.detail.direction;
 
 							$(this).text(str);
 						},
@@ -68,15 +70,17 @@
 			<script id='code_3'>
 				$(function() {
 					$("#test3").swipe( {
-						swipeStatus:function(event, phase, direction, distance, duration)
+						swipeStatus:function(event)
 						{
 							var str = "";
 
-							if (phase=="move")
-								str="You have moved " + distance +" px, If you leave the swipe object, the swipe will end";
+							if (event.detail.phase==$.fn.swipe.phases.MOVE) {
+								str="You have moved " + event.detail.distance +" px, If you leave the swipe object, the swipe will end";
+              }
 
-							if (phase=="end")
+							if (event.detail.phase==$.fn.swipe.phases.END) {
 								str="The swipe has ended"
+              }
 
 							$(this).text(str);
 						},
@@ -89,27 +93,27 @@
 			<script id='code_4'>
 				$(function() {
 					$("#test4").swipe( {
-						swipeStatus:function(event, phase, direction, distance, duration)
+						swipeStatus:function(event)
 						{
 							var str = "";
 
-							if (phase=="move") {
-								str="You have moved " + distance +" pixels, past 200 and the handler will fire <br/>";
-								str+="You have moved for " + duration +" ms, If you go over 5000 the swipe will cancel <br/>";
+							if (event.detail.phase==$.fn.swipe.phases.MOVE) {
+								str="You have moved " + event.detail.distance +" pixels, past 200 and the handler will fire <br/>";
+								str+="You have moved for " + event.detail.duration +" ms, If you go over 5000 the swipe will cancel <br/>";
 								str+="If you leave the swipe object, and have made the distance, the swipe will end <br/>";
 								str+="If you leave the swipe object, and have NOT made the distance, the swipe will cancel ";
 							}
 
-							if (phase=="end") {
+							if (event.detail.phase==$.fn.swipe.phases.END) {
 								str="Handler fired, you met the thresholds:<br/>";
-								str+=distance+"px (over 500px required) <br/>";
-								str+=duration+"ms (under 5000ms required) <br/>";
+								str+=event.detail.distance+"px (over 500px required) <br/>";
+								str+=event.detail.duration+"ms (under 5000ms required) <br/>";
 							}
 
-							if (phase=="cancel") {
+							if (event.detail.phase==$.fn.swipe.phases.CANCEL) {
 								str="You didn't meet the thresholds, cancel was fired:<br/>";
-								str+=distance+"px (over 500px required) <br/>";
-								str+=duration+"ms (under 5000ms required) <br/>";
+								str+=event.detail.distance+"px (over 500px required) <br/>";
+								str+=event.detail.duration+"ms (under 5000ms required) <br/>";
 							}
 
 							$(this).html(str);
@@ -150,7 +154,7 @@
 			<pre class="prettyprint lang-js" data-src="code_4"></pre>
 			<span class='navigation'></span>
 
-			<div id="test4" class="box">Time, distance and trigger on END and trigger on Leave set..</div>
+			<div id="test4" class="box">Time, distance, trigger on END and trigger on Leave set..</div>
 
 			<span class='navigation'></span>
 		</div>
