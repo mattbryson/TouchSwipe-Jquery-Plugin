@@ -1,6 +1,6 @@
 /*!
  * @fileOverview TouchSwipe - jQuery Plugin
- * @version 1.6.18
+ * @version 1.6.19
  *
  * @author Matt Bryson http://www.github.com/mattbryson
  * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -124,10 +124,13 @@
  * $Date: 2016-04-29 (Fri, 29 April 2016) $
  * $version 1.6.16    - Swipes with 0 distance now allow default events to trigger.  So tapping any form elements or A tags will allow default interaction, but swiping will trigger a swipe.
                         Removed the a, input, select etc from the excluded Children list as the 0 distance tap solves that issue.
-* $Date: 2016-05-19  (Fri, 29 April 2016) $
-* $version 1.6.17     - Fixed context issue when calling instance methods via $("selector").swipe("method");
-* $version 1.6.18     - now honors fallbackToMouseEvents=false for MS Pointer events when a Mouse is used.
+ * $Date: 2016-05-19  (Fri, 29 April 2016) $
+ * $version 1.6.17     - Fixed context issue when calling instance methods via $("selector").swipe("method");
+ * $version 1.6.18     - now honors fallbackToMouseEvents=false for MS Pointer events when a Mouse is used.
 
+ * $Date: 2017-10-04  (Wed, 04 October 2017) $
+ * $version 1.6.19     - fixed scrolling issue in Safari for iOS 
+ 
  */
 
 /**
@@ -504,13 +507,7 @@
     var singleTapTimeout = null,
       holdTimeout = null;
 
-    // Add gestures to all swipable areas if supported
-    try {
-      $element.bind(START_EV, touchStart);
-      $element.bind(CANCEL_EV, touchCancel);
-    } catch (e) {
-      $.error('events not supported ' + START_EV + ',' + CANCEL_EV + ' on jQuery.swipe');
-    }
+    addListeners();
 
     //
     //Public methods
@@ -526,8 +523,7 @@
     this.enable = function() {
       //Incase we are already enabled, clean up...
       this.disable();
-      $element.bind(START_EV, touchStart);
-      $element.bind(CANCEL_EV, touchCancel);
+      addListeners();
       return $element;
     };
 
@@ -711,7 +707,10 @@
      * @param {object} jqEvent The normalised jQuery event object.
      */
     function touchMove(jqEvent) {
-
+      //instanciate all event handler at init, so check if we shall fire
+      if(!getTouchInProgress()){
+        return;
+      }
       //As we use Jquery bind for events, we need to target the original event object
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
@@ -828,6 +827,10 @@
      * @param {object} jqEvent The normalised jQuery event object.
      */
     function touchEnd(jqEvent) {
+      //instanciate all event handler at init, so check if we shall fire
+      if(!getTouchInProgress()){
+        return;
+      }
       //As we use Jquery bind for events, we need to target the original event object
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent,
@@ -915,6 +918,10 @@
      * @inner
      */
     function touchLeave(jqEvent) {
+      //instanciate all event handler at init, so check if we shall fire
+      if(!getTouchInProgress()){
+        return;
+      }
       //If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
       var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 
@@ -922,6 +929,26 @@
       if (options.triggerOnTouchLeave) {
         phase = getNextPhase(PHASE_END);
         triggerHandler(event, phase);
+      }
+    }
+
+    /**
+     * Adds all listeners to all swipable areas if supported
+     * @inner
+     */
+    function addListeners(){
+      try {
+        $element.bind(START_EV, touchStart);
+        $element.bind(CANCEL_EV, touchCancel);
+        $element.bind(MOVE_EV, touchMove);
+        $element.bind(END_EV, touchEnd);
+
+        //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
+        if (LEAVE_EV) {
+          $element.bind(LEAVE_EV, touchLeave);
+        }
+      } catch (e) {
+        $.error('events not supported ' + START_EV + ',' + CANCEL_EV + ',' + MOVE_EV + ',' + END_EV + (LEAVE_EV?',' + LEAVE_EV:'') + ' on jQuery.swipe');
       }
     }
 
@@ -1581,6 +1608,7 @@
      * @inner
      */
     function getTouchInProgress() {
+      if(!$element) { return false; }
       //strict equality to ensure only true and false are returned
       return !!($element.data(PLUGIN_NS + '_intouch') === true);
     }
@@ -1594,27 +1622,6 @@
 
       //If destroy is called in an event handler, we have no el, and we have already cleaned up, so return.
       if(!$element) { return; }
-
-      //Add or remove event listeners depending on touch status
-      if (val === true) {
-        $element.bind(MOVE_EV, touchMove);
-        $element.bind(END_EV, touchEnd);
-
-        //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
-        if (LEAVE_EV) {
-          $element.bind(LEAVE_EV, touchLeave);
-        }
-      } else {
-
-        $element.unbind(MOVE_EV, touchMove, false);
-        $element.unbind(END_EV, touchEnd, false);
-
-        //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
-        if (LEAVE_EV) {
-          $element.unbind(LEAVE_EV, touchLeave, false);
-        }
-      }
-
 
       //strict equality to ensure only true and false can update the value
       $element.data(PLUGIN_NS + '_intouch', val === true);
