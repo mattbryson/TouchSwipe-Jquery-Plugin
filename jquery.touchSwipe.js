@@ -271,9 +271,9 @@
     excludedElements: ".noSwipe",
     preventDefaultEvents: true
   };
-
-
-
+  document.addEventListener('touchstart', onTouchStart, {
+    passive: true
+  })
   /**
    * Applies TouchSwipe behaviour to one or more jQuery objects.
    * The TouchSwipe plugin can be instantiated via this method, or methods within
