@@ -55,7 +55,7 @@
  * 			- Added "all" fingers value to the fingers property, so any combination of fingers triggers the swipe, allowing event handlers to check the finger count
  *
  * $Date: 2012-09-08 (Thurs, 9 Aug 2012) $
- * $version: 1.3.3	- Code tidy prep for minefied version
+ * $version: 1.3.3	- Code tidy prep for min version
  *
  * $Date: 2012-04-10 (wed, 4 Oct 2012) $
  * $version: 1.4.0	- Added pinch support, pinchIn and pinchOut
@@ -123,10 +123,13 @@
  *
  * $Date: 2016-04-29 (Fri, 29 April 2016) $
  * $version 1.6.16    - Swipes with 0 distance now allow default events to trigger.  So tapping any form elements or A tags will allow default interaction, but swiping will trigger a swipe.
-                        Removed the a, input, select etc from the excluded Children list as the 0 distance tap solves that issue.
-* $Date: 2016-05-19  (Fri, 29 April 2016) $
-* $version 1.6.17     - Fixed context issue when calling instance methods via $("selector").swipe("method");
-* $version 1.6.18     - now honors fallbackToMouseEvents=false for MS Pointer events when a Mouse is used.
+ *                       Removed the a, input, select etc from the excluded Children list as the 0 distance tap solves that issue.
+ * $Date: 2016-05-19  (Fri, 29 April 2016) $
+ * $version 1.6.17     - Fixed context issue when calling instance methods via $("selector").swipe("method");
+ * $version 1.6.18     - now honors fallbackToMouseEvents=false for MS Pointer events when a Mouse is used.
+ * 
+ * $Date: 2018-09-17  (Mon, 17 September 2018) $
+ * $version 1.6.19     - replaced jQuery bind with on, replaced deprecated `navigator.pointerEvents` with `window.PointerEvents`
 
  */
 
@@ -232,10 +235,10 @@
   * @property {boolean} [triggerOnTouchEnd=true] If true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
   * @property {boolean} [triggerOnTouchLeave=false] If true, then when the user leaves the swipe object, the swipe will end and trigger appropriate handlers.
   * @property {string|undefined} [allowPageScroll='auto'] How the browser handles page scrolls when the user is swiping on a touchSwipe object. See {@link $.fn.swipe.pageScroll}.  <br/><br/>
-  									<code>"auto"</code> : all undefined swipes will cause the page to scroll in that direction. <br/>
-  									<code>"none"</code> : the page will not scroll when user swipes. <br/>
-  									<code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
-  									<code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
+                    <code>"auto"</code> : all undefined swipes will cause the page to scroll in that direction. <br/>
+                    <code>"none"</code> : the page will not scroll when user swipes. <br/>
+                    <code>"horizontal"</code> : will force page to scroll on horizontal swipes. <br/>
+                    <code>"vertical"</code> : will force page to scroll on vertical swipes. <br/>
   * @property {boolean} [fallbackToMouseEvents=true] If true mouse events are used when run on a non touch device, false will stop swipes being triggered by mouse events on non touch devices.
   * @property {string} [excludedElements=".noSwipe"] A jquery selector that specifies child elements that do NOT trigger swipes. By default this excludes elements with the class .noSwipe .
   * @property {boolean} [preventDefaultEvents=true] by default default events are cancelled, so the page doesn't move.  You can disable this so both native events fire as well as your handlers.
