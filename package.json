@@ -14,7 +14,7 @@
   "author": {
     "name": "Matt Bryson"
   },
-  "version": "1.6.18",
+  "version": "1.6.19",
   "repository": {
     "type": "git",
     "url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin.git"
@@ -36,7 +36,7 @@
   "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/",
   "devDependencies": {
     "docdash": "^0.3.0",
-    "jsdoc": "^3.4.0",
+    "jsdoc": "^3.5.5",
     "uglify-js": "^2.6.2"
   },
   "scripts": {
