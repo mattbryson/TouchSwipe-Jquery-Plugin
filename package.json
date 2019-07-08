@@ -22,16 +22,7 @@
   "bugs": {
     "url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.githubusercontent.com/mattbryson/TouchSwipe-Jquery-Plugin/master/LICENCE"
-    },
-    {
-      "type": "GPL V2",
-      "url": "https://raw.githubusercontent.com/mattbryson/TouchSwipe-Jquery-Plugin/master/LICENCE"
-    }
-  ],
+  "license": "(MIT OR GPL-2.0)",
   "readmeFilename": "README.md",
   "homepage": "http://labs.rampinteractive.co.uk/touchSwipe/demos/",
   "devDependencies": {
