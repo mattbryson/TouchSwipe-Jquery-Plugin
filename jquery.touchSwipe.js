@@ -193,16 +193,11 @@
     PHASE_END = "end",
     PHASE_CANCEL = "cancel",
 
-    SUPPORTS_TOUCH = ('ontouchstart' in document 
-      || 'ontouchstart' in window 
-      || window.TouchEvent  
-      || (window.DocumentTouch && document instanceof DocumentTouch)
-      || navigator.maxTouchPoints > 0 
-      || navigator.msMaxTouchPoints > 0),
+    SUPPORTS_TOUCH = ('ontouchstart' in document),
       
     SUPPORTS_POINTER_IE10 = window.navigator.msPointerEnabled && !window.PointerEvent && !SUPPORTS_TOUCH,
 
-    SUPPORTS_POINTER = (window.PointerEvent || window.navigator.msPointerEnabled) && !SUPPORTS_TOUCH,
+    SUPPORTS_POINTER = ('onpointerdown' in window || window.PointerEvent || window.navigator.msPointerEnabled) && !SUPPORTS_TOUCH,
 
     PLUGIN_NS = 'TouchSwipe';
 
@@ -463,13 +458,13 @@
     //take a local/instacne level copy of the options - should make it this.options really...
     var options = $.extend({}, options);
 
+   
     var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
-      START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
-      MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
-      END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup') : 'touchend') : 'mouseup',
-      LEAVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? 'mouseleave' : null) : 'mouseleave', //we manually detect leave on touch devices, so null event here
-      CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel') : 'touchcancel');
-
+    START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown touchstart') : 'touchstart') : 'mousedown',
+    MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove touchmove') : 'touchmove') : 'mousemove',
+    END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup touchend') : 'touchend') : 'mouseup',
+    LEAVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? 'mouseleave' : 'pointerleave') : 'mouseleave', //we manually detect leave on touch devices, so null event here
+    CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel touchcancel') : 'touchcancel');
 
 
     //touch properties
