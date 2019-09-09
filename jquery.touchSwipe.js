@@ -193,8 +193,13 @@
     PHASE_END = "end",
     PHASE_CANCEL = "cancel",
 
-    SUPPORTS_TOUCH = 'ontouchstart' in window,
-
+    SUPPORTS_TOUCH = ('ontouchstart' in document 
+      || 'ontouchstart' in window 
+      || window.TouchEvent  
+      || (window.DocumentTouch && document instanceof DocumentTouch)
+      || navigator.maxTouchPoints > 0 
+      || navigator.msMaxTouchPoints > 0),
+      
     SUPPORTS_POINTER_IE10 = window.navigator.msPointerEnabled && !window.PointerEvent && !SUPPORTS_TOUCH,
 
     SUPPORTS_POINTER = (window.PointerEvent || window.navigator.msPointerEnabled) && !SUPPORTS_TOUCH,
