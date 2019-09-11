@@ -460,11 +460,11 @@
 
    
     var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
-    START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown touchstart') : 'touchstart') : 'mousedown',
-    MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove touchmove') : 'touchmove') : 'mousemove',
+    START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
+    MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
     END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup touchend') : 'touchend') : 'mouseup',
     LEAVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? 'mouseleave' : 'pointerleave') : 'mouseleave', //we manually detect leave on touch devices, so null event here
-    CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel touchcancel') : 'touchcancel');
+    CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel') : 'touchcancel');
 
 
     //touch properties
@@ -1598,7 +1598,7 @@
       //Add or remove event listeners depending on touch status
       if (val === true) {
         $element.on(MOVE_EV, touchMove);
-        $element.one(END_EV, touchEnd);
+        $element.one(END_EV, function(e) { touchEnd(e); });
 
         //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
         if (LEAVE_EV) {
