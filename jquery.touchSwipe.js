@@ -1598,23 +1598,15 @@
       //Add or remove event listeners depending on touch status
       if (val === true) {
         $element.on(MOVE_EV, touchMove);
-        $element.on(END_EV, touchEnd);
+        $element.one(END_EV, touchEnd);
 
         //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
         if (LEAVE_EV) {
-          $element.on(LEAVE_EV, touchLeave);
+          $element.one(LEAVE_EV, touchLeave);
         }
       } else {
-
         $element.off(MOVE_EV, touchMove, false);
-        $element.off(END_EV, touchEnd, false);
-
-        //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
-        if (LEAVE_EV) {
-          $element.off(LEAVE_EV, touchLeave, false);
-        }
       }
-
 
       //strict equality to ensure only true and false can update the value
       $element.data(PLUGIN_NS + '_intouch', val === true);
