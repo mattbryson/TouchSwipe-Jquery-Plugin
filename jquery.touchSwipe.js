@@ -639,7 +639,7 @@
         fingerCount = touches.length;
       }
       //Else this is the desktop, so stop the browser from dragging content
-      else if (options.preventDefaultEvents !== false) {
+      else if (options.preventDefaultEvents !== false && jqEvent.cancelable !== false) {
         jqEvent.preventDefault(); //call this on jq event so we are cross browser
       }
 
@@ -1287,8 +1287,9 @@
      */
     function validateDefaultEvent(jqEvent, direction) {
 
-      //If the option is set, allways allow the event to bubble up (let user handle weirdness)
-      if (options.preventDefaultEvents === false) {
+      //If the option is set, always allow the event to bubble up (let user handle weirdness)
+      //If the event cannot be cancelled, do not try to prevent default action (it tends to throw)
+      if (options.preventDefaultEvents === false || jqEvent.cancelable === false) {
         return;
       }
 
