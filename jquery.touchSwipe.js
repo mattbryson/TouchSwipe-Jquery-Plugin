@@ -193,11 +193,11 @@
     PHASE_END = "end",
     PHASE_CANCEL = "cancel",
 
-    SUPPORTS_TOUCH = 'ontouchstart' in window,
-
+    SUPPORTS_TOUCH = ('ontouchstart' in document),
+      
     SUPPORTS_POINTER_IE10 = window.navigator.msPointerEnabled && !window.PointerEvent && !SUPPORTS_TOUCH,
 
-    SUPPORTS_POINTER = (window.PointerEvent || window.navigator.msPointerEnabled) && !SUPPORTS_TOUCH,
+    SUPPORTS_POINTER = ('onpointerdown' in window || window.PointerEvent || window.navigator.msPointerEnabled) && !SUPPORTS_TOUCH,
 
     PLUGIN_NS = 'TouchSwipe';
 
@@ -458,13 +458,13 @@
     //take a local/instacne level copy of the options - should make it this.options really...
     var options = $.extend({}, options);
 
+   
     var useTouchEvents = (SUPPORTS_TOUCH || SUPPORTS_POINTER || !options.fallbackToMouseEvents),
-      START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
-      MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
-      END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup') : 'touchend') : 'mouseup',
-      LEAVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? 'mouseleave' : null) : 'mouseleave', //we manually detect leave on touch devices, so null event here
-      CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel') : 'touchcancel');
-
+    START_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerDown' : 'pointerdown') : 'touchstart') : 'mousedown',
+    MOVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerMove' : 'pointermove') : 'touchmove') : 'mousemove',
+    END_EV = useTouchEvents ? (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerUp' : 'pointerup touchend') : 'touchend') : 'mouseup',
+    LEAVE_EV = useTouchEvents ? (SUPPORTS_POINTER ? 'mouseleave' : 'pointerleave') : 'mouseleave', //we manually detect leave on touch devices, so null event here
+    CANCEL_EV = (SUPPORTS_POINTER ? (SUPPORTS_POINTER_IE10 ? 'MSPointerCancel' : 'pointercancel') : 'touchcancel');
 
 
     //touch properties
@@ -1598,23 +1598,15 @@
       //Add or remove event listeners depending on touch status
       if (val === true) {
         $element.on(MOVE_EV, touchMove);
-        $element.on(END_EV, touchEnd);
+        $element.one(END_EV, function(e) { touchEnd(e); });
 
         //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
         if (LEAVE_EV) {
-          $element.on(LEAVE_EV, touchLeave);
+          $element.one(LEAVE_EV, touchLeave);
         }
       } else {
-
         $element.off(MOVE_EV, touchMove, false);
-        $element.off(END_EV, touchEnd, false);
-
-        //we only have leave events on desktop, we manually calcuate leave on touch as its not supported in webkit
-        if (LEAVE_EV) {
-          $element.off(LEAVE_EV, touchLeave, false);
-        }
       }
-
 
       //strict equality to ensure only true and false can update the value
       $element.data(PLUGIN_NS + '_intouch', val === true);
@@ -1873,17 +1865,7 @@
      * @param {DomNode} The DOM node to get the bounds for.
      */
     function getbounds(el) {
-      el = $(el);
-      var offset = el.offset();
-
-      var bounds = {
-        left: offset.left,
-        right: offset.left + el.outerWidth(),
-        top: offset.top,
-        bottom: offset.top + el.outerHeight()
-      }
-
-      return bounds;
+      return el.getBoundingClientRect();
     }
 
 
