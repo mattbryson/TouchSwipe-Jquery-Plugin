@@ -1865,17 +1865,7 @@
      * @param {DomNode} The DOM node to get the bounds for.
      */
     function getbounds(el) {
-      el = $(el);
-      var offset = el.offset();
-
-      var bounds = {
-        left: offset.left,
-        right: offset.left + el.outerWidth(),
-        top: offset.top,
-        bottom: offset.top + el.outerHeight()
-      }
-
-      return bounds;
+      return el.getBoundingClientRect();
     }
 
 
