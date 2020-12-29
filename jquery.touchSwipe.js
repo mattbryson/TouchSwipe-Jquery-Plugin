@@ -2106,4 +2106,5 @@
    * @param {DomObject} target The element clicked on.
    */
 
+  module.exports = $.fn.swipe;
 }));
